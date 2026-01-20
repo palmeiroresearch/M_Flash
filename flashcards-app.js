@@ -1,181 +1,354 @@
+// ============================================
+// FLASHCARDS MÉDICAS - Sistema de Estudio
+// ============================================
+
 // Variables globales
 let flashcards = [];
-let currentSession = {
-    active: false,
-    cards: [],
-    currentIndex: 0,
-    selectedSystem: '',
-    correctCount: 0,
-    incorrectCount: 0
-};
 let currentTags = [];
-let optionCount = 4;
+let currentStudyCards = [];
+let currentCardIndex = 0;
+let sessionStats = {
+    correct: 0,
+    incorrect: 0,
+    started: null,
+    ended: null,
+    system: ''
+};
+let studySessions = []; // Historial de últimas 20 sesiones
+let selectedSystems = new Set();
+let optionCount = 4; // Contador de opciones en el formulario
 
-// Inicializar aplicación
-function init() {
-    loadFlashcards();
-    renderLibrary();
+// NUEVAS VARIABLES PARA FEATURES
+let examMode = false;
+let examTimeLimit = 0;
+let examStartTime = null;
+let examTimerInterval = null;
+let onlyFavorites = false;
+
+// Sistemas disponibles (ampliado)
+const SYSTEMS = [
+    { id: 'Cardiovascular', emoji: '❤️', name: 'Cardiovascular' },
+    { id: 'Respiratorio', emoji: '🫁', name: 'Respiratorio' },
+    { id: 'Neurológico', emoji: '🧠', name: 'Neurológico' },
+    { id: 'Gastrointestinal', emoji: '🩺', name: 'Gastrointestinal' },
+    { id: 'Renal', emoji: '🔬', name: 'Renal' },
+    { id: 'Endocrino', emoji: '⚗️', name: 'Endocrino' },
+    { id: 'Hematológico', emoji: '🩸', name: 'Hematológico' },
+    { id: 'Inmunológico', emoji: '🛡️', name: 'Inmunológico' },
+    { id: 'Infeccioso', emoji: '🦠', name: 'Infeccioso' },
+    { id: 'Farmacología', emoji: '💊', name: 'Farmacología' },
+    { id: 'Pediatría', emoji: '👶', name: 'Pediatría' },
+    { id: 'Obstetricia', emoji: '🤰', name: 'Obstetricia' },
+    { id: 'Cirugía', emoji: '🔪', name: 'Cirugía' },
+    { id: 'Traumatología', emoji: '🦴', name: 'Traumatología' },
+    { id: 'Psiquiatría', emoji: '🧘', name: 'Psiquiatría' },
+    { id: 'Dermatología', emoji: '🧴', name: 'Dermatología' },
+    { id: 'Oftalmología', emoji: '👁️', name: 'Oftalmología' },
+    { id: 'ORL', emoji: '👂', name: 'ORL' },
+    { id: 'Personalizado', emoji: '📝', name: 'Personalizado' }
+];
+
+// ============================================
+// INICIALIZACIÓN
+// ============================================
+
+document.addEventListener('DOMContentLoaded', () => {
+    loadData();
+    loadDarkMode();
     renderSystemSelector();
-    updateStats();
-    populateFilterSelects();
+    renderLibrary();
+    updateTotalCards();
+    populateSystemFilters();
+    populateShareSystemFilter();
+    renderStats();
+    initializeOptionsContainer();
+});
+
+// ============================================
+// MODO OSCURO
+// ============================================
+
+function loadDarkMode() {
+    const darkMode = localStorage.getItem('darkMode') === 'true';
+    if (darkMode) {
+        document.body.classList.add('dark-mode');
+        document.getElementById('darkModeToggle').checked = true;
+    }
 }
 
-// Cargar flashcards del localStorage
-function loadFlashcards() {
-    const stored = localStorage.getItem('medical_flashcards');
+function toggleDarkMode() {
+    document.body.classList.toggle('dark-mode');
+    const isDark = document.body.classList.contains('dark-mode');
+    localStorage.setItem('darkMode', isDark);
+}
+
+// ============================================
+// CONFIGURACIÓN DE EXAMEN
+// ============================================
+
+function toggleExamConfig() {
+    const examCheckbox = document.getElementById('examMode');
+    const examConfig = document.getElementById('examConfig');
+    
+    if (examCheckbox.checked) {
+        examConfig.style.display = 'block';
+    } else {
+        examConfig.style.display = 'none';
+    }
+}
+
+// ============================================
+// GESTIÓN DE DATOS (LocalStorage)
+// ============================================
+
+function loadData() {
+    const stored = localStorage.getItem('medicalFlashcards');
     if (stored) {
         flashcards = JSON.parse(stored);
     }
-}
-
-// Guardar flashcards en localStorage
-function saveFlashcards() {
-    localStorage.setItem('medical_flashcards', JSON.stringify(flashcards));
-}
-
-// Cambiar tab
-function switchTab(tab) {
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    event.target.classList.add('active');
-
-    document.getElementById('studyTab').style.display = tab === 'study' ? 'block' : 'none';
-    document.getElementById('libraryTab').style.display = tab === 'library' ? 'block' : 'none';
-    document.getElementById('statsTab').style.display = tab === 'stats' ? 'block' : 'none';
-
-    if (tab === 'library') {
-        renderLibrary();
-    } else if (tab === 'stats') {
-        renderStats();
-    } else if (tab === 'study') {
-        resetStudy();
+    
+    const storedSessions = localStorage.getItem('studySessions');
+    if (storedSessions) {
+        studySessions = JSON.parse(storedSessions);
     }
 }
 
-// Renderizar selector de sistemas para estudio
-function renderSystemSelector() {
-    const systems = ['Todos', 'Cardiovascular', 'Respiratorio', 'Neurológico', 'Gastrointestinal', 
-                     'Renal', 'Endocrino', 'Hematológico', 'Inmunológico', 'Infeccioso', 
-                     'Farmacología', 'Pediatría', 'Obstetricia'];
-    
-    const icons = {
-        'Todos': '🎯',
-        'Cardiovascular': '❤️',
-        'Respiratorio': '🫁',
-        'Neurológico': '🧠',
-        'Gastrointestinal': '🩺',
-        'Renal': '🔬',
-        'Endocrino': '⚗️',
-        'Hematológico': '🩸',
-        'Inmunológico': '🛡️',
-        'Infeccioso': '🦠',
-        'Farmacología': '💊',
-        'Pediatría': '👶',
-        'Obstetricia': '🤰'
-    };
+function saveData() {
+    localStorage.setItem('medicalFlashcards', JSON.stringify(flashcards));
+    updateTotalCards();
+    renderLibrary();
+    populateSystemFilters();
+}
 
-    const selector = document.getElementById('systemSelector');
-    selector.innerHTML = systems.map(system => {
-        const count = system === 'Todos' 
-            ? flashcards.length 
-            : flashcards.filter(c => c.system === system).length;
-        
-        return `
-            <div class="system-option" onclick="selectSystem('${system}')">
-                <div style="font-size: 32px; margin-bottom: 10px;">${icons[system]}</div>
-                <div style="font-weight: 600;">${system}</div>
-                <div style="font-size: 12px; color: #6b7280; margin-top: 5px;">${count} cards</div>
+function saveSessions() {
+    // Mantener solo últimas 20 sesiones
+    if (studySessions.length > 20) {
+        studySessions = studySessions.slice(-20);
+    }
+    localStorage.setItem('studySessions', JSON.stringify(studySessions));
+}
+
+// ============================================
+// TABS
+// ============================================
+
+function switchTab(tabName) {
+    // Ocultar todos los tabs
+    document.getElementById('studyTab').style.display = 'none';
+    document.getElementById('libraryTab').style.display = 'none';
+    document.getElementById('statsTab').style.display = 'none';
+    document.getElementById('managementTab').style.display = 'none';
+    
+    // Remover clase active de todos los tabs
+    document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+    
+    // Mostrar tab seleccionado
+    if (tabName === 'study') {
+        document.getElementById('studyTab').style.display = 'block';
+        document.querySelectorAll('.tab')[0].classList.add('active');
+    } else if (tabName === 'library') {
+        document.getElementById('libraryTab').style.display = 'block';
+        document.querySelectorAll('.tab')[1].classList.add('active');
+        renderLibrary();
+    } else if (tabName === 'stats') {
+        document.getElementById('statsTab').style.display = 'block';
+        document.querySelectorAll('.tab')[2].classList.add('active');
+        renderStats();
+    } else if (tabName === 'management') {
+        document.getElementById('managementTab').style.display = 'block';
+        document.querySelectorAll('.tab')[3].classList.add('active');
+        updateManagementTab();
+    }
+}
+
+// ============================================
+// SELECTOR DE SISTEMAS
+// ============================================
+
+function renderSystemSelector() {
+    const container = document.getElementById('systemSelector');
+    let html = '';
+    
+    // Crear opción para cada sistema que tenga flashcards
+    const systemsWithCards = new Set(flashcards.map(c => c.system));
+    
+    SYSTEMS.forEach(system => {
+        const count = flashcards.filter(c => c.system === system.id).length;
+        if (count > 0) {
+            html += `
+                <div class="system-option" data-system-id="${system.id}" onclick="toggleSystem('${system.id}')">
+                    <div style="font-size: 24px; margin-bottom: 5px;">${system.emoji}</div>
+                    <div style="font-size: 14px; font-weight: 600;">${system.name}</div>
+                    <div style="font-size: 12px; color: #6b7280; margin-top: 5px;">${count} cards</div>
+                </div>
+            `;
+        }
+    });
+    
+    if (html === '') {
+        html = `
+            <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #9ca3af;">
+                <div style="font-size: 48px; margin-bottom: 15px;">📚</div>
+                <p>No hay flashcards creadas aún</p>
+                <p style="font-size: 14px; margin-top: 10px;">Crea tu primera flashcard para comenzar</p>
             </div>
         `;
-    }).join('');
+    }
+    
+    container.innerHTML = html;
 }
 
-// Seleccionar sistema para estudiar
-function selectSystem(system) {
-    document.querySelectorAll('.system-option').forEach(opt => {
-        opt.classList.remove('selected');
+function toggleSystem(systemId) {
+    if (selectedSystems.has(systemId)) {
+        selectedSystems.delete(systemId);
+    } else {
+        selectedSystems.add(systemId);
+    }
+    
+    // Actualizar UI usando data-attribute
+    document.querySelectorAll('.system-option').forEach(elem => {
+        const elemSystemId = elem.getAttribute('data-system-id');
+        
+        if (elemSystemId && selectedSystems.has(elemSystemId)) {
+            elem.classList.add('selected');
+        } else {
+            elem.classList.remove('selected');
+        }
     });
-    event.currentTarget.classList.add('selected');
-    currentSession.selectedSystem = system;
 }
 
-// Iniciar sesión de estudio
+// ============================================
+// SESIÓN DE ESTUDIO
+// ============================================
+
 function startStudySession() {
-    if (!currentSession.selectedSystem) {
-        alert('Por favor selecciona un sistema para estudiar');
+    if (selectedSystems.size === 0) {
+        alert('Por favor selecciona al menos un sistema para estudiar');
         return;
     }
-
-    // Filtrar flashcards según sistema
-    let cardsToStudy = currentSession.selectedSystem === 'Todos' 
-        ? [...flashcards] 
-        : flashcards.filter(c => c.system === currentSession.selectedSystem);
-
-    if (cardsToStudy.length === 0) {
-        alert('No hay flashcards en este sistema');
+    
+    // Filtrar flashcards por sistemas seleccionados
+    currentStudyCards = flashcards.filter(card => 
+        selectedSystems.has(card.system)
+    );
+    
+    // Filtrar solo favoritas si está activado
+    onlyFavorites = document.getElementById('onlyFavorites').checked;
+    if (onlyFavorites) {
+        currentStudyCards = currentStudyCards.filter(card => card.isFavorite);
+        if (currentStudyCards.length === 0) {
+            alert('No hay flashcards favoritas en los sistemas seleccionados');
+            return;
+        }
+    }
+    
+    // MEZCLAR PRIMERO (antes de limitar cantidad para examen)
+    currentStudyCards = shuffle(currentStudyCards);
+    
+    // Modo examen: limitar cantidad DESPUÉS de mezclar
+    const examCheckbox = document.getElementById('examMode');
+    if (examCheckbox && examCheckbox.checked) {
+        const questionCount = parseInt(document.getElementById('examQuestionCount').value);
+        if (questionCount && questionCount > 0) {
+            currentStudyCards = currentStudyCards.slice(0, questionCount);
+        }
+        
+        // Verificar que startExamMode esté disponible
+        if (typeof startExamMode === 'function') {
+            startExamMode();
+        } else {
+            console.error('startExamMode no está definida. Verifica que flashcards-features.js esté cargado.');
+        }
+    }
+    
+    if (currentStudyCards.length === 0) {
+        alert('No hay flashcards en los sistemas seleccionados');
         return;
     }
-
-    // Mezclar aleatoriamente
-    cardsToStudy = cardsToStudy.sort(() => Math.random() - 0.5);
-
-    // Inicializar sesión
-    currentSession.active = true;
-    currentSession.cards = cardsToStudy;
-    currentSession.currentIndex = 0;
-    currentSession.correctCount = 0;
-    currentSession.incorrectCount = 0;
-
+    
+    // Reiniciar estadísticas
+    currentCardIndex = 0;
+    sessionStats = {
+        correct: 0,
+        incorrect: 0,
+        started: new Date().toISOString(),
+        ended: null,
+        system: Array.from(selectedSystems).join(', '),
+        isExam: examCheckbox && examCheckbox.checked,
+        isFavoritesOnly: onlyFavorites,
+        // NUEVO: Rastrear estadísticas por sistema individual
+        systemStats: {}
+    };
+    
+    // Inicializar stats por sistema
+    selectedSystems.forEach(sys => {
+        sessionStats.systemStats[sys] = {
+            correct: 0,
+            incorrect: 0,
+            total: 0
+        };
+    });
+    
+    // Mostrar sesión de estudio
     document.getElementById('studySelection').style.display = 'none';
     document.getElementById('studySession').style.display = 'block';
-    document.getElementById('sessionSystem').textContent = currentSession.selectedSystem;
-
-    loadCurrentCard();
+    
+    // Actualizar UI
+    document.getElementById('totalSessionCards').textContent = currentStudyCards.length;
+    document.getElementById('sessionSystem').textContent = sessionStats.system;
+    
+    // Mostrar primera card
+    showCurrentCard();
 }
 
-// Cargar flashcard actual
-function loadCurrentCard() {
-    const card = currentSession.cards[currentSession.currentIndex];
+function showCurrentCard() {
+    const card = currentStudyCards[currentCardIndex];
     const container = document.getElementById('flashcardContainer');
     
-    document.getElementById('currentCard').textContent = currentSession.currentIndex + 1;
-    document.getElementById('totalSessionCards').textContent = currentSession.cards.length;
-    document.getElementById('correctCount').textContent = currentSession.correctCount;
-    document.getElementById('incorrectCount').textContent = currentSession.incorrectCount;
-    
-    const progress = ((currentSession.currentIndex + 1) / currentSession.cards.length) * 100;
+    // Actualizar progreso
+    document.getElementById('currentCard').textContent = currentCardIndex + 1;
+    const progress = ((currentCardIndex) / currentStudyCards.length) * 100;
     document.getElementById('progressBar').style.width = progress + '%';
     document.getElementById('progressPercent').textContent = Math.round(progress) + '%';
-
+    
+    // Actualizar contadores
+    document.getElementById('correctCount').textContent = sessionStats.correct;
+    document.getElementById('incorrectCount').textContent = sessionStats.incorrect;
+    
     if (card.type === 'simple') {
-        container.innerHTML = renderSimpleCard(card);
+        container.innerHTML = renderSimpleFlashcard(card);
     } else {
         container.innerHTML = renderMultipleChoiceCard(card);
     }
 }
 
-// Renderizar flashcard simple
-function renderSimpleCard(card) {
+function renderSimpleFlashcard(card) {
+    const system = SYSTEMS.find(s => s.id === card.system);
+    const favoriteIcon = card.isFavorite ? '⭐' : '☆';
+    
     return `
-        <div class="flashcard" id="currentFlashcard" onclick="flipCard()">
+        <div class="flashcard" id="currentFlashcard">
+            <button class="favorite-btn ${card.isFavorite ? 'active' : ''}" 
+                    onclick="toggleFavoriteInSession()" 
+                    title="${card.isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}">
+                ${favoriteIcon}
+            </button>
             <div class="flashcard-inner">
                 <div class="flashcard-front">
-                    <span class="flashcard-system-badge">${card.system}</span>
+                    <span class="flashcard-system-badge">${system ? system.emoji : ''} ${card.system}</span>
                     <div class="flashcard-question">${card.question}</div>
-                    <div style="margin-top: 20px; color: #9ca3af; font-size: 14px;">
-                        Haz clic para ver la respuesta
-                    </div>
-                    <div class="flashcard-tags">
-                        ${card.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
-                    </div>
+                    <button class="btn btn-primary" onclick="flipCard()">
+                        Ver Respuesta
+                    </button>
                 </div>
                 <div class="flashcard-back">
                     <div class="flashcard-answer">${card.answer}</div>
                     <div style="margin-top: 30px; display: flex; gap: 15px; justify-content: center;">
-                        <button class="btn btn-danger" onclick="event.stopPropagation(); answerSimpleCard(false)">
-                            ❌ No sabía
+                        <button class="btn btn-danger" onclick="markIncorrect()">
+                            ❌ Incorrecta
                         </button>
-                        <button class="btn btn-success" onclick="event.stopPropagation(); answerSimpleCard(true)">
-                            ✅ La sabía
+                        <button class="btn btn-success" onclick="markCorrect()">
+                            ✅ Correcta
                         </button>
                     </div>
                 </div>
@@ -184,331 +357,174 @@ function renderSimpleCard(card) {
     `;
 }
 
-// Renderizar flashcard de opción múltiple
+// CORREGIDO: Opción múltiple con botón "Siguiente" en vez de auto-avanzar
 function renderMultipleChoiceCard(card) {
-    return `
+    const system = SYSTEMS.find(s => s.id === card.system);
+    const favoriteIcon = card.isFavorite ? '⭐' : '☆';
+    
+    let html = `
         <div class="multiple-choice-container">
-            <span class="flashcard-system-badge">${card.system}</span>
+            <button class="favorite-btn ${card.isFavorite ? 'active' : ''}" 
+                    onclick="toggleFavoriteInSession()" 
+                    title="${card.isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}">
+                ${favoriteIcon}
+            </button>
+            <span class="flashcard-system-badge">${system ? system.emoji : ''} ${card.system}</span>
             <div class="choice-question">${card.question}</div>
-            <div class="choices">
-                ${card.options.map((option, index) => `
-                    <div class="choice-option" onclick="selectChoice(${index})">
-                        ${String.fromCharCode(65 + index)}. ${option}
-                    </div>
-                `).join('')}
+            <div class="choices" id="choicesContainer">
+    `;
+    
+    card.options.forEach((option, index) => {
+        html += `
+            <div class="choice-option" onclick="selectChoice(${index})">
+                ${String.fromCharCode(65 + index)}. ${option}
+            </div>
+        `;
+    });
+    
+    html += `
             </div>
             <div class="choice-feedback" id="choiceFeedback"></div>
-            <div class="flashcard-tags" style="margin-top: 20px;">
-                ${card.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+            
+            <!-- NUEVO: Botón siguiente (oculto inicialmente) -->
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="btn btn-primary" id="nextQuestionBtn" style="display: none; font-size: 16px; padding: 12px 30px;" onclick="nextCard()">
+                    Siguiente Pregunta →
+                </button>
             </div>
         </div>
     `;
+    
+    return html;
 }
 
-// Voltear flashcard simple
 function flipCard() {
     document.getElementById('currentFlashcard').classList.toggle('flipped');
 }
 
-// Responder flashcard simple
-function answerSimpleCard(correct) {
-    if (correct) {
-        currentSession.correctCount++;
+// CORREGIDO: Selección de opción múltiple con botón siguiente
+function selectChoice(selectedIndex) {
+    const card = currentStudyCards[currentCardIndex];
+    const options = document.querySelectorAll('.choice-option');
+    const feedback = document.getElementById('choiceFeedback');
+    const nextBtn = document.getElementById('nextQuestionBtn');
+    
+    // Deshabilitar todas las opciones
+    options.forEach(opt => opt.classList.add('disabled'));
+    
+    // Marcar respuesta seleccionada
+    const isCorrect = selectedIndex === card.correctIndex;
+    
+    if (isCorrect) {
+        options[selectedIndex].classList.add('correct');
+        sessionStats.correct++;
+        feedback.className = 'choice-feedback correct show';
+        feedback.innerHTML = `
+            <strong>✅ ¡Correcto!</strong><br>
+            ${card.explanation || 'Respuesta correcta'}
+        `;
     } else {
-        currentSession.incorrectCount++;
+        options[selectedIndex].classList.add('incorrect');
+        options[card.correctIndex].classList.add('correct');
+        sessionStats.incorrect++;
+        feedback.className = 'choice-feedback incorrect show';
+        feedback.innerHTML = `
+            <strong>❌ Incorrecto</strong><br>
+            La respuesta correcta es: <strong>${String.fromCharCode(65 + card.correctIndex)}</strong><br>
+            ${card.explanation || ''}
+        `;
+    }
+    
+    // Actualizar contadores
+    document.getElementById('correctCount').textContent = sessionStats.correct;
+    document.getElementById('incorrectCount').textContent = sessionStats.incorrect;
+    
+    // NUEVO: Mostrar botón siguiente en lugar de avanzar automáticamente
+    nextBtn.style.display = 'block';
+}
+
+function markCorrect() {
+    sessionStats.correct++;
+    
+    // Rastrear por sistema
+    const card = currentStudyCards[currentCardIndex];
+    if (card && sessionStats.systemStats && sessionStats.systemStats[card.system]) {
+        sessionStats.systemStats[card.system].correct++;
+        sessionStats.systemStats[card.system].total++;
     }
     
     nextCard();
 }
 
-// Seleccionar opción en flashcard de opción múltiple
-function selectChoice(index) {
-    const card = currentSession.cards[currentSession.currentIndex];
-    const options = document.querySelectorAll('.choice-option');
-    const feedback = document.getElementById('choiceFeedback');
+function markIncorrect() {
+    sessionStats.incorrect++;
     
-    // Deshabilitar todas las opciones
-    options.forEach(opt => opt.classList.add('disabled'));
-    
-    // Marcar la seleccionada
-    options[index].classList.add('selected');
-    
-    const isCorrect = index === card.correctOption;
-    
-    if (isCorrect) {
-        options[index].classList.add('correct');
-        currentSession.correctCount++;
-        feedback.className = 'choice-feedback show correct';
-        feedback.innerHTML = `
-            <strong>✅ ¡Correcto!</strong><br>
-            ${card.explanation ? card.explanation : ''}
-        `;
-    } else {
-        options[index].classList.add('incorrect');
-        options[card.correctOption].classList.add('correct');
-        currentSession.incorrectCount++;
-        feedback.className = 'choice-feedback show incorrect';
-        feedback.innerHTML = `
-            <strong>❌ Incorrecto</strong><br>
-            La respuesta correcta es: <strong>${String.fromCharCode(65 + card.correctOption)}. ${card.options[card.correctOption]}</strong><br>
-            ${card.explanation ? `<br>${card.explanation}` : ''}
-        `;
+    // Rastrear por sistema
+    const card = currentStudyCards[currentCardIndex];
+    if (card && sessionStats.systemStats && sessionStats.systemStats[card.system]) {
+        sessionStats.systemStats[card.system].incorrect++;
+        sessionStats.systemStats[card.system].total++;
     }
     
-    // Actualizar contadores
-    document.getElementById('correctCount').textContent = currentSession.correctCount;
-    document.getElementById('incorrectCount').textContent = currentSession.incorrectCount;
-    
-    // Avanzar después de 3 segundos
-    setTimeout(nextCard, 3000);
+    nextCard();
 }
 
-// Avanzar a siguiente flashcard
 function nextCard() {
-    currentSession.currentIndex++;
+    currentCardIndex++;
     
-    if (currentSession.currentIndex >= currentSession.cards.length) {
-        showResults();
+    if (currentCardIndex >= currentStudyCards.length) {
+        endStudySession();
     } else {
-        loadCurrentCard();
+        showCurrentCard();
     }
 }
 
-// Mostrar resultados de la sesión
-function showResults() {
+function endStudySession() {
+    sessionStats.ended = new Date().toISOString();
+    
+    // Detener timer de examen si está activo
+    if (examMode) {
+        stopExamMode();
+    }
+    
+    // Guardar sesión en historial
+    studySessions.push({
+        ...sessionStats,
+        total: sessionStats.correct + sessionStats.incorrect,
+        accuracy: Math.round((sessionStats.correct / (sessionStats.correct + sessionStats.incorrect)) * 100)
+    });
+    saveSessions();
+    
+    // Mostrar resultados
     document.getElementById('studySession').style.display = 'none';
     document.getElementById('studyResults').style.display = 'block';
     
-    const total = currentSession.correctCount + currentSession.incorrectCount;
-    const accuracy = total > 0 ? Math.round((currentSession.correctCount / total) * 100) : 0;
+    document.getElementById('resultCorrect').textContent = sessionStats.correct;
+    document.getElementById('resultIncorrect').textContent = sessionStats.incorrect;
     
-    document.getElementById('resultCorrect').textContent = currentSession.correctCount;
-    document.getElementById('resultIncorrect').textContent = currentSession.incorrectCount;
+    const total = sessionStats.correct + sessionStats.incorrect;
+    const accuracy = total > 0 ? Math.round((sessionStats.correct / total) * 100) : 0;
     document.getElementById('resultAccuracy').textContent = accuracy + '%';
 }
 
-// Terminar sesión de estudio
-function endStudySession() {
-    if (confirm('¿Estás seguro de terminar la sesión?')) {
-        showResults();
-    }
-}
-
-// Resetear estudio
 function resetStudy() {
-    currentSession.active = false;
-    currentSession.selectedSystem = '';
-    document.getElementById('studySelection').style.display = 'block';
-    document.getElementById('studySession').style.display = 'none';
     document.getElementById('studyResults').style.display = 'none';
-    document.querySelectorAll('.system-option').forEach(opt => opt.classList.remove('selected'));
+    document.getElementById('studySelection').style.display = 'block';
+    selectedSystems.clear();
     renderSystemSelector();
 }
 
-// Abrir modal de nueva flashcard
-function openNewCardModal() {
-    document.getElementById('cardModalTitle').textContent = 'Nueva Flashcard';
-    document.getElementById('editCardId').value = '';
-    document.getElementById('cardForm').reset();
-    currentTags = [];
-    renderTags();
-    toggleCardType();
-    optionCount = 4;
-    document.getElementById('cardModal').classList.add('show');
-}
+// ============================================
+// BIBLIOTECA DE FLASHCARDS
+// ============================================
 
-// Editar flashcard
-function editCard(cardId) {
-    const card = flashcards.find(c => c.id === cardId);
-    if (!card) return;
-
-    document.getElementById('cardModalTitle').textContent = 'Editar Flashcard';
-    document.getElementById('editCardId').value = cardId;
-    
-    document.getElementById(card.type === 'simple' ? 'typeSimple' : 'typeMultiple').checked = true;
-    document.getElementById('cardQuestion').value = card.question;
-    
-    if (card.type === 'simple') {
-        document.getElementById('cardAnswer').value = card.answer;
-    } else {
-        card.options.forEach((opt, index) => {
-            if (document.getElementById(`option${index}`)) {
-                document.getElementById(`option${index}`).value = opt;
-            }
-        });
-        document.getElementById(`correct${card.correctOption}`).checked = true;
-        document.getElementById('cardExplanation').value = card.explanation || '';
-    }
-    
-    document.getElementById('cardSystem').value = card.system;
-    document.getElementById('cardDifficulty').value = card.difficulty;
-    
-    currentTags = [...card.tags];
-    renderTags();
-    
-    toggleCardType();
-    document.getElementById('cardModal').classList.add('show');
-}
-
-// Alternar tipo de flashcard
-function toggleCardType() {
-    const isSimple = document.getElementById('typeSimple').checked;
-    
-    document.getElementById('simpleAnswerContainer').style.display = isSimple ? 'block' : 'none';
-    document.getElementById('multipleChoiceContainer').style.display = isSimple ? 'none' : 'block';
-    
-    if (isSimple) {
-        document.getElementById('cardAnswer').required = true;
-    } else {
-        document.getElementById('cardAnswer').required = false;
-    }
-}
-
-// Agregar opción en opción múltiple
-function addOption() {
-    if (optionCount >= 6) {
-        alert('Máximo 6 opciones');
-        return;
-    }
-    
-    const container = document.querySelector('.options-container');
-    const addBtn = document.getElementById('addOptionBtn');
-    
-    const optionDiv = document.createElement('div');
-    optionDiv.className = 'option-item';
-    optionDiv.innerHTML = `
-        <input type="radio" name="correctOption" value="${optionCount}" id="correct${optionCount}">
-        <input type="text" id="option${optionCount}" placeholder="Opción ${String.fromCharCode(65 + optionCount)}">
-        <button type="button" class="btn btn-danger btn-small" onclick="removeOption(${optionCount})">🗑️</button>
-    `;
-    
-    container.insertBefore(optionDiv, addBtn);
-    optionCount++;
-}
-
-// Manejar entrada de etiquetas
-function handleTagInput(event) {
-    if (event.key === 'Enter' || event.key === ',') {
-        event.preventDefault();
-        const input = event.target;
-        const value = input.value.trim();
-        
-        if (value && !currentTags.includes(value)) {
-            currentTags.push(value);
-            renderTags();
-        }
-        
-        input.value = '';
-    }
-}
-
-// Renderizar etiquetas
-function renderTags() {
-    const container = document.getElementById('tagsContainer');
-    const input = document.getElementById('tagInput');
-    
-    const tagsHTML = currentTags.map(tag => `
-        <span class="tag-item">
-            ${tag}
-            <span class="tag-remove" onclick="removeTag('${tag}')">×</span>
-        </span>
-    `).join('');
-    
-    container.innerHTML = tagsHTML;
-    container.appendChild(input);
-}
-
-// Remover etiqueta
-function removeTag(tag) {
-    currentTags = currentTags.filter(t => t !== tag);
-    renderTags();
-}
-
-// Focus en input de etiquetas
-function focusTagInput() {
-    document.getElementById('tagInput').focus();
-}
-
-// Cerrar modal
-function closeModal(modalId) {
-    document.getElementById(modalId).classList.remove('show');
-}
-
-// Guardar flashcard
-function saveCard(event) {
-    event.preventDefault();
-    
-    const type = document.getElementById('typeSimple').checked ? 'simple' : 'multiple';
-    const editId = document.getElementById('editCardId').value;
-    
-    const cardData = {
-        question: document.getElementById('cardQuestion').value,
-        system: document.getElementById('cardSystem').value,
-        difficulty: document.getElementById('cardDifficulty').value,
-        type: type,
-        tags: currentTags
-    };
-    
-    if (type === 'simple') {
-        cardData.answer = document.getElementById('cardAnswer').value;
-    } else {
-        // Recolectar opciones no vacías
-        const options = [];
-        for (let i = 0; i < optionCount; i++) {
-            const optInput = document.getElementById(`option${i}`);
-            if (optInput && optInput.value.trim()) {
-                options.push(optInput.value.trim());
-            }
-        }
-        
-        if (options.length < 2) {
-            alert('Debes tener al menos 2 opciones');
-            return;
-        }
-        
-        const correctRadio = document.querySelector('input[name="correctOption"]:checked');
-        if (!correctRadio) {
-            alert('Debes marcar la opción correcta');
-            return;
-        }
-        
-        cardData.options = options;
-        cardData.correctOption = parseInt(correctRadio.value);
-        cardData.explanation = document.getElementById('cardExplanation').value;
-    }
-    
-    if (editId) {
-        // Actualizar flashcard existente
-        const index = flashcards.findIndex(c => c.id === editId);
-        flashcards[index] = { ...flashcards[index], ...cardData };
-    } else {
-        // Nueva flashcard
-        const newCard = {
-            ...cardData,
-            id: Date.now().toString(),
-            createdAt: new Date().toISOString(),
-            reviewCount: 0,
-            lastReviewed: null
-        };
-        flashcards.push(newCard);
-    }
-    
-    saveFlashcards();
-    renderLibrary();
-    renderSystemSelector();
-    updateStats();
-    populateFilterSelects();
-    
-    closeModal('cardModal');
-    alert('✅ Flashcard guardada exitosamente');
-}
-
-// Renderizar biblioteca
 function renderLibrary() {
     const grid = document.getElementById('libraryGrid');
     const empty = document.getElementById('libraryEmpty');
     
-    if (flashcards.length === 0) {
+    const filteredCards = getFilteredCards();
+    
+    if (filteredCards.length === 0) {
         grid.style.display = 'none';
         empty.style.display = 'block';
         return;
@@ -517,267 +533,857 @@ function renderLibrary() {
     grid.style.display = 'grid';
     empty.style.display = 'none';
     
-    const filtered = filterFlashcards();
-    
-    grid.innerHTML = filtered.map(card => `
-        <div class="flashcard-card">
-            <div class="card-header">
-                <span class="card-type ${card.type}">${card.type === 'simple' ? 'Simple' : 'Opción Múltiple'}</span>
+    let html = '';
+    filteredCards.forEach((card, index) => {
+        const system = SYSTEMS.find(s => s.id === card.system);
+        html += `
+            <div class="flashcard-card">
+                <div class="card-header">
+                    <span class="card-type ${card.type}">${card.type === 'simple' ? 'Simple' : 'Opción Múltiple'}</span>
+                </div>
+                <div class="card-question-preview">${card.question}</div>
+                <div class="card-meta">
+                    <span class="card-meta-item">${system ? system.emoji : ''} ${card.system}</span>
+                    <span class="card-meta-item">${getDifficultyEmoji(card.difficulty)} ${card.difficulty}</span>
+                </div>
+                <div class="card-tags">
+                    ${card.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                </div>
+                <div class="card-actions">
+                    <button class="btn btn-primary btn-small" onclick="editCard(${index})">
+                        ✏️ Editar
+                    </button>
+                    <button class="btn btn-danger btn-small" onclick="deleteCard(${index})">
+                        🗑️ Eliminar
+                    </button>
+                </div>
             </div>
-            <div class="card-question-preview">${card.question}</div>
-            <div class="card-meta">
-                <span class="card-meta-item">📚 ${card.system}</span>
-                <span class="card-meta-item">🎯 ${getDifficultyText(card.difficulty)}</span>
-            </div>
-            <div class="card-tags">
-                ${card.tags.slice(0, 3).map(tag => `<span class="tag">${tag}</span>`).join('')}
-                ${card.tags.length > 3 ? `<span class="tag">+${card.tags.length - 3}</span>` : ''}
-            </div>
-            <div class="card-actions">
-                <button class="btn btn-primary btn-small" onclick="studySingleCard('${card.id}')">
-                    📖 Estudiar
-                </button>
-                <button class="btn btn-secondary btn-small" onclick="editCard('${card.id}')">
-                    ✏️ Editar
-                </button>
-                <button class="btn btn-danger btn-small" onclick="deleteCard('${card.id}')">
-                    🗑️
-                </button>
-            </div>
-        </div>
-    `).join('');
-}
-
-// Filtrar flashcards en biblioteca
-function filterFlashcards() {
-    const systemFilter = document.getElementById('filterSystem')?.value || '';
-    const typeFilter = document.getElementById('filterType')?.value || '';
-    const searchQuery = document.getElementById('searchQuery')?.value.toLowerCase() || '';
-    
-    return flashcards.filter(card => {
-        const matchesSystem = !systemFilter || card.system === systemFilter;
-        const matchesType = !typeFilter || card.type === typeFilter;
-        const matchesSearch = !searchQuery || 
-            card.question.toLowerCase().includes(searchQuery) ||
-            card.tags.some(tag => tag.toLowerCase().includes(searchQuery));
-        
-        return matchesSystem && matchesType && matchesSearch;
+        `;
     });
+    
+    grid.innerHTML = html;
 }
 
-// Aplicar filtros
+function getFilteredCards() {
+    let filtered = [...flashcards];
+    
+    const systemFilter = document.getElementById('filterSystem')?.value;
+    const typeFilter = document.getElementById('filterType')?.value;
+    const searchQuery = document.getElementById('searchQuery')?.value.toLowerCase();
+    
+    if (systemFilter) {
+        filtered = filtered.filter(c => c.system === systemFilter);
+    }
+    
+    if (typeFilter) {
+        filtered = filtered.filter(c => c.type === typeFilter);
+    }
+    
+    if (searchQuery) {
+        filtered = filtered.filter(c => 
+            c.question.toLowerCase().includes(searchQuery) ||
+            c.tags.some(tag => tag.toLowerCase().includes(searchQuery))
+        );
+    }
+    
+    return filtered;
+}
+
 function filterLibrary() {
     renderLibrary();
 }
 
-// Poblar selects de filtros
-function populateFilterSelects() {
-    const systems = [...new Set(flashcards.map(c => c.system))];
-    const systemSelect = document.getElementById('filterSystem');
+function populateSystemFilters() {
+    const select = document.getElementById('filterSystem');
+    const systemsWithCards = new Set(flashcards.map(c => c.system));
     
-    if (systemSelect) {
-        const currentValue = systemSelect.value;
-        systemSelect.innerHTML = '<option value="">Todos</option>' + 
-            systems.map(s => `<option value="${s}">${s}</option>`).join('');
-        systemSelect.value = currentValue;
-    }
-}
-
-// Obtener texto de dificultad
-function getDifficultyText(difficulty) {
-    const texts = {
-        'facil': '😊 Fácil',
-        'medio': '😐 Medio',
-        'dificil': '😰 Difícil'
-    };
-    return texts[difficulty] || difficulty;
-}
-
-// Estudiar una sola flashcard
-function studySingleCard(cardId) {
-    const card = flashcards.find(c => c.id === cardId);
-    if (!card) return;
-    
-    // Crear sesión de estudio con una sola card
-    currentSession.active = true;
-    currentSession.cards = [card];
-    currentSession.currentIndex = 0;
-    currentSession.correctCount = 0;
-    currentSession.incorrectCount = 0;
-    currentSession.selectedSystem = card.system;
-    
-    // Cambiar a tab de estudio
-    switchTab('study');
-    document.querySelectorAll('.tab')[0].click();
-    
-    document.getElementById('studySelection').style.display = 'none';
-    document.getElementById('studySession').style.display = 'block';
-    document.getElementById('sessionSystem').textContent = card.system;
-    
-    loadCurrentCard();
-}
-
-// Eliminar flashcard
-function deleteCard(cardId) {
-    if (!confirm('¿Estás seguro de eliminar esta flashcard?')) {
-        return;
-    }
-    
-    flashcards = flashcards.filter(c => c.id !== cardId);
-    saveFlashcards();
-    renderLibrary();
-    renderSystemSelector();
-    updateStats();
-}
-
-// Actualizar estadísticas
-function updateStats() {
-    document.getElementById('totalCards').textContent = flashcards.length;
-}
-
-// Renderizar estadísticas
-function renderStats() {
-    const statsContent = document.getElementById('statsContent');
-    
-    if (flashcards.length === 0) {
-        statsContent.innerHTML = '<p style="text-align: center; color: #9ca3af;">No hay datos suficientes</p>';
-        return;
-    }
-    
-    const systemCounts = {};
-    const typeCounts = { simple: 0, multiple: 0 };
-    const difficultyCounts = { facil: 0, medio: 0, dificil: 0 };
-    
-    flashcards.forEach(card => {
-        systemCounts[card.system] = (systemCounts[card.system] || 0) + 1;
-        typeCounts[card.type]++;
-        difficultyCounts[card.difficulty]++;
+    let html = '<option value="">Todos</option>';
+    SYSTEMS.forEach(system => {
+        if (systemsWithCards.has(system.id)) {
+            html += `<option value="${system.id}">${system.emoji} ${system.name}</option>`;
+        }
     });
     
-    statsContent.innerHTML = `
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-value">${flashcards.length}</div>
-                <div class="stat-label">Total de Flashcards</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value">${typeCounts.simple}</div>
-                <div class="stat-label">Simples</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value">${typeCounts.multiple}</div>
-                <div class="stat-label">Opción Múltiple</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value">${Object.keys(systemCounts).length}</div>
-                <div class="stat-label">Sistemas Cubiertos</div>
-            </div>
-        </div>
+    select.innerHTML = html;
+}
+
+// ============================================
+// MODAL: CREAR/EDITAR FLASHCARD
+// ============================================
+
+function openNewCardModal() {
+    document.getElementById('cardModalTitle').textContent = 'Nueva Flashcard';
+    document.getElementById('editCardId').value = '';
+    document.getElementById('cardForm').reset();
+    currentTags = [];
+    renderTagsContainer();
+    toggleCardType();
+    initializeOptionsContainer();
+    
+    document.getElementById('cardModal').classList.add('show');
+}
+
+function editCard(index) {
+    const card = flashcards[index];
+    
+    document.getElementById('cardModalTitle').textContent = 'Editar Flashcard';
+    document.getElementById('editCardId').value = index;
+    
+    document.getElementById('cardQuestion').value = card.question;
+    document.getElementById('cardSystem').value = card.system;
+    document.getElementById('cardDifficulty').value = card.difficulty;
+    
+    if (card.type === 'simple') {
+        document.getElementById('typeSimple').checked = true;
+        document.getElementById('cardAnswer').value = card.answer;
+    } else {
+        document.getElementById('typeMultiple').checked = true;
+        document.getElementById('cardExplanation').value = card.explanation || '';
         
-        <h3 style="margin: 30px 0 20px 0;">Por Sistema</h3>
-        <div class="stats-grid">
-            ${Object.entries(systemCounts)
-                .sort((a, b) => b[1] - a[1])
-                .map(([system, count]) => `
-                    <div class="stat-card">
-                        <div class="stat-value">${count}</div>
-                        <div class="stat-label">${system}</div>
-                    </div>
-                `).join('')}
-        </div>
-        
-        <h3 style="margin: 30px 0 20px 0;">Por Dificultad</h3>
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-value">${difficultyCounts.facil}</div>
-                <div class="stat-label">😊 Fácil</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value">${difficultyCounts.medio}</div>
-                <div class="stat-label">😐 Medio</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value">${difficultyCounts.dificil}</div>
-                <div class="stat-label">😰 Difícil</div>
-            </div>
+        // Cargar opciones
+        initializeOptionsContainer();
+        card.options.forEach((opt, idx) => {
+            const input = document.getElementById(`option${idx}`);
+            if (input) {
+                input.value = opt;
+            }
+            if (idx === card.correctIndex) {
+                document.getElementById(`correct${idx}`).checked = true;
+            }
+        });
+    }
+    
+    currentTags = [...card.tags];
+    renderTagsContainer();
+    toggleCardType();
+    
+    document.getElementById('cardModal').classList.add('show');
+}
+
+function deleteCard(index) {
+    if (confirm('¿Estás seguro de eliminar esta flashcard?')) {
+        flashcards.splice(index, 1);
+        saveData();
+        renderLibrary();
+        renderSystemSelector();
+    }
+}
+
+function toggleCardType() {
+    const type = document.querySelector('input[name="cardType"]:checked').value;
+    
+    if (type === 'simple') {
+        document.getElementById('simpleAnswerContainer').style.display = 'block';
+        document.getElementById('multipleChoiceContainer').style.display = 'none';
+    } else {
+        document.getElementById('simpleAnswerContainer').style.display = 'none';
+        document.getElementById('multipleChoiceContainer').style.display = 'block';
+    }
+}
+
+// CORREGIDO: Inicializar contenedor de opciones
+function initializeOptionsContainer() {
+    const container = document.getElementById('optionsListContainer');
+    optionCount = 4;
+    
+    let html = '';
+    for (let i = 0; i < 4; i++) {
+        html += createOptionHTML(i);
+    }
+    container.innerHTML = html;
+}
+
+function createOptionHTML(index) {
+    return `
+        <div class="option-item" id="optionItem${index}">
+            <input type="radio" name="correctOption" value="${index}" id="correct${index}">
+            <input type="text" id="option${index}" placeholder="Opción ${String.fromCharCode(65 + index)}">
+            <button type="button" class="btn btn-danger btn-small" onclick="removeOption(${index})" style="${index < 2 ? 'visibility: hidden;' : ''}">
+                🗑️
+            </button>
         </div>
     `;
 }
 
-// Exportar datos
-function exportData() {
-    const data = {
-        version: '1.0',
-        exportDate: new Date().toISOString(),
-        totalCards: flashcards.length,
-        flashcards: flashcards
+// CORREGIDO: Agregar opción
+function addOption() {
+    if (optionCount >= 6) {
+        alert('Máximo 6 opciones permitidas');
+        return;
+    }
+    
+    const container = document.getElementById('optionsListContainer');
+    const newHTML = createOptionHTML(optionCount);
+    
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = newHTML;
+    container.appendChild(tempDiv.firstElementChild);
+    
+    optionCount++;
+}
+
+// CORREGIDO: Eliminar opción funcional
+function removeOption(index) {
+    if (optionCount <= 2) {
+        alert('Debe haber al menos 2 opciones');
+        return;
+    }
+    
+    const item = document.getElementById(`optionItem${index}`);
+    if (item) {
+        item.remove();
+        optionCount--;
+    }
+}
+
+function saveCard(event) {
+    event.preventDefault();
+    
+    const type = document.querySelector('input[name="cardType"]:checked').value;
+    const editId = document.getElementById('editCardId').value;
+    
+    const cardData = {
+        id: editId !== '' ? flashcards[editId].id : Date.now(),
+        type: type,
+        question: document.getElementById('cardQuestion').value,
+        system: document.getElementById('cardSystem').value,
+        difficulty: document.getElementById('cardDifficulty').value,
+        tags: currentTags,
+        createdAt: editId !== '' ? flashcards[editId].createdAt : new Date().toISOString(),
+        // Spaced repetition fields
+        reviewCount: editId !== '' ? (flashcards[editId].reviewCount || 0) : 0,
+        lastReviewed: editId !== '' ? flashcards[editId].lastReviewed : null,
+        nextReview: editId !== '' ? (flashcards[editId].nextReview || new Date().toISOString()) : new Date().toISOString(),
+        easeFactor: editId !== '' ? (flashcards[editId].easeFactor || 2.5) : 2.5,
+        interval: editId !== '' ? (flashcards[editId].interval || 0) : 0,
+        isFavorite: editId !== '' ? (flashcards[editId].isFavorite || false) : false
     };
     
-    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `Flashcards_Medicas_${new Date().toISOString().split('T')[0]}.json`;
-    a.click();
-    URL.revokeObjectURL(url);
+    if (type === 'simple') {
+        cardData.answer = document.getElementById('cardAnswer').value;
+    } else {
+        // Recopilar opciones dinámicamente
+        const options = [];
+        let correctIndex = 0;
+        
+        for (let i = 0; i < optionCount; i++) {
+            const optionInput = document.getElementById(`option${i}`);
+            if (optionInput && optionInput.value.trim() !== '') {
+                options.push(optionInput.value.trim());
+                
+                const correctRadio = document.getElementById(`correct${i}`);
+                if (correctRadio && correctRadio.checked) {
+                    correctIndex = options.length - 1;
+                }
+            }
+        }
+        
+        if (options.length < 2) {
+            alert('Debe haber al menos 2 opciones');
+            return;
+        }
+        
+        cardData.options = options;
+        cardData.correctIndex = correctIndex;
+        cardData.explanation = document.getElementById('cardExplanation').value;
+    }
     
-    alert('✅ Flashcards exportadas exitosamente');
+    if (editId !== '') {
+        flashcards[editId] = cardData;
+    } else {
+        flashcards.push(cardData);
+    }
+    
+    saveData();
+    closeModal('cardModal');
+    renderSystemSelector();
 }
 
-// Mostrar modal de importación
-function showImportModal() {
-    document.getElementById('importModal').classList.add('show');
+// ============================================
+// TAGS
+// ============================================
+
+function focusTagInput() {
+    document.getElementById('tagInput').focus();
 }
 
-// Importar datos
-function importData() {
-    const fileInput = document.getElementById('importFile');
+function handleTagInput(event) {
+    if (event.key === 'Enter') {
+        event.preventDefault();
+        const input = event.target;
+        const tag = input.value.trim();
+        
+        if (tag && !currentTags.includes(tag)) {
+            currentTags.push(tag);
+            renderTagsContainer();
+        }
+        
+        input.value = '';
+    }
+}
+
+function removeTag(index) {
+    currentTags.splice(index, 1);
+    renderTagsContainer();
+}
+
+function renderTagsContainer() {
+    const container = document.getElementById('tagsContainer');
+    let html = '';
+    
+    currentTags.forEach((tag, index) => {
+        html += `
+            <span class="tag-item">
+                ${tag}
+                <span class="tag-remove" onclick="removeTag(${index})">×</span>
+            </span>
+        `;
+    });
+    
+    html += `<input type="text" class="tag-input" id="tagInput" placeholder="Escribe y presiona Enter..." onkeydown="handleTagInput(event)">`;
+    
+    container.innerHTML = html;
+}
+
+// ============================================
+// ESTADÍSTICAS
+// ============================================
+
+function renderStats() {
+    const content = document.getElementById('statsContent');
+    
+    if (studySessions.length === 0) {
+        content.innerHTML = `
+            <div class="empty-state">
+                <div class="empty-state-icon">📊</div>
+                <h3>No hay sesiones de estudio registradas</h3>
+                <p>Completa una sesión de estudio para ver tus estadísticas</p>
+            </div>
+        `;
+        return;
+    }
+    
+    // Estadísticas globales
+    const totalSessions = studySessions.length;
+    const totalQuestions = studySessions.reduce((sum, s) => sum + s.total, 0);
+    const totalCorrect = studySessions.reduce((sum, s) => sum + s.correct, 0);
+    const avgAccuracy = Math.round((totalCorrect / totalQuestions) * 100);
+    
+    // Sistema con más fallos
+    const systemErrors = {};
+    studySessions.forEach(session => {
+        const systems = session.system.split(', ');
+        systems.forEach(sys => {
+            if (!systemErrors[sys]) {
+                systemErrors[sys] = 0;
+            }
+            systemErrors[sys] += session.incorrect;
+        });
+    });
+    
+    const worstSystem = Object.keys(systemErrors).reduce((a, b) => 
+        systemErrors[a] > systemErrors[b] ? a : b
+    );
+    
+    let html = `
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value">${totalSessions}</div>
+                <div class="stat-label">Sesiones Completadas</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">${totalQuestions}</div>
+                <div class="stat-label">Preguntas Respondidas</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">${avgAccuracy}%</div>
+                <div class="stat-label">Precisión Promedio</div>
+            </div>
+            <div class="stat-card" style="background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%); border-left-color: #ef4444;">
+                <div class="stat-value" style="color: #991b1b;">${worstSystem}</div>
+                <div class="stat-label">Sistema con Más Errores</div>
+            </div>
+        </div>
+        
+        <h3 style="margin: 30px 0 15px 0;">Historial de Sesiones (Últimas 20)</h3>
+        <div class="session-history">
+    `;
+    
+    // Mostrar últimas sesiones en orden inverso
+    const recentSessions = [...studySessions].reverse();
+    recentSessions.forEach(session => {
+        const date = new Date(session.started);
+        const accuracyClass = session.accuracy >= 80 ? 'good' : session.accuracy >= 60 ? 'medium' : 'poor';
+        
+        html += `
+            <div class="session-item">
+                <div class="session-header">
+                    <div>
+                        <strong>${session.system}</strong>
+                        <div class="session-date">${date.toLocaleDateString('es-ES', { 
+                            year: 'numeric', 
+                            month: 'long', 
+                            day: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                        })}</div>
+                    </div>
+                    <div class="session-accuracy ${accuracyClass}">${session.accuracy}%</div>
+                </div>
+                <div style="font-size: 14px; color: #6b7280; margin-top: 5px;">
+                    ✅ ${session.correct} correctas | ❌ ${session.incorrect} incorrectas | Total: ${session.total}
+                </div>
+            </div>
+        `;
+    });
+    
+    html += `</div>`;
+    
+    // Análisis por sistema
+    html += `
+        <h3 style="margin: 30px 0 15px 0;">Análisis por Sistema</h3>
+        <div class="stats-grid">
+    `;
+    
+    Object.keys(systemErrors).forEach(system => {
+        // CORREGIDO: Usar systemStats de cada sesión en vez de totales generales
+        let systemCorrect = 0;
+        let systemIncorrect = 0;
+        
+        studySessions.forEach(session => {
+            // Si la sesión tiene systemStats (nuevo formato), usarlos
+            if (session.systemStats && session.systemStats[system]) {
+                systemCorrect += session.systemStats[system].correct;
+                systemIncorrect += session.systemStats[system].incorrect;
+            } 
+            // Si no, usar el método antiguo (menos preciso pero compatible)
+            else if (session.system.includes(system)) {
+                // Método antiguo: dividir proporcionalmente
+                const systems = session.system.split(', ');
+                const proportion = 1 / systems.length;
+                systemCorrect += Math.round(session.correct * proportion);
+                systemIncorrect += Math.round(session.incorrect * proportion);
+            }
+        });
+        
+        const systemTotal = systemCorrect + systemIncorrect;
+        const systemAccuracy = systemTotal > 0 ? Math.round((systemCorrect / systemTotal) * 100) : 0;
+        
+        const sysInfo = SYSTEMS.find(s => s.id === system);
+        
+        html += `
+            <div class="stat-card">
+                <div style="font-size: 24px; margin-bottom: 5px;">${sysInfo ? sysInfo.emoji : '📚'}</div>
+                <div style="font-weight: 600; margin-bottom: 8px;">${system}</div>
+                <div class="stat-value" style="font-size: 24px;">${systemAccuracy}%</div>
+                <div class="stat-label">${systemTotal} preguntas | ❌ ${systemIncorrect} errores</div>
+            </div>
+        `;
+    });
+    
+    html += `</div>`;
+    
+    content.innerHTML = html;
+}
+
+// ============================================
+// UTILIDADES
+// ============================================
+
+function shuffle(array) {
+    const shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+}
+
+function getDifficultyEmoji(difficulty) {
+    const emojis = {
+        facil: '😊',
+        medio: '😐',
+        dificil: '😰'
+    };
+    return emojis[difficulty] || '😐';
+}
+
+function updateTotalCards() {
+    document.getElementById('totalCards').textContent = flashcards.length;
+}
+
+function closeModal(modalId) {
+    document.getElementById(modalId).classList.remove('show');
+}
+
+// ============================================
+// TAB GESTIÓN
+// ============================================
+
+function updateManagementTab() {
+    // Actualizar contadores de exportación
+    document.getElementById('exportTotalCards').textContent = flashcards.length;
+    document.getElementById('exportTotalSessions').textContent = studySessions.length;
+    
+    // Calcular espacio usado
+    const flashcardsSize = new Blob([JSON.stringify(flashcards)]).size;
+    const sessionsSize = new Blob([JSON.stringify(studySessions)]).size;
+    const totalSize = flashcardsSize + sessionsSize;
+    
+    const sizeKB = (totalSize / 1024).toFixed(2);
+    const sizeMB = (totalSize / (1024 * 1024)).toFixed(2);
+    
+    document.getElementById('storageUsed').textContent = 
+        totalSize > 1024 * 1024 ? `${sizeMB} MB` : `${sizeKB} KB`;
+    
+    // Última actualización
+    if (flashcards.length > 0) {
+        const lastCard = flashcards.reduce((latest, card) => {
+            const cardDate = new Date(card.createdAt);
+            const latestDate = new Date(latest.createdAt);
+            return cardDate > latestDate ? card : latest;
+        });
+        
+        const lastDate = new Date(lastCard.createdAt);
+        document.getElementById('lastUpdate').textContent = lastDate.toLocaleString('es-ES');
+    } else {
+        document.getElementById('lastUpdate').textContent = 'Sin datos';
+    }
+}
+
+// ============================================
+// IMPORTAR/EXPORTAR MEJORADO
+// ============================================
+
+function executeImport() {
+    const fileInput = document.getElementById('importFileManagement');
     const file = fileInput.files[0];
     
     if (!file) {
-        alert('Por favor selecciona un archivo');
+        alert('Por favor selecciona un archivo JSON');
         return;
     }
+    
+    const mode = document.querySelector('input[name="importMode"]:checked').value;
+    const includeSessions = document.getElementById('importSessions').checked;
     
     const reader = new FileReader();
     reader.onload = function(e) {
         try {
-            const importedData = JSON.parse(e.target.result);
+            const data = JSON.parse(e.target.result);
             
-            if (!importedData.flashcards || !Array.isArray(importedData.flashcards)) {
-                throw new Error('Formato de archivo inválido');
+            if (!data.flashcards || !Array.isArray(data.flashcards)) {
+                alert('Archivo JSON inválido: no contiene flashcards');
+                return;
             }
             
-            // Agregar flashcards importadas (sin reemplazar las existentes)
-            const newCards = importedData.flashcards.filter(imported => 
-                !flashcards.some(existing => existing.id === imported.id)
-            );
+            const importCount = data.flashcards.length;
+            const currentCount = flashcards.length;
             
-            flashcards.push(...newCards);
-            saveFlashcards();
-            renderLibrary();
+            let confirmMessage = '';
+            
+            switch(mode) {
+                case 'merge':
+                    confirmMessage = `¿Combinar ${importCount} flashcards con las ${currentCount} existentes?\n\nLas flashcards con el mismo ID se actualizarán.`;
+                    break;
+                case 'add':
+                    confirmMessage = `¿Agregar ${importCount} flashcards nuevas a las ${currentCount} existentes?\n\nTotal final: ${currentCount + importCount} flashcards`;
+                    break;
+                case 'replace':
+                    confirmMessage = `⚠️ ADVERTENCIA ⚠️\n\n¿Eliminar las ${currentCount} flashcards actuales y reemplazarlas con ${importCount} nuevas?\n\nEsta acción NO se puede deshacer.`;
+                    break;
+                case 'keep':
+                    const newCards = data.flashcards.filter(newCard => 
+                        !flashcards.some(existing => existing.id === newCard.id)
+                    );
+                    confirmMessage = `¿Importar ${newCards.length} flashcards nuevas (de ${importCount} en el archivo)?\n\nSe ignorarán ${importCount - newCards.length} duplicados.`;
+                    break;
+            }
+            
+            if (!confirm(confirmMessage)) {
+                return;
+            }
+            
+            // Ejecutar importación según modo
+            switch(mode) {
+                case 'merge':
+                    data.flashcards.forEach(newCard => {
+                        const existingIndex = flashcards.findIndex(c => c.id === newCard.id);
+                        if (existingIndex >= 0) {
+                            flashcards[existingIndex] = newCard; // Actualizar
+                        } else {
+                            flashcards.push(newCard); // Agregar nueva
+                        }
+                    });
+                    break;
+                    
+                case 'add':
+                    flashcards.push(...data.flashcards);
+                    break;
+                    
+                case 'replace':
+                    flashcards = [...data.flashcards];
+                    break;
+                    
+                case 'keep':
+                    data.flashcards.forEach(newCard => {
+                        if (!flashcards.some(existing => existing.id === newCard.id)) {
+                            flashcards.push(newCard);
+                        }
+                    });
+                    break;
+            }
+            
+            // Importar sesiones si está marcado
+            if (includeSessions && data.sessions && Array.isArray(data.sessions)) {
+                if (mode === 'replace') {
+                    studySessions = [...data.sessions];
+                } else {
+                    studySessions.push(...data.sessions);
+                    // Mantener solo últimas 20
+                    if (studySessions.length > 20) {
+                        studySessions = studySessions.slice(-20);
+                    }
+                }
+                saveSessions();
+            }
+            
+            saveData();
+            updateManagementTab();
             renderSystemSelector();
-            updateStats();
-            populateFilterSelects();
+            renderStats();
             
-            closeModal('importModal');
-            alert(`✅ ${newCards.length} flashcard(s) importadas exitosamente`);
+            // Limpiar input
+            fileInput.value = '';
+            
+            alert(`✅ Importación exitosa!\n\n${flashcards.length} flashcards totales en el sistema`);
+            
         } catch (error) {
-            alert(`❌ Error al importar:\n${error.message}`);
+            alert('❌ Error al importar:\n\n' + error.message);
+            console.error('Error de importación:', error);
         }
     };
     
     reader.readAsText(file);
 }
 
-// Inicializar aplicación al cargar
-window.addEventListener('DOMContentLoaded', init);
+function executeExport() {
+    const includeS = document.getElementById('exportWithSessions').checked;
+    const includeStats = document.getElementById('exportWithStats').checked;
+    
+    // Preparar datos para exportar
+    const exportData = {
+        version: '2.0',
+        exportDate: new Date().toISOString(),
+        totalCards: flashcards.length,
+        source: 'Flashcards Médicas - Exportación Completa',
+        flashcards: flashcards
+    };
+    
+    // Agregar sesiones si está marcado
+    if (includeS) {
+        exportData.sessions = studySessions;
+    }
+    
+    // Agregar estadísticas si está marcado
+    if (includeStats) {
+        const totalQuestions = studySessions.reduce((sum, s) => sum + s.total, 0);
+        const totalCorrect = studySessions.reduce((sum, s) => sum + s.correct, 0);
+        
+        exportData.statistics = {
+            totalSessions: studySessions.length,
+            totalQuestionsAnswered: totalQuestions,
+            totalCorrect: totalCorrect,
+            totalIncorrect: totalQuestions - totalCorrect,
+            averageAccuracy: totalQuestions > 0 ? Math.round((totalCorrect / totalQuestions) * 100) : 0,
+            systemsCount: new Set(flashcards.map(c => c.system)).size,
+            createdAt: new Date().toISOString()
+        };
+    }
+    
+    // Crear y descargar archivo
+    const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    
+    const timestamp = new Date().toISOString().split('T')[0];
+    a.download = `flashcards-completo-${timestamp}.json`;
+    
+    a.click();
+    URL.revokeObjectURL(url);
+    
+    alert(`✅ Exportación exitosa!\n\n📦 Incluye:\n- ${flashcards.length} flashcards\n${includeS ? `- ${studySessions.length} sesiones` : ''}\n${includeStats ? '- Estadísticas globales' : ''}`);
+}
 
-// Service Worker
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./service-worker-flashcards.js')
-            .then(reg => console.log('Service Worker registrado'))
-            .catch(err => console.log('Error:', err));
-    });
+// ============================================
+// LIMPIAR DATOS
+// ============================================
+
+function clearSessions() {
+    if (confirm(`¿Eliminar todas las ${studySessions.length} sesiones de estudio?\n\nLas flashcards se mantendrán intactas.`)) {
+        studySessions = [];
+        saveSessions();
+        renderStats();
+        updateManagementTab();
+        alert('✅ Sesiones eliminadas correctamente');
+    }
+}
+
+function clearOldSessions() {
+    const currentCount = studySessions.length;
+    
+    if (currentCount <= 10) {
+        alert('Tienes 10 o menos sesiones. No hay sesiones antiguas para eliminar.');
+        return;
+    }
+    
+    if (confirm(`¿Mantener solo las últimas 10 sesiones?\n\nSe eliminarán ${currentCount - 10} sesiones antiguas.`)) {
+        studySessions = studySessions.slice(-10);
+        saveSessions();
+        renderStats();
+        updateManagementTab();
+        alert(`✅ ${currentCount - 10} sesiones antiguas eliminadas\n\nSe mantuvieron las últimas 10`);
+    }
+}
+
+function clearAllData() {
+    const totalCards = flashcards.length;
+    const totalSessions = studySessions.length;
+    
+    const confirmation = prompt(
+        `⚠️⚠️⚠️ ADVERTENCIA CRÍTICA ⚠️⚠️⚠️\n\n` +
+        `Estás a punto de ELIMINAR:\n` +
+        `- ${totalCards} flashcards\n` +
+        `- ${totalSessions} sesiones de estudio\n` +
+        `- TODO tu progreso\n\n` +
+        `Esta acción es IRREVERSIBLE.\n\n` +
+        `Escribe "ELIMINAR TODO" para confirmar:`
+    );
+    
+    if (confirmation === 'ELIMINAR TODO') {
+        flashcards = [];
+        studySessions = [];
+        
+        saveData();
+        saveSessions();
+        
+        renderLibrary();
+        renderStats();
+        renderSystemSelector();
+        updateManagementTab();
+        updateTotalCards();
+        
+        alert('✅ Todos los datos han sido eliminados');
+    } else if (confirmation !== null) {
+        alert('❌ Texto incorrecto. Cancelado por seguridad.');
+    }
+}
+
+// ============================================
+// IMPORTAR/EXPORTAR (FUNCIONES ANTIGUAS SIMPLIFICADAS)
+// ============================================
+
+function exportData() {
+    executeExport();
+}
+
+function showImportModal() {
+    switchTab('management');
+}
+
+function importData() {
+    // Esta función ya no se usa, redirige a la nueva
+    executeImport();
+}
+
+// ============================================
+// FUNCIÓN TOGGLE FAVORITE EN SESIÓN
+// ============================================
+
+function toggleFavoriteInSession() {
+    const card = currentStudyCards[currentCardIndex];
+    if (!card) return;
+    
+    // Encontrar la card original en el array de flashcards
+    const originalCard = flashcards.find(c => c.id === card.id);
+    if (originalCard) {
+        originalCard.isFavorite = !originalCard.isFavorite;
+        // También actualizar en currentStudyCards
+        card.isFavorite = originalCard.isFavorite;
+        saveData();
+        
+        // Volver a renderizar la card actual para mostrar el cambio
+        showCurrentCard();
+    }
+}
+
+// ============================================
+// FUNCIONES DE MODO EXAMEN (FALLBACK)
+// ============================================
+
+// Si flashcards-features.js no se carga, usar estas versiones
+if (typeof startExamMode === 'undefined') {
+    function startExamMode() {
+        const timeLimit = parseInt(document.getElementById('examTimeLimit').value);
+        if (!timeLimit || timeLimit <= 0) return;
+        
+        examMode = true;
+        examTimeLimit = timeLimit * 60; // Convertir a segundos
+        examStartTime = Date.now();
+        
+        // Crear timer en pantalla
+        const timerDiv = document.createElement('div');
+        timerDiv.id = 'examTimer';
+        timerDiv.className = 'exam-timer';
+        timerDiv.textContent = formatTime(examTimeLimit);
+        document.body.appendChild(timerDiv);
+        
+        // Iniciar countdown
+        examTimerInterval = setInterval(updateExamTimer, 1000);
+    }
+    
+    function updateExamTimer() {
+        const elapsed = Math.floor((Date.now() - examStartTime) / 1000);
+        const remaining = examTimeLimit - elapsed;
+        
+        const timerDiv = document.getElementById('examTimer');
+        if (!timerDiv) return;
+        
+        if (remaining <= 0) {
+            stopExamMode();
+            endStudySession();
+            return;
+        }
+        
+        timerDiv.textContent = formatTime(remaining);
+        
+        // Cambiar colores según tiempo restante
+        timerDiv.style.background = remaining > 300 ? '#10b981' : 
+                                     remaining > 60 ? '#f59e0b' : '#ef4444';
+        
+        if (remaining <= 60) {
+            timerDiv.classList.add('pulse');
+        }
+    }
+    
+    function stopExamMode() {
+        if (examTimerInterval) {
+            clearInterval(examTimerInterval);
+            examTimerInterval = null;
+        }
+        
+        const timerDiv = document.getElementById('examTimer');
+        if (timerDiv) {
+            timerDiv.remove();
+        }
+        
+        examMode = false;
+    }
+    
+    function formatTime(seconds) {
+        const mins = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        return `${mins}:${secs.toString().padStart(2, '0')}`;
+    }
 }
