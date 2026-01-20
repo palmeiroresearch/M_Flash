@@ -5,7 +5,7 @@ PWA completa para crear, organizar y estudiar flashcards médicas con soporte of
 ## 🚀 Acceso Rápido
 
 **URL Local:** Abrir `flashcards-medicas.html` en navegador  
-**GitHub Pages:** `https://tu-usuario.github.io/FlashcardsMedicas/`
+**GitHub Pages:** `https://palmeiroresearch.github.io/M_Flash/`
 
 ---
 
