@@ -1,5 +1,6 @@
 // ============================================
 // FLASHCARDS MÉDICAS - Sistema de Estudio
+// VERSIÓN 2.2 - FIX ESTADÍSTICAS POR SISTEMA
 // ============================================
 
 // Variables globales
@@ -14,9 +15,9 @@ let sessionStats = {
     ended: null,
     system: ''
 };
-let studySessions = []; // Historial de últimas 20 sesiones
+let studySessions = [];
 let selectedSystems = new Set();
-let optionCount = 4; // Contador de opciones en el formulario
+let optionCount = 4;
 
 // NUEVAS VARIABLES PARA FEATURES
 let examMode = false;
@@ -25,7 +26,18 @@ let examStartTime = null;
 let examTimerInterval = null;
 let onlyFavorites = false;
 
-// Sistemas disponibles (ampliado)
+// SISTEMA DE PUNTOS Y NIVELES
+let userProfile = {
+    xp: 0,
+    level: 1,
+    levelName: 'Novato',
+    studyStreak: 0,
+    lastStudyDate: null,
+    totalStudyTime: 0,
+    achievements: []
+};
+
+// Sistemas disponibles
 const SYSTEMS = [
     { id: 'Cardiovascular', emoji: '❤️', name: 'Cardiovascular' },
     { id: 'Respiratorio', emoji: '🫁', name: 'Respiratorio' },
@@ -62,6 +74,15 @@ document.addEventListener('DOMContentLoaded', () => {
     populateShareSystemFilter();
     renderStats();
     initializeOptionsContainer();
+    
+    // Actualizar display de nivel
+    updateLevelDisplay();
+    
+    // Registrar Service Worker para modo offline
+    registerServiceWorker();
+    
+    // Detectar cambios de conectividad
+    setupConnectivityListener();
 });
 
 // ============================================
@@ -111,6 +132,12 @@ function loadData() {
     if (storedSessions) {
         studySessions = JSON.parse(storedSessions);
     }
+    
+    // Cargar perfil de usuario
+    const storedProfile = localStorage.getItem('userProfile');
+    if (storedProfile) {
+        userProfile = JSON.parse(storedProfile);
+    }
 }
 
 function saveData() {
@@ -121,11 +148,15 @@ function saveData() {
 }
 
 function saveSessions() {
-    // Mantener solo últimas 20 sesiones
     if (studySessions.length > 20) {
         studySessions = studySessions.slice(-20);
     }
     localStorage.setItem('studySessions', JSON.stringify(studySessions));
+}
+
+function saveProfile() {
+    localStorage.setItem('userProfile', JSON.stringify(userProfile));
+    updateLevelDisplay();
 }
 
 // ============================================
@@ -133,16 +164,13 @@ function saveSessions() {
 // ============================================
 
 function switchTab(tabName) {
-    // Ocultar todos los tabs
     document.getElementById('studyTab').style.display = 'none';
     document.getElementById('libraryTab').style.display = 'none';
     document.getElementById('statsTab').style.display = 'none';
     document.getElementById('managementTab').style.display = 'none';
     
-    // Remover clase active de todos los tabs
     document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
     
-    // Mostrar tab seleccionado
     if (tabName === 'study') {
         document.getElementById('studyTab').style.display = 'block';
         document.querySelectorAll('.tab')[0].classList.add('active');
@@ -169,7 +197,6 @@ function renderSystemSelector() {
     const container = document.getElementById('systemSelector');
     let html = '';
     
-    // Crear opción para cada sistema que tenga flashcards
     const systemsWithCards = new Set(flashcards.map(c => c.system));
     
     SYSTEMS.forEach(system => {
@@ -205,7 +232,6 @@ function toggleSystem(systemId) {
         selectedSystems.add(systemId);
     }
     
-    // Actualizar UI usando data-attribute
     document.querySelectorAll('.system-option').forEach(elem => {
         const elemSystemId = elem.getAttribute('data-system-id');
         
@@ -227,12 +253,8 @@ function startStudySession() {
         return;
     }
     
-    // Filtrar flashcards por sistemas seleccionados
-    currentStudyCards = flashcards.filter(card => 
-        selectedSystems.has(card.system)
-    );
+    currentStudyCards = flashcards.filter(card => selectedSystems.has(card.system));
     
-    // Filtrar solo favoritas si está activado
     onlyFavorites = document.getElementById('onlyFavorites').checked;
     if (onlyFavorites) {
         currentStudyCards = currentStudyCards.filter(card => card.isFavorite);
@@ -242,10 +264,24 @@ function startStudySession() {
         }
     }
     
-    // MEZCLAR PRIMERO (antes de limitar cantidad para examen)
+    // NUEVO: Filtro "Revisar hoy" (Spaced Repetition)
+    const onlyDueToday = document.getElementById('onlyDueToday').checked;
+    if (onlyDueToday) {
+        const now = new Date();
+        currentStudyCards = currentStudyCards.filter(card => {
+            if (!card.repetition || !card.repetition.nextReview) return true; // Sin historial = incluir
+            const nextReview = new Date(card.repetition.nextReview);
+            return nextReview <= now;
+        });
+        
+        if (currentStudyCards.length === 0) {
+            alert('🎉 ¡No hay flashcards para revisar hoy!\n\nTodas están al día.');
+            return;
+        }
+    }
+    
     currentStudyCards = shuffle(currentStudyCards);
     
-    // Modo examen: limitar cantidad DESPUÉS de mezclar
     const examCheckbox = document.getElementById('examMode');
     if (examCheckbox && examCheckbox.checked) {
         const questionCount = parseInt(document.getElementById('examQuestionCount').value);
@@ -253,11 +289,8 @@ function startStudySession() {
             currentStudyCards = currentStudyCards.slice(0, questionCount);
         }
         
-        // Verificar que startExamMode esté disponible
         if (typeof startExamMode === 'function') {
             startExamMode();
-        } else {
-            console.error('startExamMode no está definida. Verifica que flashcards-features.js esté cargado.');
         }
     }
     
@@ -266,7 +299,6 @@ function startStudySession() {
         return;
     }
     
-    // Reiniciar estadísticas
     currentCardIndex = 0;
     sessionStats = {
         correct: 0,
@@ -276,11 +308,9 @@ function startStudySession() {
         system: Array.from(selectedSystems).join(', '),
         isExam: examCheckbox && examCheckbox.checked,
         isFavoritesOnly: onlyFavorites,
-        // NUEVO: Rastrear estadísticas por sistema individual
         systemStats: {}
     };
     
-    // Inicializar stats por sistema
     selectedSystems.forEach(sys => {
         sessionStats.systemStats[sys] = {
             correct: 0,
@@ -289,15 +319,12 @@ function startStudySession() {
         };
     });
     
-    // Mostrar sesión de estudio
     document.getElementById('studySelection').style.display = 'none';
     document.getElementById('studySession').style.display = 'block';
     
-    // Actualizar UI
     document.getElementById('totalSessionCards').textContent = currentStudyCards.length;
     document.getElementById('sessionSystem').textContent = sessionStats.system;
     
-    // Mostrar primera card
     showCurrentCard();
 }
 
@@ -305,13 +332,11 @@ function showCurrentCard() {
     const card = currentStudyCards[currentCardIndex];
     const container = document.getElementById('flashcardContainer');
     
-    // Actualizar progreso
     document.getElementById('currentCard').textContent = currentCardIndex + 1;
     const progress = ((currentCardIndex) / currentStudyCards.length) * 100;
     document.getElementById('progressBar').style.width = progress + '%';
     document.getElementById('progressPercent').textContent = Math.round(progress) + '%';
     
-    // Actualizar contadores
     document.getElementById('correctCount').textContent = sessionStats.correct;
     document.getElementById('incorrectCount').textContent = sessionStats.incorrect;
     
@@ -357,7 +382,6 @@ function renderSimpleFlashcard(card) {
     `;
 }
 
-// CORREGIDO: Opción múltiple con botón "Siguiente" en vez de auto-avanzar
 function renderMultipleChoiceCard(card) {
     const system = SYSTEMS.find(s => s.id === card.system);
     const favoriteIcon = card.isFavorite ? '⭐' : '☆';
@@ -386,7 +410,6 @@ function renderMultipleChoiceCard(card) {
             </div>
             <div class="choice-feedback" id="choiceFeedback"></div>
             
-            <!-- NUEVO: Botón siguiente (oculto inicialmente) -->
             <div style="text-align: center; margin-top: 20px;">
                 <button class="btn btn-primary" id="nextQuestionBtn" style="display: none; font-size: 16px; padding: 12px 30px;" onclick="nextCard()">
                     Siguiente Pregunta →
@@ -402,22 +425,35 @@ function flipCard() {
     document.getElementById('currentFlashcard').classList.toggle('flipped');
 }
 
-// CORREGIDO: Selección de opción múltiple con botón siguiente
+// FIX CRÍTICO: selectChoice ahora actualiza systemStats
 function selectChoice(selectedIndex) {
     const card = currentStudyCards[currentCardIndex];
     const options = document.querySelectorAll('.choice-option');
     const feedback = document.getElementById('choiceFeedback');
     const nextBtn = document.getElementById('nextQuestionBtn');
     
-    // Deshabilitar todas las opciones
     options.forEach(opt => opt.classList.add('disabled'));
     
-    // Marcar respuesta seleccionada
     const isCorrect = selectedIndex === card.correctIndex;
     
     if (isCorrect) {
         options[selectedIndex].classList.add('correct');
         sessionStats.correct++;
+        
+        // FIX: Actualizar systemStats
+        if (card && sessionStats.systemStats && sessionStats.systemStats[card.system]) {
+            sessionStats.systemStats[card.system].correct++;
+            sessionStats.systemStats[card.system].total++;
+        }
+        
+        // SPACED REPETITION: Actualizar revisión (calidad 4 = buena)
+        if (typeof updateSpacedRepetition === 'function') {
+            const originalCard = flashcards.find(c => c.id === card.id);
+            if (originalCard) {
+                updateSpacedRepetition(originalCard, 4);
+            }
+        }
+        
         feedback.className = 'choice-feedback correct show';
         feedback.innerHTML = `
             <strong>✅ ¡Correcto!</strong><br>
@@ -427,6 +463,21 @@ function selectChoice(selectedIndex) {
         options[selectedIndex].classList.add('incorrect');
         options[card.correctIndex].classList.add('correct');
         sessionStats.incorrect++;
+        
+        // FIX: Actualizar systemStats
+        if (card && sessionStats.systemStats && sessionStats.systemStats[card.system]) {
+            sessionStats.systemStats[card.system].incorrect++;
+            sessionStats.systemStats[card.system].total++;
+        }
+        
+        // SPACED REPETITION: Actualizar revisión (calidad 1 = olvidada)
+        if (typeof updateSpacedRepetition === 'function') {
+            const originalCard = flashcards.find(c => c.id === card.id);
+            if (originalCard) {
+                updateSpacedRepetition(originalCard, 1);
+            }
+        }
+        
         feedback.className = 'choice-feedback incorrect show';
         feedback.innerHTML = `
             <strong>❌ Incorrecto</strong><br>
@@ -435,22 +486,27 @@ function selectChoice(selectedIndex) {
         `;
     }
     
-    // Actualizar contadores
     document.getElementById('correctCount').textContent = sessionStats.correct;
     document.getElementById('incorrectCount').textContent = sessionStats.incorrect;
     
-    // NUEVO: Mostrar botón siguiente en lugar de avanzar automáticamente
     nextBtn.style.display = 'block';
 }
 
 function markCorrect() {
     sessionStats.correct++;
     
-    // Rastrear por sistema
     const card = currentStudyCards[currentCardIndex];
     if (card && sessionStats.systemStats && sessionStats.systemStats[card.system]) {
         sessionStats.systemStats[card.system].correct++;
         sessionStats.systemStats[card.system].total++;
+    }
+    
+    // SPACED REPETITION: Actualizar revisión (calidad 4 = buena)
+    if (typeof updateSpacedRepetition === 'function') {
+        const originalCard = flashcards.find(c => c.id === card.id);
+        if (originalCard) {
+            updateSpacedRepetition(originalCard, 4);
+        }
     }
     
     nextCard();
@@ -459,11 +515,18 @@ function markCorrect() {
 function markIncorrect() {
     sessionStats.incorrect++;
     
-    // Rastrear por sistema
     const card = currentStudyCards[currentCardIndex];
     if (card && sessionStats.systemStats && sessionStats.systemStats[card.system]) {
         sessionStats.systemStats[card.system].incorrect++;
         sessionStats.systemStats[card.system].total++;
+    }
+    
+    // SPACED REPETITION: Actualizar revisión (calidad 1 = olvidada)
+    if (typeof updateSpacedRepetition === 'function') {
+        const originalCard = flashcards.find(c => c.id === card.id);
+        if (originalCard) {
+            updateSpacedRepetition(originalCard, 1);
+        }
     }
     
     nextCard();
@@ -482,29 +545,42 @@ function nextCard() {
 function endStudySession() {
     sessionStats.ended = new Date().toISOString();
     
-    // Detener timer de examen si está activo
     if (examMode) {
         stopExamMode();
     }
     
-    // Guardar sesión en historial
+    const total = sessionStats.correct + sessionStats.incorrect;
+    const accuracy = total > 0 ? Math.round((sessionStats.correct / total) * 100) : 0;
+    
+    // SISTEMA XP: Calcular puntos ganados
+    const baseXP = sessionStats.correct * 10; // 10 XP por correcta
+    const bonusXP = sessionStats.incorrect * 2; // 2 XP por intentar
+    const accuracyBonus = accuracy >= 80 ? 50 : accuracy >= 60 ? 25 : 0;
+    const totalXP = baseXP + bonusXP + accuracyBonus;
+    
+    addXP(totalXP, `Sesión: ${sessionStats.correct} correctas`);
+    updateStudyStreak();
+    
     studySessions.push({
         ...sessionStats,
-        total: sessionStats.correct + sessionStats.incorrect,
-        accuracy: Math.round((sessionStats.correct / (sessionStats.correct + sessionStats.incorrect)) * 100)
+        total: total,
+        accuracy: accuracy,
+        xpEarned: totalXP
     });
     saveSessions();
     
-    // Mostrar resultados
     document.getElementById('studySession').style.display = 'none';
     document.getElementById('studyResults').style.display = 'block';
     
     document.getElementById('resultCorrect').textContent = sessionStats.correct;
     document.getElementById('resultIncorrect').textContent = sessionStats.incorrect;
-    
-    const total = sessionStats.correct + sessionStats.incorrect;
-    const accuracy = total > 0 ? Math.round((sessionStats.correct / total) * 100) : 0;
     document.getElementById('resultAccuracy').textContent = accuracy + '%';
+    
+    // Mostrar XP ganada
+    const xpDisplay = document.getElementById('resultXP');
+    if (xpDisplay) {
+        xpDisplay.textContent = `+${totalXP} XP`;
+    }
 }
 
 function resetStudy() {
@@ -536,6 +612,21 @@ function renderLibrary() {
     let html = '';
     filteredCards.forEach((card, index) => {
         const system = SYSTEMS.find(s => s.id === card.system);
+        
+        // Verificar si toca revisar hoy
+        let reviewBadge = '';
+        if (card.repetition && card.repetition.nextReview) {
+            const nextReview = new Date(card.repetition.nextReview);
+            const now = new Date();
+            const daysUntil = Math.ceil((nextReview - now) / (1000 * 60 * 60 * 24));
+            
+            if (daysUntil <= 0) {
+                reviewBadge = '<span class="tag" style="background: #ef4444; color: white;">📅 Revisar hoy</span>';
+            } else if (daysUntil <= 3) {
+                reviewBadge = `<span class="tag" style="background: #f59e0b; color: white;">📅 En ${daysUntil} día${daysUntil > 1 ? 's' : ''}</span>`;
+            }
+        }
+        
         html += `
             <div class="flashcard-card">
                 <div class="card-header">
@@ -547,6 +638,7 @@ function renderLibrary() {
                     <span class="card-meta-item">${getDifficultyEmoji(card.difficulty)} ${card.difficulty}</span>
                 </div>
                 <div class="card-tags">
+                    ${reviewBadge}
                     ${card.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
                 </div>
                 <div class="card-actions">
@@ -640,7 +732,6 @@ function editCard(index) {
         document.getElementById('typeMultiple').checked = true;
         document.getElementById('cardExplanation').value = card.explanation || '';
         
-        // Cargar opciones
         initializeOptionsContainer();
         card.options.forEach((opt, idx) => {
             const input = document.getElementById(`option${idx}`);
@@ -681,7 +772,6 @@ function toggleCardType() {
     }
 }
 
-// CORREGIDO: Inicializar contenedor de opciones
 function initializeOptionsContainer() {
     const container = document.getElementById('optionsListContainer');
     optionCount = 4;
@@ -705,7 +795,6 @@ function createOptionHTML(index) {
     `;
 }
 
-// CORREGIDO: Agregar opción
 function addOption() {
     if (optionCount >= 6) {
         alert('Máximo 6 opciones permitidas');
@@ -722,7 +811,6 @@ function addOption() {
     optionCount++;
 }
 
-// CORREGIDO: Eliminar opción funcional
 function removeOption(index) {
     if (optionCount <= 2) {
         alert('Debe haber al menos 2 opciones');
@@ -750,7 +838,6 @@ function saveCard(event) {
         difficulty: document.getElementById('cardDifficulty').value,
         tags: currentTags,
         createdAt: editId !== '' ? flashcards[editId].createdAt : new Date().toISOString(),
-        // Spaced repetition fields
         reviewCount: editId !== '' ? (flashcards[editId].reviewCount || 0) : 0,
         lastReviewed: editId !== '' ? flashcards[editId].lastReviewed : null,
         nextReview: editId !== '' ? (flashcards[editId].nextReview || new Date().toISOString()) : new Date().toISOString(),
@@ -762,7 +849,6 @@ function saveCard(event) {
     if (type === 'simple') {
         cardData.answer = document.getElementById('cardAnswer').value;
     } else {
-        // Recopilar opciones dinámicamente
         const options = [];
         let correctIndex = 0;
         
@@ -846,11 +932,302 @@ function renderTagsContainer() {
 }
 
 // ============================================
-// ESTADÍSTICAS
+// SISTEMA DE PUNTOS XP Y NIVELES
+// ============================================
+
+const LEVELS = [
+    { level: 1, name: 'Novato', minXP: 0, maxXP: 100, emoji: '🌱' },
+    { level: 2, name: 'Estudiante', minXP: 100, maxXP: 300, emoji: '📚' },
+    { level: 3, name: 'Practicante', minXP: 300, maxXP: 600, emoji: '👨‍⚕️' },
+    { level: 4, name: 'Residente', minXP: 600, maxXP: 1000, emoji: '🩺' },
+    { level: 5, name: 'Especialista', minXP: 1000, maxXP: 1500, emoji: '⚕️' },
+    { level: 6, name: 'Experto', minXP: 1500, maxXP: 2200, emoji: '🎓' },
+    { level: 7, name: 'Maestro', minXP: 2200, maxXP: 3000, emoji: '👑' },
+    { level: 8, name: 'Leyenda', minXP: 3000, maxXP: 5000, emoji: '🏆' },
+    { level: 9, name: 'Gurú Médico', minXP: 5000, maxXP: 10000, emoji: '🌟' },
+    { level: 10, name: 'Dios de la Medicina', minXP: 10000, maxXP: Infinity, emoji: '⚡' }
+];
+
+function addXP(points, reason = '') {
+    userProfile.xp += points;
+    
+    const previousLevel = userProfile.level;
+    updateLevel();
+    
+    if (userProfile.level > previousLevel) {
+        showLevelUpNotification(userProfile.level);
+    }
+    
+    saveProfile();
+    
+    if (reason) {
+        console.log(`+${points} XP: ${reason}`);
+    }
+}
+
+function updateLevel() {
+    for (let i = LEVELS.length - 1; i >= 0; i--) {
+        if (userProfile.xp >= LEVELS[i].minXP) {
+            userProfile.level = LEVELS[i].level;
+            userProfile.levelName = LEVELS[i].name;
+            userProfile.emoji = LEVELS[i].emoji;
+            return;
+        }
+    }
+}
+
+function getCurrentLevelInfo() {
+    const currentLevelData = LEVELS.find(l => l.level === userProfile.level);
+    const nextLevelData = LEVELS.find(l => l.level === userProfile.level + 1);
+    
+    if (!currentLevelData) return null;
+    
+    const progressInLevel = userProfile.xp - currentLevelData.minXP;
+    const totalNeededForLevel = currentLevelData.maxXP - currentLevelData.minXP;
+    const progressPercent = (progressInLevel / totalNeededForLevel) * 100;
+    
+    return {
+        current: currentLevelData,
+        next: nextLevelData,
+        progressInLevel,
+        totalNeededForLevel,
+        progressPercent: Math.min(progressPercent, 100),
+        xpToNextLevel: nextLevelData ? (nextLevelData.minXP - userProfile.xp) : 0
+    };
+}
+
+function updateLevelDisplay() {
+    const levelInfo = getCurrentLevelInfo();
+    if (!levelInfo) return;
+    
+    const levelBadge = document.getElementById('userLevelBadge');
+    if (levelBadge) {
+        levelBadge.innerHTML = `
+            ${levelInfo.current.emoji} Nivel ${userProfile.level}: ${userProfile.levelName}
+            <span style="font-size: 11px; opacity: 0.8; margin-left: 5px;">${userProfile.xp} XP</span>
+        `;
+    }
+}
+
+function showLevelUpNotification(newLevel) {
+    const levelData = LEVELS.find(l => l.level === newLevel);
+    
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+        color: white;
+        padding: 40px 60px;
+        border-radius: 20px;
+        font-size: 24px;
+        font-weight: bold;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        z-index: 10002;
+        text-align: center;
+        animation: levelUpPulse 0.6s ease;
+    `;
+    
+    notification.innerHTML = `
+        <div style="font-size: 60px; margin-bottom: 15px;">${levelData.emoji}</div>
+        <div>¡NIVEL ${newLevel}!</div>
+        <div style="font-size: 18px; margin-top: 10px; opacity: 0.9;">${levelData.name}</div>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.style.animation = 'fadeOut 0.5s ease';
+        setTimeout(() => notification.remove(), 500);
+    }, 3000);
+}
+
+function updateStudyStreak() {
+    const today = new Date().toDateString();
+    const lastStudy = userProfile.lastStudyDate ? new Date(userProfile.lastStudyDate).toDateString() : null;
+    
+    if (lastStudy === today) {
+        return; // Ya estudió hoy
+    }
+    
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    const yesterdayStr = yesterday.toDateString();
+    
+    if (lastStudy === yesterdayStr) {
+        // Continúa la racha
+        userProfile.studyStreak++;
+        if (userProfile.studyStreak % 7 === 0) {
+            addXP(50, `🔥 ¡${userProfile.studyStreak} días de racha!`);
+        }
+    } else if (lastStudy !== today) {
+        // Se rompió la racha
+        userProfile.studyStreak = 1;
+    }
+    
+    userProfile.lastStudyDate = new Date().toISOString();
+    saveProfile();
+}
+
+// ============================================
+// GRÁFICO DE PROGRESO TEMPORAL
+// ============================================
+
+function renderProgressChart(days = 7) {
+    const canvas = document.getElementById('progressChart');
+    if (!canvas) return;
+    
+    const ctx = canvas.getContext('2d');
+    const width = canvas.width;
+    const height = canvas.height;
+    
+    ctx.clearRect(0, 0, width, height);
+    
+    const today = new Date();
+    const dataPoints = [];
+    
+    for (let i = days - 1; i >= 0; i--) {
+        const date = new Date(today);
+        date.setDate(date.getDate() - i);
+        date.setHours(0, 0, 0, 0);
+        
+        const nextDate = new Date(date);
+        nextDate.setDate(nextDate.getDate() + 1);
+        
+        const daySessions = studySessions.filter(s => {
+            const sessionDate = new Date(s.started);
+            return sessionDate >= date && sessionDate < nextDate;
+        });
+        
+        const totalQuestions = daySessions.reduce((sum, s) => sum + s.total, 0);
+        const totalCorrect = daySessions.reduce((sum, s) => sum + s.correct, 0);
+        const accuracy = totalQuestions > 0 ? (totalCorrect / totalQuestions) * 100 : null;
+        
+        dataPoints.push({
+            date: date,
+            dateStr: date.toLocaleDateString('es-ES', { day: 'numeric', month: 'short' }),
+            accuracy: accuracy,
+            sessions: daySessions.length,
+            questions: totalQuestions
+        });
+    }
+    
+    if (dataPoints.every(d => d.accuracy === null)) {
+        ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--text-tertiary') || '#9ca3af';
+        ctx.font = '16px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('No hay datos en este período', width / 2, height / 2);
+        document.getElementById('chartLegend').innerHTML = '<em>Completa sesiones de estudio para ver tu progreso</em>';
+        return;
+    }
+    
+    const padding = 50;
+    const graphWidth = width - padding * 2;
+    const graphHeight = height - padding * 2;
+    const maxY = 100;
+    
+    ctx.strokeStyle = getComputedStyle(document.body).getPropertyValue('--border-color') || '#e5e7eb';
+    ctx.lineWidth = 2;
+    
+    ctx.beginPath();
+    ctx.moveTo(padding, padding);
+    ctx.lineTo(padding, height - padding);
+    ctx.stroke();
+    
+    ctx.beginPath();
+    ctx.moveTo(padding, height - padding);
+    ctx.lineTo(width - padding, height - padding);
+    ctx.stroke();
+    
+    ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--text-secondary') || '#6b7280';
+    ctx.font = '12px sans-serif';
+    ctx.textAlign = 'right';
+    
+    for (let i = 0; i <= 5; i++) {
+        const y = height - padding - (graphHeight * i / 5);
+        const value = (maxY * i / 5).toFixed(0);
+        ctx.fillText(value + '%', padding - 10, y + 4);
+        
+        ctx.strokeStyle = getComputedStyle(document.body).getPropertyValue('--bg-tertiary') || '#f3f4f6';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(padding, y);
+        ctx.lineTo(width - padding, y);
+        ctx.stroke();
+    }
+    
+    ctx.strokeStyle = getComputedStyle(document.body).getPropertyValue('--primary') || '#667eea';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    
+    let firstPoint = true;
+    dataPoints.forEach((point, index) => {
+        if (point.accuracy !== null) {
+            const x = padding + (graphWidth * index / (dataPoints.length - 1));
+            const y = height - padding - (graphHeight * point.accuracy / maxY);
+            
+            if (firstPoint) {
+                ctx.moveTo(x, y);
+                firstPoint = false;
+            } else {
+                ctx.lineTo(x, y);
+            }
+        }
+    });
+    ctx.stroke();
+    
+    ctx.textAlign = 'center';
+    dataPoints.forEach((point, index) => {
+        const x = padding + (graphWidth * index / (dataPoints.length - 1));
+        
+        if (days <= 7 || index % Math.ceil(days / 7) === 0 || index === dataPoints.length - 1) {
+            ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--text-secondary') || '#6b7280';
+            ctx.fillText(point.dateStr, x, height - padding + 20);
+        }
+        
+        if (point.accuracy !== null) {
+            const y = height - padding - (graphHeight * point.accuracy / maxY);
+            
+            ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--primary') || '#667eea';
+            ctx.beginPath();
+            ctx.arc(x, y, 5, 0, Math.PI * 2);
+            ctx.fill();
+            
+            ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--text-primary') || '#1f2937';
+            ctx.font = 'bold 12px sans-serif';
+            ctx.fillText(point.accuracy.toFixed(0) + '%', x, y - 10);
+        }
+    });
+    
+    const totalSessions = dataPoints.reduce((sum, d) => sum + d.sessions, 0);
+    const totalQuestions = dataPoints.reduce((sum, d) => sum + d.questions, 0);
+    const avgAccuracy = dataPoints.filter(d => d.accuracy !== null).reduce((sum, d, _, arr) => sum + d.accuracy / arr.length, 0);
+    
+    document.getElementById('chartLegend').innerHTML = `
+        <strong>Resumen ${days} días:</strong> 
+        ${totalSessions} sesiones • 
+        ${totalQuestions} preguntas • 
+        Promedio: ${avgAccuracy.toFixed(1)}%
+    `;
+}
+
+// ============================================
+// ESTADÍSTICAS - FIX CRÍTICO
 // ============================================
 
 function renderStats() {
     const content = document.getElementById('statsContent');
+    
+    // Renderizar gráfico de progreso (últimos 7 días por defecto)
+    renderProgressChart(7);
+    
+    // Renderizar heatmap de estudio
+    renderStudyHeatmap();
+    
+    // Actualizar display de XP y niveles
+    updateXPDisplay();
     
     if (studySessions.length === 0) {
         content.innerHTML = `
@@ -863,13 +1240,11 @@ function renderStats() {
         return;
     }
     
-    // Estadísticas globales
     const totalSessions = studySessions.length;
     const totalQuestions = studySessions.reduce((sum, s) => sum + s.total, 0);
     const totalCorrect = studySessions.reduce((sum, s) => sum + s.correct, 0);
     const avgAccuracy = Math.round((totalCorrect / totalQuestions) * 100);
     
-    // Sistema con más fallos
     const systemErrors = {};
     studySessions.forEach(session => {
         const systems = session.system.split(', ');
@@ -909,7 +1284,6 @@ function renderStats() {
         <div class="session-history">
     `;
     
-    // Mostrar últimas sesiones en orden inverso
     const recentSessions = [...studySessions].reverse();
     recentSessions.forEach(session => {
         const date = new Date(session.started);
@@ -939,26 +1313,24 @@ function renderStats() {
     
     html += `</div>`;
     
-    // Análisis por sistema
+    // FIX: Análisis por sistema usando systemStats
     html += `
         <h3 style="margin: 30px 0 15px 0;">Análisis por Sistema</h3>
         <div class="stats-grid">
     `;
     
     Object.keys(systemErrors).forEach(system => {
-        // CORREGIDO: Usar systemStats de cada sesión en vez de totales generales
         let systemCorrect = 0;
         let systemIncorrect = 0;
         
         studySessions.forEach(session => {
-            // Si la sesión tiene systemStats (nuevo formato), usarlos
+            // PRIORIZAR systemStats si existe (nuevo formato)
             if (session.systemStats && session.systemStats[system]) {
                 systemCorrect += session.systemStats[system].correct;
                 systemIncorrect += session.systemStats[system].incorrect;
             } 
-            // Si no, usar el método antiguo (menos preciso pero compatible)
+            // Fallback al método antiguo SOLO si no hay systemStats
             else if (session.system.includes(system)) {
-                // Método antiguo: dividir proporcionalmente
                 const systems = session.system.split(', ');
                 const proportion = 1 / systems.length;
                 systemCorrect += Math.round(session.correct * proportion);
@@ -984,6 +1356,8 @@ function renderStats() {
     html += `</div>`;
     
     content.innerHTML = html;
+    
+    renderSystemLevels();
 }
 
 // ============================================
@@ -1021,11 +1395,9 @@ function closeModal(modalId) {
 // ============================================
 
 function updateManagementTab() {
-    // Actualizar contadores de exportación
     document.getElementById('exportTotalCards').textContent = flashcards.length;
     document.getElementById('exportTotalSessions').textContent = studySessions.length;
     
-    // Calcular espacio usado
     const flashcardsSize = new Blob([JSON.stringify(flashcards)]).size;
     const sessionsSize = new Blob([JSON.stringify(studySessions)]).size;
     const totalSize = flashcardsSize + sessionsSize;
@@ -1036,7 +1408,6 @@ function updateManagementTab() {
     document.getElementById('storageUsed').textContent = 
         totalSize > 1024 * 1024 ? `${sizeMB} MB` : `${sizeKB} KB`;
     
-    // Última actualización
     if (flashcards.length > 0) {
         const lastCard = flashcards.reduce((latest, card) => {
             const cardDate = new Date(card.createdAt);
@@ -1049,10 +1420,105 @@ function updateManagementTab() {
     } else {
         document.getElementById('lastUpdate').textContent = 'Sin datos';
     }
+    
+    // Verificar estado de Service Worker
+    checkServiceWorkerStatus();
+}
+
+function checkServiceWorkerStatus() {
+    const offlineStatusEl = document.getElementById('offlineStatus');
+    const swStatusEl = document.getElementById('swStatus');
+    
+    if (!offlineStatusEl || !swStatusEl) return;
+    
+    // Estado de conectividad
+    if (navigator.onLine) {
+        offlineStatusEl.innerHTML = '✅ Online';
+        offlineStatusEl.style.color = '#10b981';
+    } else {
+        offlineStatusEl.innerHTML = '📵 Offline (Funcional)';
+        offlineStatusEl.style.color = '#ef4444';
+    }
+    
+    // Estado de Service Worker
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistration()
+            .then((registration) => {
+                if (registration) {
+                    if (registration.active) {
+                        swStatusEl.innerHTML = '✅ Activo y funcionando';
+                        swStatusEl.style.color = '#10b981';
+                        
+                        // Obtener tamaño del cache
+                        const messageChannel = new MessageChannel();
+                        messageChannel.port1.onmessage = (event) => {
+                            if (event.data.cacheSize) {
+                                swStatusEl.innerHTML = `✅ Activo (${event.data.cacheSize} archivos cacheados)`;
+                            }
+                        };
+                        registration.active.postMessage(
+                            { type: 'GET_CACHE_SIZE' },
+                            [messageChannel.port2]
+                        );
+                    } else if (registration.installing) {
+                        swStatusEl.innerHTML = '⏳ Instalando...';
+                        swStatusEl.style.color = '#f59e0b';
+                    } else {
+                        swStatusEl.innerHTML = '⚠️ Registrado pero inactivo';
+                        swStatusEl.style.color = '#f59e0b';
+                    }
+                } else {
+                    swStatusEl.innerHTML = '❌ No registrado';
+                    swStatusEl.style.color = '#ef4444';
+                }
+            })
+            .catch((error) => {
+                swStatusEl.innerHTML = '❌ Error al verificar';
+                swStatusEl.style.color = '#ef4444';
+                console.error('Error checking SW:', error);
+            });
+    } else {
+        swStatusEl.innerHTML = '❌ No soportado';
+        swStatusEl.style.color = '#ef4444';
+    }
+}
+
+function clearServiceWorkerCache() {
+    if (!confirm('¿Limpiar el cache del Service Worker?\n\nEsto eliminará los archivos offline temporales pero NO tus flashcards.')) {
+        return;
+    }
+    
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistration()
+            .then((registration) => {
+                if (registration && registration.active) {
+                    const messageChannel = new MessageChannel();
+                    messageChannel.port1.onmessage = (event) => {
+                        if (event.data.success) {
+                            alert('✅ Cache limpiado correctamente\n\nLa app volverá a cachear archivos automáticamente.');
+                            checkServiceWorkerStatus();
+                        }
+                    };
+                    
+                    registration.active.postMessage(
+                        { type: 'CLEAR_CACHE' },
+                        [messageChannel.port2]
+                    );
+                } else {
+                    alert('❌ Service Worker no está activo');
+                }
+            })
+            .catch((error) => {
+                alert('❌ Error al limpiar cache:\n\n' + error.message);
+                console.error('Error clearing cache:', error);
+            });
+    } else {
+        alert('❌ Service Worker no soportado en este navegador');
+    }
 }
 
 // ============================================
-// IMPORTAR/EXPORTAR MEJORADO
+// IMPORTAR/EXPORTAR
 // ============================================
 
 function executeImport() {
@@ -1104,15 +1570,14 @@ function executeImport() {
                 return;
             }
             
-            // Ejecutar importación según modo
             switch(mode) {
                 case 'merge':
                     data.flashcards.forEach(newCard => {
                         const existingIndex = flashcards.findIndex(c => c.id === newCard.id);
                         if (existingIndex >= 0) {
-                            flashcards[existingIndex] = newCard; // Actualizar
+                            flashcards[existingIndex] = newCard;
                         } else {
-                            flashcards.push(newCard); // Agregar nueva
+                            flashcards.push(newCard);
                         }
                     });
                     break;
@@ -1134,13 +1599,11 @@ function executeImport() {
                     break;
             }
             
-            // Importar sesiones si está marcado
             if (includeSessions && data.sessions && Array.isArray(data.sessions)) {
                 if (mode === 'replace') {
                     studySessions = [...data.sessions];
                 } else {
                     studySessions.push(...data.sessions);
-                    // Mantener solo últimas 20
                     if (studySessions.length > 20) {
                         studySessions = studySessions.slice(-20);
                     }
@@ -1153,7 +1616,6 @@ function executeImport() {
             renderSystemSelector();
             renderStats();
             
-            // Limpiar input
             fileInput.value = '';
             
             alert(`✅ Importación exitosa!\n\n${flashcards.length} flashcards totales en el sistema`);
@@ -1171,21 +1633,18 @@ function executeExport() {
     const includeS = document.getElementById('exportWithSessions').checked;
     const includeStats = document.getElementById('exportWithStats').checked;
     
-    // Preparar datos para exportar
     const exportData = {
-        version: '2.0',
+        version: '2.2',
         exportDate: new Date().toISOString(),
         totalCards: flashcards.length,
         source: 'Flashcards Médicas - Exportación Completa',
         flashcards: flashcards
     };
     
-    // Agregar sesiones si está marcado
     if (includeS) {
         exportData.sessions = studySessions;
     }
     
-    // Agregar estadísticas si está marcado
     if (includeStats) {
         const totalQuestions = studySessions.reduce((sum, s) => sum + s.total, 0);
         const totalCorrect = studySessions.reduce((sum, s) => sum + s.correct, 0);
@@ -1201,7 +1660,6 @@ function executeExport() {
         };
     }
     
-    // Crear y descargar archivo
     const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -1280,10 +1738,6 @@ function clearAllData() {
     }
 }
 
-// ============================================
-// IMPORTAR/EXPORTAR (FUNCIONES ANTIGUAS SIMPLIFICADAS)
-// ============================================
-
 function exportData() {
     executeExport();
 }
@@ -1293,53 +1747,45 @@ function showImportModal() {
 }
 
 function importData() {
-    // Esta función ya no se usa, redirige a la nueva
     executeImport();
 }
 
 // ============================================
-// FUNCIÓN TOGGLE FAVORITE EN SESIÓN
+// TOGGLE FAVORITE EN SESIÓN
 // ============================================
 
 function toggleFavoriteInSession() {
     const card = currentStudyCards[currentCardIndex];
     if (!card) return;
     
-    // Encontrar la card original en el array de flashcards
     const originalCard = flashcards.find(c => c.id === card.id);
     if (originalCard) {
         originalCard.isFavorite = !originalCard.isFavorite;
-        // También actualizar en currentStudyCards
         card.isFavorite = originalCard.isFavorite;
         saveData();
-        
-        // Volver a renderizar la card actual para mostrar el cambio
         showCurrentCard();
     }
 }
 
 // ============================================
-// FUNCIONES DE MODO EXAMEN (FALLBACK)
+// MODO EXAMEN (FALLBACK)
 // ============================================
 
-// Si flashcards-features.js no se carga, usar estas versiones
 if (typeof startExamMode === 'undefined') {
     function startExamMode() {
         const timeLimit = parseInt(document.getElementById('examTimeLimit').value);
         if (!timeLimit || timeLimit <= 0) return;
         
         examMode = true;
-        examTimeLimit = timeLimit * 60; // Convertir a segundos
+        examTimeLimit = timeLimit * 60;
         examStartTime = Date.now();
         
-        // Crear timer en pantalla
         const timerDiv = document.createElement('div');
         timerDiv.id = 'examTimer';
         timerDiv.className = 'exam-timer';
         timerDiv.textContent = formatTime(examTimeLimit);
         document.body.appendChild(timerDiv);
         
-        // Iniciar countdown
         examTimerInterval = setInterval(updateExamTimer, 1000);
     }
     
@@ -1358,7 +1804,6 @@ if (typeof startExamMode === 'undefined') {
         
         timerDiv.textContent = formatTime(remaining);
         
-        // Cambiar colores según tiempo restante
         timerDiv.style.background = remaining > 300 ? '#10b981' : 
                                      remaining > 60 ? '#f59e0b' : '#ef4444';
         
@@ -1386,4 +1831,287 @@ if (typeof startExamMode === 'undefined') {
         const secs = seconds % 60;
         return `${mins}:${secs.toString().padStart(2, '0')}`;
     }
+}
+
+// ============================================
+// SERVICE WORKER Y MODO OFFLINE
+// ============================================
+
+function registerServiceWorker() {
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./sw.js')
+            .then((registration) => {
+                console.log('✅ Service Worker registrado:', registration.scope);
+                
+                // Escuchar actualizaciones
+                registration.addEventListener('updatefound', () => {
+                    const newWorker = registration.installing;
+                    newWorker.addEventListener('statechange', () => {
+                        if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                            // Hay una nueva versión disponible
+                            showUpdateNotification();
+                        }
+                    });
+                });
+            })
+            .catch((error) => {
+                console.error('❌ Error al registrar Service Worker:', error);
+            });
+        
+        // Escuchar mensajes del Service Worker
+        navigator.serviceWorker.addEventListener('message', (event) => {
+            if (event.data.type === 'SYNC_COMPLETE') {
+                showNotification('✅ Datos sincronizados', 'success');
+            }
+        });
+    }
+}
+
+function setupConnectivityListener() {
+    // Crear indicador de estado
+    const indicator = document.createElement('div');
+    indicator.id = 'connectivity-indicator';
+    indicator.style.cssText = `
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        padding: 12px 20px;
+        border-radius: 25px;
+        font-size: 14px;
+        font-weight: 600;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        z-index: 1000;
+        transition: all 0.3s ease;
+        display: none;
+    `;
+    document.body.appendChild(indicator);
+    
+    function updateConnectivityStatus() {
+        const isOnline = navigator.onLine;
+        
+        if (isOnline) {
+            indicator.style.background = '#10b981';
+            indicator.style.color = 'white';
+            indicator.textContent = '🌐 Online';
+            indicator.style.display = 'block';
+            
+            // Ocultar después de 3 segundos
+            setTimeout(() => {
+                indicator.style.display = 'none';
+            }, 3000);
+            
+            // Intentar sincronizar
+            if ('serviceWorker' in navigator && 'sync' in navigator.serviceWorker) {
+                navigator.serviceWorker.ready.then((registration) => {
+                    return registration.sync.register('sync-flashcards');
+                }).catch((error) => {
+                    console.log('Background sync no disponible:', error);
+                });
+            }
+        } else {
+            indicator.style.background = '#ef4444';
+            indicator.style.color = 'white';
+            indicator.textContent = '📵 Modo Offline';
+            indicator.style.display = 'block';
+        }
+    }
+    
+    // Mostrar estado inicial si está offline
+    if (!navigator.onLine) {
+        updateConnectivityStatus();
+    }
+    
+    // Escuchar cambios de conectividad
+    window.addEventListener('online', updateConnectivityStatus);
+    window.addEventListener('offline', updateConnectivityStatus);
+}
+
+function showUpdateNotification() {
+    const updateBanner = document.createElement('div');
+    updateBanner.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 15px 20px;
+        text-align: center;
+        z-index: 10000;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    `;
+    
+    updateBanner.innerHTML = `
+        <div style="max-width: 800px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+            <span>🎉 <strong>Nueva versión disponible!</strong> Actualiza para obtener las últimas mejoras.</span>
+            <div style="display: flex; gap: 10px;">
+                <button onclick="updateApp()" style="background: white; color: #667eea; border: none; padding: 8px 20px; border-radius: 6px; font-weight: 600; cursor: pointer;">
+                    Actualizar Ahora
+                </button>
+                <button onclick="this.parentElement.parentElement.parentElement.remove()" style="background: rgba(255,255,255,0.2); color: white; border: none; padding: 8px 20px; border-radius: 6px; cursor: pointer;">
+                    Más Tarde
+                </button>
+            </div>
+        </div>
+    `;
+    
+    document.body.insertBefore(updateBanner, document.body.firstChild);
+}
+
+function updateApp() {
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistration().then((registration) => {
+            if (registration && registration.waiting) {
+                registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+                window.location.reload();
+            }
+        });
+    }
+}
+
+function showNotification(message, type = 'info') {
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 15px 25px;
+        border-radius: 10px;
+        font-size: 14px;
+        font-weight: 600;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        z-index: 10001;
+        animation: slideIn 0.3s ease;
+    `;
+    
+    const colors = {
+        success: { bg: '#10b981', text: 'white' },
+        error: { bg: '#ef4444', text: 'white' },
+        info: { bg: '#3b82f6', text: 'white' }
+    };
+    
+    const color = colors[type] || colors.info;
+    notification.style.background = color.bg;
+    notification.style.color = color.text;
+    notification.textContent = message;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.style.animation = 'slideOut 0.3s ease';
+        setTimeout(() => notification.remove(), 300);
+    }, 3000);
+}
+
+// Agregar animaciones
+if (!document.getElementById('notification-animations')) {
+    const style = document.createElement('style');
+    style.id = 'notification-animations';
+    style.textContent = `
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+        }
+    `;
+    document.head.appendChild(style);
+}
+
+// ============================================
+// HEATMAP DE ESTUDIO
+// ============================================
+
+function renderStudyHeatmap() {
+    const container = document.getElementById('studyHeatmap');
+    if (!container) return;
+    
+    const days = 90;
+    const cellSize = 12;
+    const cellGap = 3;
+    const today = new Date();
+    
+    // Preparar datos
+    const heatmapData = {};
+    for (let i = days - 1; i >= 0; i--) {
+        const date = new Date(today);
+        date.setDate(date.getDate() - i);
+        const dateStr = date.toISOString().split('T')[0];
+        
+        const daySessions = studySessions.filter(s => {
+            const sessionDate = new Date(s.started).toISOString().split('T')[0];
+            return sessionDate === dateStr;
+        });
+        
+        const total = daySessions.reduce((sum, s) => sum + s.total, 0);
+        heatmapData[dateStr] = total;
+    }
+    
+    // Determinar intensidad
+    const maxQuestions = Math.max(...Object.values(heatmapData), 1);
+    
+    // Generar HTML del heatmap
+    let html = '<div style="display: flex; gap: 3px;">';
+    
+    // Agrupar por semanas
+    const startDate = new Date(today);
+    startDate.setDate(startDate.getDate() - days + 1);
+    
+    let currentWeek = [];
+    let weekHtml = '';
+    
+    for (let i = 0; i < days; i++) {
+        const date = new Date(startDate);
+        date.setDate(date.getDate() + i);
+        const dateStr = date.toISOString().split('T')[0];
+        const count = heatmapData[dateStr] || 0;
+        
+        const intensity = count === 0 ? 0 : Math.ceil((count / maxQuestions) * 4);
+        const colors = ['#ebedf0', '#9be9a8', '#40c463', '#30a14e', '#216e39'];
+        const color = colors[intensity];
+        
+        const dayOfWeek = date.getDay();
+        
+        currentWeek.push(`
+            <div style="width: ${cellSize}px; height: ${cellSize}px; background: ${color}; border-radius: 2px;" 
+                 title="${date.toLocaleDateString('es-ES')}: ${count} preguntas">
+            </div>
+        `);
+        
+        if (dayOfWeek === 6 || i === days - 1) {
+            weekHtml += `<div style="display: flex; flex-direction: column; gap: ${cellGap}px;">${currentWeek.join('')}</div>`;
+            currentWeek = [];
+        }
+    }
+    
+    html += weekHtml + '</div>';
+    container.innerHTML = html;
+}
+
+function updateXPDisplay() {
+    const levelInfo = getCurrentLevelInfo();
+    if (!levelInfo) return;
+    
+    document.getElementById('levelEmoji').textContent = levelInfo.current.emoji;
+    document.getElementById('levelNumber').textContent = `Nivel ${userProfile.level}`;
+    document.getElementById('levelTitle').textContent = userProfile.levelName;
+    document.getElementById('currentXP').textContent = `${userProfile.xp} XP`;
+    document.getElementById('nextLevelXP').textContent = levelInfo.next ? `${levelInfo.next.minXP} XP` : 'MAX';
+    document.getElementById('xpProgressBar').style.width = `${levelInfo.progressPercent}%`;
+    document.getElementById('streakCount').textContent = userProfile.studyStreak;
+    document.getElementById('totalXP').textContent = userProfile.xp;
 }
