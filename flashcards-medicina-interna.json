@@ -1,1277 +1,1553 @@
 {
-  "version": "2.0",
-  "exportDate": "2025-01-19T13:00:00.000Z",
-  "totalCards": 150,
-  "source": "Guía de Estudio - Medicina Interna (Completa)",
+  "version": "2.2",
+  "exportDate": "2026-01-25T05:20:14.557Z",
+  "totalCards": 82,
+  "source": "Flashcards Médicas - Exportación Completa",
   "flashcards": [
     {
       "id": "mi_001",
       "type": "multiple",
       "question": "Paciente con asma que presenta síntomas diurnos 3 veces/semana, síntomas nocturnos 2 veces/mes y uso de salbutamol 4 veces/semana. ¿Qué clasificación de control tiene?",
+      "system": "Respiratorio",
+      "difficulty": "medio",
+      "tags": [
+        "asma",
+        "clasificación",
+        "control"
+      ],
+      "createdAt": "2025-01-19T12:00:00.000Z",
       "options": [
         "Asma controlada",
         "Asma parcialmente controlada",
         "Asma no controlada",
         "Asma intermitente"
       ],
-      "correctOption": 1,
+      "correctIndex": 1,
       "explanation": "Asma PARCIALMENTE CONTROLADA tiene 1-2 criterios presentes. En este caso: síntomas >2/semana y uso rescate >2/semana (2 criterios). Si fueran ≥3 criterios sería no controlada.",
-      "system": "Respiratorio",
-      "difficulty": "medio",
-      "tags": ["asma", "clasificación", "control"],
-      "createdAt": "2025-01-19T12:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "repetition": {
+        "easeFactor": 2.5,
+        "interval": 15,
+        "repetitions": 3,
+        "nextReview": "2026-02-09T05:17:39.938Z",
+        "lastReviewed": "2026-01-25T05:17:39.938Z"
+      }
     },
     {
       "id": "mi_002",
       "type": "simple",
       "question": "¿Cuáles son los valores espirométricos que confirman el diagnóstico de asma?",
-      "answer": "VEF1/CVF <70%, VEF1 <80% del predicho, y REVERSIBILIDAD >12% Y >200ml post-broncodilatador. La reversibilidad es clave para diferenciar de EPOC.",
       "system": "Respiratorio",
       "difficulty": "medio",
-      "tags": ["asma", "espirometría", "diagnóstico"],
+      "tags": [
+        "asma",
+        "espirometría",
+        "diagnóstico"
+      ],
       "createdAt": "2025-01-19T12:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "answer": "VEF1/CVF <70%, VEF1 <80% del predicho, y REVERSIBILIDAD >12% Y >200ml post-broncodilatador. La reversibilidad es clave para diferenciar de EPOC.",
+      "repetition": {
+        "easeFactor": 2.5,
+        "interval": 15,
+        "repetitions": 3,
+        "nextReview": "2026-02-09T05:17:30.771Z",
+        "lastReviewed": "2026-01-25T05:17:30.771Z"
+      }
     },
     {
       "id": "mi_003",
       "type": "multiple",
       "question": "¿Cuál es el tratamiento de primera línea para asma persistente leve (Escalón 2)?",
+      "system": "Respiratorio",
+      "difficulty": "facil",
+      "tags": [
+        "asma",
+        "tratamiento",
+        "corticoides"
+      ],
+      "createdAt": "2025-01-19T12:00:00.000Z",
       "options": [
         "Solo SABA a demanda",
         "Corticoide inhalado dosis baja",
         "CI dosis baja + LABA",
         "Corticoides orales"
       ],
-      "correctOption": 1,
+      "correctIndex": 1,
       "explanation": "Escalón 2 (persistente leve): CI dosis baja (Budesonida 200-400 mcg/día o Beclometasona 200-500 mcg/día). Alternativa: Antileucotrienos (Montelukast 10mg/día).",
-      "system": "Respiratorio",
-      "difficulty": "facil",
-      "tags": ["asma", "tratamiento", "corticoides"],
-      "createdAt": "2025-01-19T12:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "repetition": {
+        "easeFactor": 2.5,
+        "interval": 15,
+        "repetitions": 3,
+        "nextReview": "2026-02-09T05:17:27.153Z",
+        "lastReviewed": "2026-01-25T05:17:27.153Z"
+      }
     },
     {
       "id": "mi_004",
       "type": "simple",
       "question": "¿Cuál es el manejo inicial de una crisis asmática severa?",
-      "answer": "SABA nebulizado (Salbutamol 2.5-5mg c/20min x 3 dosis) + Oxígeno para SatO2 >90% + Corticoides sistémicos (Metilprednisolona 40-80mg IV o Prednisona 40-60mg VO). Si severa: añadir Bromuro de ipratropio + Sulfato de magnesio 2g IV.",
       "system": "Respiratorio",
       "difficulty": "medio",
-      "tags": ["asma", "crisis", "emergencias", "tratamiento"],
+      "tags": [
+        "asma",
+        "crisis",
+        "emergencias",
+        "tratamiento"
+      ],
       "createdAt": "2025-01-19T12:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "answer": "SABA nebulizado (Salbutamol 2.5-5mg c/20min x 3 dosis) + Oxígeno para SatO2 >90% + Corticoides sistémicos (Metilprednisolona 40-80mg IV o Prednisona 40-60mg VO). Si severa: añadir Bromuro de ipratropio + Sulfato de magnesio 2g IV.",
+      "repetition": {
+        "easeFactor": 2.5,
+        "interval": 15,
+        "repetitions": 3,
+        "nextReview": "2026-02-09T05:17:43.129Z",
+        "lastReviewed": "2026-01-25T05:17:43.129Z"
+      }
     },
     {
       "id": "mi_005",
       "type": "simple",
       "question": "¿Cuál es el esquema RIPE para tuberculosis pulmonar y su duración?",
-      "answer": "FASE INTENSIVA (2 meses): Rifampicina 10mg/kg/día + Isoniazida 5mg/kg/día + Pirazinamida 25mg/kg/día + Etambutol 15mg/kg/día. FASE CONTINUACIÓN (4 meses): Rifampicina + Isoniazida. Duración total: 6 meses. Siempre añadir Piridoxina 25-50mg/día con Isoniazida.",
       "system": "Infeccioso",
       "difficulty": "medio",
-      "tags": ["tuberculosis", "tratamiento", "RIPE", "antibióticos"],
+      "tags": [
+        "tuberculosis",
+        "tratamiento",
+        "RIPE",
+        "antibióticos"
+      ],
       "createdAt": "2025-01-19T12:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "answer": "FASE INTENSIVA (2 meses): Rifampicina 10mg/kg/día + Isoniazida 5mg/kg/día + Pirazinamida 25mg/kg/día + Etambutol 15mg/kg/día. FASE CONTINUACIÓN (4 meses): Rifampicina + Isoniazida. Duración total: 6 meses. Siempre añadir Piridoxina 25-50mg/día con Isoniazida."
     },
     {
       "id": "mi_006",
       "type": "multiple",
       "question": "¿Cuál es el factor de riesgo MÁS importante para tuberculosis?",
+      "system": "Infeccioso",
+      "difficulty": "facil",
+      "tags": [
+        "tuberculosis",
+        "VIH",
+        "factores de riesgo"
+      ],
+      "createdAt": "2025-01-19T12:00:00.000Z",
       "options": [
         "Diabetes mellitus",
         "VIH/SIDA",
         "Tabaquismo",
         "Alcoholismo"
       ],
-      "correctOption": 1,
-      "explanation": "VIH/SIDA aumenta el riesgo x100. Es el factor de riesgo más importante. Otros importantes: inmunosupresión, diabetes, IRC, desnutrición, contacto con bacilífero, hacinamiento.",
-      "system": "Infeccioso",
-      "difficulty": "facil",
-      "tags": ["tuberculosis", "VIH", "factores de riesgo"],
-      "createdAt": "2025-01-19T12:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "correctIndex": 1,
+      "explanation": "VIH/SIDA aumenta el riesgo x100. Es el factor de riesgo más importante. Otros importantes: inmunosupresión, diabetes, IRC, desnutrición, contacto con bacilífero, hacinamiento."
     },
     {
       "id": "mi_007",
       "type": "multiple",
       "question": "Paciente con insuficiencia cardíaca FEVI 35%. ¿Cuál de estos medicamentos NO reduce mortalidad?",
+      "system": "Cardiovascular",
+      "difficulty": "medio",
+      "tags": [
+        "insuficiencia cardíaca",
+        "ICFEr",
+        "tratamiento",
+        "mortalidad"
+      ],
+      "createdAt": "2025-01-19T12:00:00.000Z",
       "options": [
         "Enalapril",
         "Carvedilol",
         "Espironolactona",
         "Furosemida"
       ],
-      "correctOption": 3,
-      "explanation": "FUROSEMIDA (diuréticos) controlan congestión pero NO reducen mortalidad. Los que SÍ reducen mortalidad en ICFEr: IECA/ARA-II, Betabloqueantes, ARM, INRA, iSGLT2.",
-      "system": "Cardiovascular",
-      "difficulty": "medio",
-      "tags": ["insuficiencia cardíaca", "ICFEr", "tratamiento", "mortalidad"],
-      "createdAt": "2025-01-19T12:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "correctIndex": 3,
+      "explanation": "FUROSEMIDA (diuréticos) controlan congestión pero NO reducen mortalidad. Los que SÍ reducen mortalidad en ICFEr: IECA/ARA-II, Betabloqueantes, ARM, INRA, iSGLT2."
     },
     {
       "id": "mi_008",
       "type": "simple",
       "question": "¿Cuáles son los 5 pilares terapéuticos con evidencia en reducción de mortalidad en ICFEr?",
-      "answer": "1) IECA o ARA-II, 2) Betabloqueantes, 3) ARM (Espironolactona/Eplerenona), 4) INRA (Sacubitrilo/Valsartán), 5) iSGLT2 (Dapagliflozina/Empagliflozina). Todos deben usarse en combinación salvo contraindicación.",
       "system": "Cardiovascular",
       "difficulty": "dificil",
-      "tags": ["insuficiencia cardíaca", "ICFEr", "tratamiento", "farmacología"],
+      "tags": [
+        "insuficiencia cardíaca",
+        "ICFEr",
+        "tratamiento",
+        "farmacología"
+      ],
       "createdAt": "2025-01-19T12:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "answer": "1) IECA o ARA-II, 2) Betabloqueantes, 3) ARM (Espironolactona/Eplerenona), 4) INRA (Sacubitrilo/Valsartán), 5) iSGLT2 (Dapagliflozina/Empagliflozina). Todos deben usarse en combinación salvo contraindicación."
     },
     {
       "id": "mi_009",
       "type": "multiple",
       "question": "Paciente con FA de 72h de evolución. Frecuencia 140 lpm, TA 110/70, asintomático. ¿Cuál es la conducta inicial?",
+      "system": "Cardiovascular",
+      "difficulty": "dificil",
+      "tags": [
+        "fibrilación auricular",
+        "cardioversión",
+        "anticoagulación"
+      ],
+      "createdAt": "2025-01-19T12:00:00.000Z",
       "options": [
         "Cardioversión eléctrica inmediata",
         "Control de frecuencia + anticoagulación",
         "Cardioversión farmacológica con flecainida",
         "Solo anticoagulación y observar"
       ],
-      "correctOption": 1,
-      "explanation": "FA >48h sin anticoagulación previa: NO cardiovertir (riesgo tromboembólico). Conducta: Control de FC (betabloqueantes/calcioantagonistas) + anticoagular x3 semanas antes de intentar cardioversión. Alternativa: ETE para descartar trombo.",
-      "system": "Cardiovascular",
-      "difficulty": "dificil",
-      "tags": ["fibrilación auricular", "cardioversión", "anticoagulación"],
-      "createdAt": "2025-01-19T12:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "correctIndex": 1,
+      "explanation": "FA >48h sin anticoagulación previa: NO cardiovertir (riesgo tromboembólico). Conducta: Control de FC (betabloqueantes/calcioantagonistas) + anticoagular x3 semanas antes de intentar cardioversión. Alternativa: ETE para descartar trombo."
     },
     {
       "id": "mi_010",
       "type": "simple",
       "question": "¿Cómo se calcula el CHA₂DS₂-VASc y qué indica?",
-      "answer": "C=ICC(1), H=HTA(1), A₂=Edad≥75(2), D=Diabetes(1), S₂=ACV/AIT previo(2), V=Enf.vascular(1), A=Edad 65-74(1), Sc=Sexo femenino(1). Score ≥2 hombres o ≥3 mujeres: ANTICOAGULAR. Score 1: considerar. Score 0: no anticoagular. Evalúa riesgo de ACV en FA.",
       "system": "Cardiovascular",
       "difficulty": "medio",
-      "tags": ["fibrilación auricular", "CHA2DS2-VASc", "anticoagulación", "ACV"],
+      "tags": [
+        "fibrilación auricular",
+        "CHA2DS2-VASc",
+        "anticoagulación",
+        "ACV"
+      ],
       "createdAt": "2025-01-19T12:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "answer": "C=ICC(1), H=HTA(1), A₂=Edad≥75(2), D=Diabetes(1), S₂=ACV/AIT previo(2), V=Enf.vascular(1), A=Edad 65-74(1), Sc=Sexo femenino(1). Score ≥2 hombres o ≥3 mujeres: ANTICOAGULAR. Score 1: considerar. Score 0: no anticoagular. Evalúa riesgo de ACV en FA."
     },
     {
       "id": "mi_011",
       "type": "multiple",
       "question": "¿Cuál es el anticoagulante de elección en FA no valvular?",
+      "system": "Cardiovascular",
+      "difficulty": "medio",
+      "tags": [
+        "fibrilación auricular",
+        "anticoagulación",
+        "DOAC",
+        "farmacología"
+      ],
+      "createdAt": "2025-01-19T12:00:00.000Z",
       "options": [
         "Warfarina",
         "Heparina",
         "DOAC (Apixabán, Rivaroxabán)",
         "Aspirina"
       ],
-      "correctOption": 2,
-      "explanation": "DOACs (anticoagulantes orales directos) son preferidos sobre warfarina en FA no valvular: Apixabán 5mg/12h, Rivaroxabán 20mg/día, Dabigatrán 150mg/12h. Ventajas: sin monitoreo, menos sangrado intracraneal, menos interacciones.",
-      "system": "Cardiovascular",
-      "difficulty": "medio",
-      "tags": ["fibrilación auricular", "anticoagulación", "DOAC", "farmacología"],
-      "createdAt": "2025-01-19T12:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "correctIndex": 2,
+      "explanation": "DOACs (anticoagulantes orales directos) son preferidos sobre warfarina en FA no valvular: Apixabán 5mg/12h, Rivaroxabán 20mg/día, Dabigatrán 150mg/12h. Ventajas: sin monitoreo, menos sangrado intracraneal, menos interacciones."
     },
     {
       "id": "mi_012",
       "type": "simple",
       "question": "¿Cuál es el manejo inicial de un IAMCEST con elevación de troponina a las 2h de evolución?",
-      "answer": "ASA 300mg VO masticado + Clopidogrel 300-600mg + HEPARINA. REPERFUSIÓN urgente: ICP primaria si disponible (puerta-balón <90min) o FIBRINÓLISIS (Tenecteplase o Estreptoquinasa) si no hay ICP. Morfina para dolor. Betabloqueante tras estabilizar. Nitratos si dolor o HTA (contraindicados en IMA inferior con VD).",
       "system": "Cardiovascular",
       "difficulty": "dificil",
-      "tags": ["IMA", "IAMCEST", "reperfusión", "emergencias"],
+      "tags": [
+        "IMA",
+        "IAMCEST",
+        "reperfusión",
+        "emergencias"
+      ],
       "createdAt": "2025-01-19T12:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "answer": "ASA 300mg VO masticado + Clopidogrel 300-600mg + HEPARINA. REPERFUSIÓN urgente: ICP primaria si disponible (puerta-balón <90min) o FIBRINÓLISIS (Tenecteplase o Estreptoquinasa) si no hay ICP. Morfina para dolor. Betabloqueante tras estabilizar. Nitratos si dolor o HTA (contraindicados en IMA inferior con VD)."
     },
     {
       "id": "mi_013",
       "type": "multiple",
       "question": "En IAMSEST, ¿cuál es el score pronóstico más utilizado?",
+      "system": "Cardiovascular",
+      "difficulty": "medio",
+      "tags": [
+        "IAMSEST",
+        "GRACE",
+        "estratificación",
+        "pronóstico"
+      ],
+      "createdAt": "2025-01-19T12:00:00.000Z",
       "options": [
         "CHA2DS2-VASc",
         "GRACE",
         "NYHA",
         "Wells"
       ],
-      "correctOption": 1,
-      "explanation": "GRACE score estratifica riesgo en IAMSEST: edad, FC, PAS, creatinina, clase Killip, paro cardíaco, elevación troponina, desviación ST. Score alto (>140): estrategia invasiva precoz (<24h). Score bajo: estrategia conservadora.",
-      "system": "Cardiovascular",
-      "difficulty": "medio",
-      "tags": ["IAMSEST", "GRACE", "estratificación", "pronóstico"],
-      "createdAt": "2025-01-19T12:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "correctIndex": 1,
+      "explanation": "GRACE score estratifica riesgo en IAMSEST: edad, FC, PAS, creatinina, clase Killip, paro cardíaco, elevación troponina, desviación ST. Score alto (>140): estrategia invasiva precoz (<24h). Score bajo: estrategia conservadora."
     },
     {
       "id": "mi_014",
       "type": "simple",
       "question": "¿Cuándo está indicado el uso de insulina en infarto agudo?",
-      "answer": "Glicemia >180 mg/dL persistente o >250 mg/dL en cualquier momento. Meta: 140-180 mg/dL. Evitar hipoglucemia. La hiperglucemia en IMA aumenta mortalidad, infarto más extenso y más complicaciones. Usar insulina IV en bolo + infusión continua.",
       "system": "Cardiovascular",
       "difficulty": "medio",
-      "tags": ["IMA", "hiperglucemia", "insulina", "complicaciones"],
+      "tags": [
+        "IMA",
+        "hiperglucemia",
+        "insulina",
+        "complicaciones"
+      ],
       "createdAt": "2025-01-19T12:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "answer": "Glicemia >180 mg/dL persistente o >250 mg/dL en cualquier momento. Meta: 140-180 mg/dL. Evitar hipoglucemia. La hiperglucemia en IMA aumenta mortalidad, infarto más extenso y más complicaciones. Usar insulina IV en bolo + infusión continua."
     },
     {
       "id": "mi_015",
       "type": "multiple",
       "question": "Paciente con HTA 180/110 mmHg + cefalea intensa + visión borrosa + papiledema. ¿Diagnóstico?",
+      "system": "Cardiovascular",
+      "difficulty": "medio",
+      "tags": [
+        "HTA",
+        "emergencia hipertensiva",
+        "encefalopatía",
+        "diagnóstico"
+      ],
+      "createdAt": "2025-01-19T12:00:00.000Z",
       "options": [
         "Urgencia hipertensiva",
         "Emergencia hipertensiva",
         "HTA estadio 2",
         "Encefalopatía vascular"
       ],
-      "correctOption": 1,
-      "explanation": "EMERGENCIA HIPERTENSIVA: PA elevada + DAÑO ÓRGANO DIANA (encefalopatía, papiledema, ACV, IMA, EPA, disección aórtica, eclampsia). Requiere reducción INMEDIATA de PA (10-20% en 1h) con fármacos IV. Urgencia = PA alta sin daño órgano.",
-      "system": "Cardiovascular",
-      "difficulty": "medio",
-      "tags": ["HTA", "emergencia hipertensiva", "encefalopatía", "diagnóstico"],
-      "createdAt": "2025-01-19T12:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "correctIndex": 1,
+      "explanation": "EMERGENCIA HIPERTENSIVA: PA elevada + DAÑO ÓRGANO DIANA (encefalopatía, papiledema, ACV, IMA, EPA, disección aórtica, eclampsia). Requiere reducción INMEDIATA de PA (10-20% en 1h) con fármacos IV. Urgencia = PA alta sin daño órgano."
     },
     {
       "id": "mi_016",
       "type": "simple",
       "question": "¿Cuál es el tratamiento de la emergencia hipertensiva?",
-      "answer": "Reducir PA 10-20% en PRIMERA HORA (no normalizar bruscamente). Fármacos IV: Labetalol 20mg bolo (titular), Nitroprusiato 0.25-10 mcg/kg/min, Nitroglicerina (si IMA/EPA), Nicardipino, Enalaprilato. Monitoreo continuo. Si eclampsia: Sulfato de magnesio + Hidralazina/Labetalol.",
       "system": "Cardiovascular",
       "difficulty": "dificil",
-      "tags": ["emergencia hipertensiva", "tratamiento", "antihipertensivos", "emergencias"],
+      "tags": [
+        "emergencia hipertensiva",
+        "tratamiento",
+        "antihipertensivos",
+        "emergencias"
+      ],
       "createdAt": "2025-01-19T12:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "answer": "Reducir PA 10-20% en PRIMERA HORA (no normalizar bruscamente). Fármacos IV: Labetalol 20mg bolo (titular), Nitroprusiato 0.25-10 mcg/kg/min, Nitroglicerina (si IMA/EPA), Nicardipino, Enalaprilato. Monitoreo continuo. Si eclampsia: Sulfato de magnesio + Hidralazina/Labetalol."
     },
     {
       "id": "mi_017",
       "type": "multiple",
       "question": "¿Cuál es la causa MÁS frecuente de cirrosis en países desarrollados?",
+      "system": "Gastrointestinal",
+      "difficulty": "medio",
+      "tags": [
+        "cirrosis",
+        "NASH",
+        "etiología",
+        "hígado"
+      ],
+      "createdAt": "2025-01-19T12:00:00.000Z",
       "options": [
         "Hepatitis B",
         "Hepatitis C",
         "Esteatohepatitis no alcohólica (NASH)",
         "Cirrosis alcohólica"
       ],
-      "correctOption": 2,
-      "explanation": "NASH (esteatohepatitis no alcohólica) es ahora la causa #1 en países desarrollados por epidemia de obesidad y síndrome metabólico. Antes: alcohol y VHC. VHC está disminuyendo por antivirales directos. VHB es causa #1 en Asia/África.",
-      "system": "Gastrointestinal",
-      "difficulty": "medio",
-      "tags": ["cirrosis", "NASH", "etiología", "hígado"],
-      "createdAt": "2025-01-19T12:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "correctIndex": 2,
+      "explanation": "NASH (esteatohepatitis no alcohólica) es ahora la causa #1 en países desarrollados por epidemia de obesidad y síndrome metabólico. Antes: alcohol y VHC. VHC está disminuyendo por antivirales directos. VHB es causa #1 en Asia/África."
     },
     {
       "id": "mi_018",
       "type": "simple",
       "question": "¿Cuáles son los criterios de Child-Pugh y qué significan?",
-      "answer": "5 variables (2 pts c/u): Bilirrubina, Albúmina, TP/INR, Ascitis, Encefalopatía. Score: A (5-6 pts) = compensada, sobrevida 1 año >95%. B (7-9 pts) = descompensada, sobrevida 80%. C (10-15 pts) = severa, sobrevida <50%, EVALUAR TRASPLANTE. Predice mortalidad y complicaciones.",
       "system": "Gastrointestinal",
       "difficulty": "medio",
-      "tags": ["cirrosis", "Child-Pugh", "pronóstico", "clasificación"],
+      "tags": [
+        "cirrosis",
+        "Child-Pugh",
+        "pronóstico",
+        "clasificación"
+      ],
       "createdAt": "2025-01-19T12:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "answer": "5 variables (2 pts c/u): Bilirrubina, Albúmina, TP/INR, Ascitis, Encefalopatía. Score: A (5-6 pts) = compensada, sobrevida 1 año >95%. B (7-9 pts) = descompensada, sobrevida 80%. C (10-15 pts) = severa, sobrevida <50%, EVALUAR TRASPLANTE. Predice mortalidad y complicaciones."
     },
     {
       "id": "mi_019",
       "type": "multiple",
       "question": "Paciente cirrótico con ascitis tensa. Paracentesis: GASA 1.8 g/dL, PMN 500/mm³. ¿Diagnóstico?",
+      "system": "Gastrointestinal",
+      "difficulty": "dificil",
+      "tags": [
+        "cirrosis",
+        "PBE",
+        "peritonitis",
+        "ascitis",
+        "diagnóstico"
+      ],
+      "createdAt": "2025-01-19T12:00:00.000Z",
       "options": [
         "Ascitis no complicada",
         "Peritonitis bacteriana espontánea (PBE)",
         "Ascitis maligna",
         "Ascitis pancreática"
       ],
-      "correctOption": 1,
-      "explanation": "PBE = PMN ≥250/mm³ en líquido ascítico + GASA ≥1.1 (hipertensión portal). TRATAMIENTO: Cefotaxima 2g IV/8h o Ceftriaxona 2g/día x 5 días. Albúmina IV si creatinina >1 o bilirrubina >4. Profilaxis secundaria: Norfloxacino 400mg/día.",
-      "system": "Gastrointestinal",
-      "difficulty": "dificil",
-      "tags": ["cirrosis", "PBE", "peritonitis", "ascitis", "diagnóstico"],
-      "createdAt": "2025-01-19T12:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "correctIndex": 1,
+      "explanation": "PBE = PMN ≥250/mm³ en líquido ascítico + GASA ≥1.1 (hipertensión portal). TRATAMIENTO: Cefotaxima 2g IV/8h o Ceftriaxona 2g/día x 5 días. Albúmina IV si creatinina >1 o bilirrubina >4. Profilaxis secundaria: Norfloxacino 400mg/día."
     },
     {
       "id": "mi_020",
       "type": "simple",
       "question": "¿Cuál es el manejo de las varices esofágicas en profilaxis primaria?",
-      "answer": "PROFILAXIS PRIMARIA (sin sangrado previo): Betabloqueantes NO selectivos (Propranolol 20-80mg/12h o Carvedilol 6.25-12.5mg/12h) para reducir FC 25% o ~55 lpm. Meta: ↓presión portal <12 mmHg. Alternativa: Ligadura endoscópica si varices grandes o intolerancia a betabloqueantes.",
       "system": "Gastrointestinal",
       "difficulty": "medio",
-      "tags": ["cirrosis", "varices esofágicas", "profilaxis", "hemorragia"],
+      "tags": [
+        "cirrosis",
+        "varices esofágicas",
+        "profilaxis",
+        "hemorragia"
+      ],
       "createdAt": "2025-01-19T12:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "answer": "PROFILAXIS PRIMARIA (sin sangrado previo): Betabloqueantes NO selectivos (Propranolol 20-80mg/12h o Carvedilol 6.25-12.5mg/12h) para reducir FC 25% o ~55 lpm. Meta: ↓presión portal <12 mmHg. Alternativa: Ligadura endoscópica si varices grandes o intolerancia a betabloqueantes."
     },
     {
       "id": "mi_021",
       "type": "multiple",
       "question": "En hemorragia digestiva alta variceal, ¿cuál es el manejo inicial?",
+      "system": "Gastrointestinal",
+      "difficulty": "dificil",
+      "tags": [
+        "HDA",
+        "varices",
+        "hemorragia",
+        "emergencias",
+        "tratamiento"
+      ],
+      "createdAt": "2025-01-19T12:00:00.000Z",
       "options": [
         "Endoscopia urgente sin preparación",
         "Reanimación + Antibiótico profiláctico + Octreotide + Endoscopia urgente",
         "Solo reanimación con sangre",
         "Cirugía inmediata"
       ],
-      "correctOption": 1,
-      "explanation": "HDA variceal: 1)Reanimación (2 vías, cristaloides, GRE meta Hb 7-9), 2)Antibiótico profiláctico (Ceftriaxona 1g/24h), 3)Octreotide/Terlipresina (vasoconstrictor esplácnico), 4)Endoscopia urgente <12h (ligadura o escleroterapia), 5)Bloqueador bomba de protones. Si falla: Sonda Sengstaken-Blakemore o TIPS.",
-      "system": "Gastrointestinal",
-      "difficulty": "dificil",
-      "tags": ["HDA", "varices", "hemorragia", "emergencias", "tratamiento"],
-      "createdAt": "2025-01-19T12:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "correctIndex": 1,
+      "explanation": "HDA variceal: 1)Reanimación (2 vías, cristaloides, GRE meta Hb 7-9), 2)Antibiótico profiláctico (Ceftriaxona 1g/24h), 3)Octreotide/Terlipresina (vasoconstrictor esplácnico), 4)Endoscopia urgente <12h (ligadura o escleroterapia), 5)Bloqueador bomba de protones. Si falla: Sonda Sengstaken-Blakemore o TIPS."
     },
     {
       "id": "mi_022",
       "type": "simple",
       "question": "¿Qué es el síndrome hepatorrenal y cómo se clasifica?",
-      "answer": "IRA en cirrótico sin otra causa (no hipovolemia, shock, nefrotóxicos). Fisiopatología: vasoconstricción renal + vasodilatación esplácnica. TIPO 1: rápidamente progresiva (<2 sem), Cr x2 >2.5 mg/dL, mal pronóstico. TIPO 2: lenta, asociada a ascitis refractaria. Tratamiento: Albúmina + Terlipresina o Midodrina+Octreotide. Definitivo: TRASPLANTE.",
       "system": "Gastrointestinal",
       "difficulty": "dificil",
-      "tags": ["cirrosis", "síndrome hepatorrenal", "IRA", "complicaciones"],
+      "tags": [
+        "cirrosis",
+        "síndrome hepatorrenal",
+        "IRA",
+        "complicaciones"
+      ],
       "createdAt": "2025-01-19T12:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "answer": "IRA en cirrótico sin otra causa (no hipovolemia, shock, nefrotóxicos). Fisiopatología: vasoconstricción renal + vasodilatación esplácnica. TIPO 1: rápidamente progresiva (<2 sem), Cr x2 >2.5 mg/dL, mal pronóstico. TIPO 2: lenta, asociada a ascitis refractaria. Tratamiento: Albúmina + Terlipresina o Midodrina+Octreotide. Definitivo: TRASPLANTE."
     },
     {
       "id": "mi_023",
       "type": "multiple",
       "question": "¿Cuál es el antibiótico de elección en peritonitis bacteriana espontánea (PBE)?",
+      "system": "Gastrointestinal",
+      "difficulty": "medio",
+      "tags": [
+        "PBE",
+        "antibióticos",
+        "cirrosis",
+        "tratamiento"
+      ],
+      "createdAt": "2025-01-19T12:00:00.000Z",
       "options": [
         "Amoxicilina-clavulánico",
         "Ciprofloxacino",
         "Cefotaxima o Ceftriaxona",
         "Metronidazol"
       ],
-      "correctOption": 2,
-      "explanation": "CEFOTAXIMA 2g IV/8h o CEFTRIAXONA 2g/24h x 5 días (cefalosporina 3ra generación). Cubre enterobacterias (E.coli, Klebsiella) y estreptococos. Añadir Albúmina IV 1.5g/kg día 1 y 1g/kg día 3 si Cr >1 o Bili >4 (previene IRA y ↓mortalidad).",
-      "system": "Gastrointestinal",
-      "difficulty": "medio",
-      "tags": ["PBE", "antibióticos", "cirrosis", "tratamiento"],
-      "createdAt": "2025-01-19T12:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "correctIndex": 2,
+      "explanation": "CEFOTAXIMA 2g IV/8h o CEFTRIAXONA 2g/24h x 5 días (cefalosporina 3ra generación). Cubre enterobacterias (E.coli, Klebsiella) y estreptococos. Añadir Albúmina IV 1.5g/kg día 1 y 1g/kg día 3 si Cr >1 o Bili >4 (previene IRA y ↓mortalidad)."
     },
     {
       "id": "mi_024",
       "type": "simple",
       "question": "¿Cuál es el manejo de la encefalopatía hepática?",
-      "answer": "1)LACTULOSA 15-30ml VO/8h (meta: 2-3 deposiciones blandas/día), acidifica colon y ↓absorción NH3. 2)RIFAXIMINA 550mg/12h (modifica flora intestinal). 3)Identificar y tratar factores precipitantes (HDA, infección, estreñimiento, hipocalemia, deshidratación, sedantes). 4)Dieta normoproteica (mito: NO restringir proteínas). 5)Zinc si deficiencia.",
       "system": "Gastrointestinal",
       "difficulty": "medio",
-      "tags": ["encefalopatía hepática", "cirrosis", "tratamiento", "lactulosa"],
+      "tags": [
+        "encefalopatía hepática",
+        "cirrosis",
+        "tratamiento",
+        "lactulosa"
+      ],
       "createdAt": "2025-01-19T12:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "answer": "1)LACTULOSA 15-30ml VO/8h (meta: 2-3 deposiciones blandas/día), acidifica colon y ↓absorción NH3. 2)RIFAXIMINA 550mg/12h (modifica flora intestinal). 3)Identificar y tratar factores precipitantes (HDA, infección, estreñimiento, hipocalemia, deshidratación, sedantes). 4)Dieta normoproteica (mito: NO restringir proteínas). 5)Zinc si deficiencia."
     },
     {
       "id": "mi_025",
       "type": "multiple",
       "question": "¿Cuál es el gold standard para diagnóstico de enfermedad celíaca?",
+      "system": "Gastrointestinal",
+      "difficulty": "medio",
+      "tags": [
+        "celiaquía",
+        "diagnóstico",
+        "biopsia",
+        "malabsorción"
+      ],
+      "createdAt": "2025-01-19T12:00:00.000Z",
       "options": [
         "Anticuerpos anti-transglutaminasa IgA",
         "Biopsia duodenal (atrofia vellositaria)",
         "HLA-DQ2/DQ8",
         "Test de D-xilosa"
       ],
-      "correctOption": 1,
-      "explanation": "BIOPSIA DUODENAL es gold standard: atrofia vellositaria + hiperplasia de criptas + linfocitosis intraepitelial (clasificación Marsh). Serología: Anti-tTG IgA (98% sensibilidad) + IgA total (descartar déficit). HLA-DQ2/DQ8 (+) en 99% pero NO diagnóstica (30% población general). Mejoría con dieta sin gluten confirma.",
-      "system": "Gastrointestinal",
-      "difficulty": "medio",
-      "tags": ["celiaquía", "diagnóstico", "biopsia", "malabsorción"],
-      "createdAt": "2025-01-19T12:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "correctIndex": 1,
+      "explanation": "BIOPSIA DUODENAL es gold standard: atrofia vellositaria + hiperplasia de criptas + linfocitosis intraepitelial (clasificación Marsh). Serología: Anti-tTG IgA (98% sensibilidad) + IgA total (descartar déficit). HLA-DQ2/DQ8 (+) en 99% pero NO diagnóstica (30% población general). Mejoría con dieta sin gluten confirma."
     },
     {
       "id": "mi_026",
       "type": "simple",
       "question": "¿Cuál es el tratamiento de la enfermedad inflamatoria intestinal (EII) en brote moderado-severo?",
-      "answer": "COLITIS ULCEROSA: Corticoides sistémicos (Prednisona 40-60mg/día o Metilprednisolona IV 40-60mg/8h) x 5-7 días, luego reducir. Si no responde: Anti-TNF (Infliximab) o ciclosporina IV. CROHN: igual + considerar nutrición enteral exclusiva. Mantenimiento: 5-ASA (mesalazina), azatioprina, anti-TNF. Cirugía si refractaria o complicaciones.",
       "system": "Gastrointestinal",
       "difficulty": "dificil",
-      "tags": ["EII", "Crohn", "colitis ulcerosa", "tratamiento", "corticoides"],
+      "tags": [
+        "EII",
+        "Crohn",
+        "colitis ulcerosa",
+        "tratamiento",
+        "corticoides"
+      ],
       "createdAt": "2025-01-19T12:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "answer": "COLITIS ULCEROSA: Corticoides sistémicos (Prednisona 40-60mg/día o Metilprednisolona IV 40-60mg/8h) x 5-7 días, luego reducir. Si no responde: Anti-TNF (Infliximab) o ciclosporina IV. CROHN: igual + considerar nutrición enteral exclusiva. Mantenimiento: 5-ASA (mesalazina), azatioprina, anti-TNF. Cirugía si refractaria o complicaciones."
     },
     {
       "id": "mi_027",
       "type": "multiple",
       "question": "¿Cuál es el examen inicial para estratificar riesgo en hemorragia digestiva alta?",
+      "system": "Gastrointestinal",
+      "difficulty": "medio",
+      "tags": [
+        "HDA",
+        "Glasgow-Blatchford",
+        "estratificación",
+        "hemorragia"
+      ],
+      "createdAt": "2025-01-19T12:00:00.000Z",
       "options": [
         "Hemoglobina",
         "Endoscopia",
         "Score de Glasgow-Blatchford",
         "Angiografía"
       ],
-      "correctOption": 2,
-      "explanation": "Score GLASGOW-BLATCHFORD (0-23 puntos): Urea, Hb, PAS, FC, melena, síncope, hepatopatía, IC. Score 0-1 = bajo riesgo, puede manejo ambulatorio. Score ≥6 = alto riesgo, requiere endoscopia urgente y hospitalización. Predice necesidad de intervención. Rockall score es post-endoscopia.",
-      "system": "Gastrointestinal",
-      "difficulty": "medio",
-      "tags": ["HDA", "Glasgow-Blatchford", "estratificación", "hemorragia"],
-      "createdAt": "2025-01-19T12:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "correctIndex": 2,
+      "explanation": "Score GLASGOW-BLATCHFORD (0-23 puntos): Urea, Hb, PAS, FC, melena, síncope, hepatopatía, IC. Score 0-1 = bajo riesgo, puede manejo ambulatorio. Score ≥6 = alto riesgo, requiere endoscopia urgente y hospitalización. Predice necesidad de intervención. Rockall score es post-endoscopia."
     },
     {
       "id": "mi_028",
       "type": "simple",
       "question": "¿Cuándo está indicada la hemodiálisis urgente en insuficiencia renal aguda?",
-      "answer": "Indicaciones ABSOLUTAS (AEIOU): A=Acidosis metabólica severa refractaria (pH <7.1), E=Electrolitos (Hipercalemia >6.5 o con cambios ECG), I=Intoxicaciones (metanol, etilenglicol, litio, salicilatos), O=Overload (sobrecarga volumen/EPA refractario), U=Uremia (pericarditis, encefalopatía, asterixis, convulsiones, sangrado). También si oliguria prolongada.",
       "system": "Renal",
       "difficulty": "dificil",
-      "tags": ["IRA", "hemodiálisis", "indicaciones", "emergencias"],
+      "tags": [
+        "IRA",
+        "hemodiálisis",
+        "indicaciones",
+        "emergencias"
+      ],
       "createdAt": "2025-01-19T12:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "answer": "Indicaciones ABSOLUTAS (AEIOU): A=Acidosis metabólica severa refractaria (pH <7.1), E=Electrolitos (Hipercalemia >6.5 o con cambios ECG), I=Intoxicaciones (metanol, etilenglicol, litio, salicilatos), O=Overload (sobrecarga volumen/EPA refractario), U=Uremia (pericarditis, encefalopatía, asterixis, convulsiones, sangrado). También si oliguria prolongada."
     },
     {
       "id": "mi_029",
       "type": "multiple",
       "question": "En IRC estadio 5 (TFG <15), ¿cuál es el tratamiento definitivo?",
+      "system": "Renal",
+      "difficulty": "medio",
+      "tags": [
+        "IRC",
+        "trasplante",
+        "diálisis",
+        "tratamiento"
+      ],
+      "createdAt": "2025-01-19T12:00:00.000Z",
       "options": [
         "Diálisis peritoneal",
         "Hemodiálisis",
         "Trasplante renal",
         "Tratamiento conservador"
       ],
-      "correctOption": 2,
-      "explanation": "TRASPLANTE RENAL es el tratamiento DEFINITIVO con mejor sobrevida y calidad de vida. Indicado TFG <20. Hemodiálisis y diálisis peritoneal son terapias de SUSTITUCIÓN, no curativas. Tratamiento conservador (paliativo) en pacientes no candidatos a diálisis/trasplante por comorbilidades o edad.",
-      "system": "Renal",
-      "difficulty": "medio",
-      "tags": ["IRC", "trasplante", "diálisis", "tratamiento"],
-      "createdAt": "2025-01-19T12:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "correctIndex": 2,
+      "explanation": "TRASPLANTE RENAL es el tratamiento DEFINITIVO con mejor sobrevida y calidad de vida. Indicado TFG <20. Hemodiálisis y diálisis peritoneal son terapias de SUSTITUCIÓN, no curativas. Tratamiento conservador (paliativo) en pacientes no candidatos a diálisis/trasplante por comorbilidades o edad."
     },
     {
       "id": "mi_030",
       "type": "simple",
       "question": "¿Cuál es el manejo del síndrome nefrótico?",
-      "answer": "1)IECA/ARA-II (↓proteinuria), 2)Estatinas (dislipidemia), 3)Anticoagulación si albúmina <2.5 g/dL (riesgo trombosis), 4)Diuréticos (edema), 5)Restricción sodio <2g/día, 6)Corticoides según etiología (cambios mínimos: Prednisona 1mg/kg/día x8-16sem; nefropatía membranosa: considerar). Tratar causa subyacente. Vigilar infecciones (hipogammaglobulinemia).",
       "system": "Renal",
       "difficulty": "dificil",
-      "tags": ["síndrome nefrótico", "tratamiento", "proteinuria", "nefrología"],
+      "tags": [
+        "síndrome nefrótico",
+        "tratamiento",
+        "proteinuria",
+        "nefrología"
+      ],
       "createdAt": "2025-01-19T12:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "answer": "1)IECA/ARA-II (↓proteinuria), 2)Estatinas (dislipidemia), 3)Anticoagulación si albúmina <2.5 g/dL (riesgo trombosis), 4)Diuréticos (edema), 5)Restricción sodio <2g/día, 6)Corticoides según etiología (cambios mínimos: Prednisona 1mg/kg/día x8-16sem; nefropatía membranosa: considerar). Tratar causa subyacente. Vigilar infecciones (hipogammaglobulinemia)."
     },
     {
       "id": "mi_031",
       "type": "multiple",
       "question": "¿Cuál es la tríada clásica del síndrome nefrítico?",
+      "system": "Renal",
+      "difficulty": "medio",
+      "tags": [
+        "síndrome nefrítico",
+        "glomerulonefritis",
+        "diagnóstico",
+        "clínica"
+      ],
+      "createdAt": "2025-01-19T12:00:00.000Z",
       "options": [
         "Proteinuria, hipoalbuminemia, edema",
         "Hematuria, HTA, edema",
         "Hematuria, cilindros granulosos, edema",
         "Proteinuria, hematuria, HTA"
       ],
-      "correctOption": 1,
-      "explanation": "Síndrome NEFRÍTICO: Hematuria (orina coca-cola) + HTA + Edema. Puede tener: oliguria, cilindros hemáticos, ↑Cr (IRA), proteinuria <3.5g (subnefrótica). Causas: glomerulonefritis postestreptocócica, IgA, Goodpasture, vasculitis. Vs NEFRÓTICO: proteinuria >3.5g + hipoalbuminemia + edema + dislipidemia.",
-      "system": "Renal",
-      "difficulty": "medio",
-      "tags": ["síndrome nefrítico", "glomerulonefritis", "diagnóstico", "clínica"],
-      "createdAt": "2025-01-19T12:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "correctIndex": 1,
+      "explanation": "Síndrome NEFRÍTICO: Hematuria (orina coca-cola) + HTA + Edema. Puede tener: oliguria, cilindros hemáticos, ↑Cr (IRA), proteinuria <3.5g (subnefrótica). Causas: glomerulonefritis postestreptocócica, IgA, Goodpasture, vasculitis. Vs NEFRÓTICO: proteinuria >3.5g + hipoalbuminemia + edema + dislipidemia."
     },
     {
       "id": "mi_032",
       "type": "simple",
       "question": "¿Cuál es el tratamiento de la anemia en IRC?",
-      "answer": "META Hb 10-12 g/dL (NO normalizar, riesgo eventos CV). 1)Eritropoyetina recombinante (Darbepoetina 0.45 mcg/kg SC/semana o Epoetina alfa 50-100 U/kg SC 3x/sem), 2)Hierro IV (NO VO, mala absorción): Hierro sacarosa 100-200mg IV 1-2x/semana hasta ferritina >200 y saturación >20%, 3)Corregir déficit vitamina B12/folato si presente.",
       "system": "Renal",
       "difficulty": "medio",
-      "tags": ["IRC", "anemia", "eritropoyetina", "hierro", "tratamiento"],
+      "tags": [
+        "IRC",
+        "anemia",
+        "eritropoyetina",
+        "hierro",
+        "tratamiento"
+      ],
       "createdAt": "2025-01-19T12:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "answer": "META Hb 10-12 g/dL (NO normalizar, riesgo eventos CV). 1)Eritropoyetina recombinante (Darbepoetina 0.45 mcg/kg SC/semana o Epoetina alfa 50-100 U/kg SC 3x/sem), 2)Hierro IV (NO VO, mala absorción): Hierro sacarosa 100-200mg IV 1-2x/semana hasta ferritina >200 y saturación >20%, 3)Corregir déficit vitamina B12/folato si presente."
     },
     {
       "id": "mi_033",
       "type": "multiple",
       "question": "Paciente diabético con glicemia 580 mg/dL, pH 7.28, HCO3 14, cetonuria 3+. ¿Diagnóstico?",
+      "system": "Endocrino",
+      "difficulty": "medio",
+      "tags": [
+        "CAD",
+        "cetoacidosis",
+        "diabetes",
+        "emergencias",
+        "diagnóstico"
+      ],
+      "createdAt": "2025-01-19T12:00:00.000Z",
       "options": [
         "Estado hiperosmolar hiperglucémico",
         "Cetoacidosis diabética",
         "Acidosis láctica",
         "Hipoglucemia paradójica"
       ],
-      "correctOption": 1,
-      "explanation": "CETOACIDOSIS DIABÉTICA (CAD): Glicemia >250 (usualmente 300-600), pH <7.3, HCO3 <18, CETONAS (+). Anion gap elevado. Típico en DM1 pero puede ocurrir en DM2. Precipitantes: infección, IAM, suspensión insulina, debut DM1. Estado hiperosmolar: glicemia >600, osmolaridad >320, SIN cetonuria significativa.",
-      "system": "Endocrino",
-      "difficulty": "medio",
-      "tags": ["CAD", "cetoacidosis", "diabetes", "emergencias", "diagnóstico"],
-      "createdAt": "2025-01-19T12:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "correctIndex": 1,
+      "explanation": "CETOACIDOSIS DIABÉTICA (CAD): Glicemia >250 (usualmente 300-600), pH <7.3, HCO3 <18, CETONAS (+). Anion gap elevado. Típico en DM1 pero puede ocurrir en DM2. Precipitantes: infección, IAM, suspensión insulina, debut DM1. Estado hiperosmolar: glicemia >600, osmolaridad >320, SIN cetonuria significativa."
     },
     {
       "id": "mi_034",
       "type": "simple",
       "question": "¿Cuál es el manejo de la cetoacidosis diabética (CAD)?",
-      "answer": "1)HIDRATACIÓN: SSN 0.9% 1-2L primera hora, luego 250-500ml/h. Cambiar a DW5%+SSN cuando glicemia <250 (prevenir hipoglucemia mientras se corrige acidosis). 2)INSULINA: 0.1 UI/kg/h IV continua (meta: ↓glicemia 50-75 mg/dL/h). 3)POTASIO: reponer si <5.3 (insulina lo baja). 4)Bicarbonato SOLO si pH <6.9. 5)Tratar causa precipitante.",
       "system": "Endocrino",
       "difficulty": "dificil",
-      "tags": ["CAD", "cetoacidosis", "tratamiento", "insulina", "líquidos"],
+      "tags": [
+        "CAD",
+        "cetoacidosis",
+        "tratamiento",
+        "insulina",
+        "líquidos"
+      ],
       "createdAt": "2025-01-19T12:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "answer": "1)HIDRATACIÓN: SSN 0.9% 1-2L primera hora, luego 250-500ml/h. Cambiar a DW5%+SSN cuando glicemia <250 (prevenir hipoglucemia mientras se corrige acidosis). 2)INSULINA: 0.1 UI/kg/h IV continua (meta: ↓glicemia 50-75 mg/dL/h). 3)POTASIO: reponer si <5.3 (insulina lo baja). 4)Bicarbonato SOLO si pH <6.9. 5)Tratar causa precipitante."
     },
     {
       "id": "mi_035",
       "type": "multiple",
       "question": "¿Cuál es la complicación MÁS grave del estado hiperosmolar hiperglucémico?",
+      "system": "Endocrino",
+      "difficulty": "medio",
+      "tags": [
+        "EHH",
+        "estado hiperosmolar",
+        "complicaciones",
+        "trombosis"
+      ],
+      "createdAt": "2025-01-19T12:00:00.000Z",
       "options": [
         "Edema cerebral",
         "Trombosis",
         "Rabdomiólisis",
         "IRA"
       ],
-      "correctOption": 1,
-      "explanation": "TROMBOSIS (venosa y arterial) es complicación grave por hiperosmolaridad extrema, deshidratación severa e hipercoagulabilidad. Alta mortalidad (10-20%). Profilaxis anticoagulante si no contraindicación. Edema cerebral es más común en CAD (niños). Mortalidad EHH >CAD por mayor edad y comorbilidades.",
-      "system": "Endocrino",
-      "difficulty": "medio",
-      "tags": ["EHH", "estado hiperosmolar", "complicaciones", "trombosis"],
-      "createdAt": "2025-01-19T12:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "correctIndex": 1,
+      "explanation": "TROMBOSIS (venosa y arterial) es complicación grave por hiperosmolaridad extrema, deshidratación severa e hipercoagulabilidad. Alta mortalidad (10-20%). Profilaxis anticoagulante si no contraindicación. Edema cerebral es más común en CAD (niños). Mortalidad EHH >CAD por mayor edad y comorbilidades."
     },
     {
       "id": "mi_036",
       "type": "simple",
       "question": "¿Cuál es el manejo de la crisis tirotóxica (tormenta tiroidea)?",
-      "answer": "URGENCIA ENDOCRINA. 1)Propranolol 60-80mg/4-6h VO o 1-2mg IV (bloquea síntomas y conversión T4→T3), 2)Propiltiouracilo 200-400mg/4-6h VO (bloquea síntesis T4 Y conversión), 3)Yodo (Lugol 5 gotas/8h) 1h DESPUÉS de PTU (bloquea liberación), 4)Hidrocortisona 100mg/8h IV, 5)Medidas soporte (enfriamiento, líquidos IV). 6)Tratar factor precipitante. UCI.",
       "system": "Endocrino",
       "difficulty": "dificil",
-      "tags": ["crisis tirotóxica", "tormenta tiroidea", "hipertiroidismo", "emergencias", "tratamiento"],
+      "tags": [
+        "crisis tirotóxica",
+        "tormenta tiroidea",
+        "hipertiroidismo",
+        "emergencias",
+        "tratamiento"
+      ],
       "createdAt": "2025-01-19T12:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "answer": "URGENCIA ENDOCRINA. 1)Propranolol 60-80mg/4-6h VO o 1-2mg IV (bloquea síntomas y conversión T4→T3), 2)Propiltiouracilo 200-400mg/4-6h VO (bloquea síntesis T4 Y conversión), 3)Yodo (Lugol 5 gotas/8h) 1h DESPUÉS de PTU (bloquea liberación), 4)Hidrocortisona 100mg/8h IV, 5)Medidas soporte (enfriamiento, líquidos IV). 6)Tratar factor precipitante. UCI."
     },
     {
       "id": "mi_037",
       "type": "multiple",
       "question": "¿Cuál es el tratamiento definitivo del hipertiroidismo por enfermedad de Graves?",
+      "system": "Endocrino",
+      "difficulty": "medio",
+      "tags": [
+        "Graves",
+        "hipertiroidismo",
+        "yodo radiactivo",
+        "tratamiento"
+      ],
+      "createdAt": "2025-01-19T12:00:00.000Z",
       "options": [
         "Propiltiouracilo de por vida",
         "Yodo radiactivo (I-131)",
         "Propranolol",
         "Tiroidectomía"
       ],
-      "correctOption": 1,
-      "explanation": "YODO RADIACTIVO (I-131) es tratamiento DEFINITIVO de elección: eficaz, seguro, bajo costo. Contraindicado: embarazo, lactancia. Alternativas: Tiroidectomía (oftalmopatía severa, bocio grande, embarazo). Antitiroideos (PTU, Metimazol) son temporales, recurrencia 50% al suspender. Propranolol es sintomático.",
-      "system": "Endocrino",
-      "difficulty": "medio",
-      "tags": ["Graves", "hipertiroidismo", "yodo radiactivo", "tratamiento"],
-      "createdAt": "2025-01-19T12:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "correctIndex": 1,
+      "explanation": "YODO RADIACTIVO (I-131) es tratamiento DEFINITIVO de elección: eficaz, seguro, bajo costo. Contraindicado: embarazo, lactancia. Alternativas: Tiroidectomía (oftalmopatía severa, bocio grande, embarazo). Antitiroideos (PTU, Metimazol) son temporales, recurrencia 50% al suspender. Propranolol es sintomático."
     },
     {
       "id": "mi_038",
       "type": "simple",
       "question": "¿Cuál es el manejo de la crisis suprarrenal (insuficiencia suprarrenal aguda)?",
-      "answer": "URGENCIA. 1)HIDROCORTISONA 100mg IV bolo, luego 50-100mg IV/6-8h (NO esperar confirmación lab), 2)SSN 0.9% 1-2L rápido (hipotensión, hipovolemia), 3)Dextrosa si hipoglucemia, 4)Corrección electrolitos (hiponatremia, hipercalemia). 5)Tratar causa precipitante (infección, cirugía, suspensión corticoides). Tras estabilizar: reducir hidrocortisona gradualmente a dosis sustitutiva (20-30mg/día).",
       "system": "Endocrino",
       "difficulty": "dificil",
-      "tags": ["crisis suprarrenal", "Addison", "insuficiencia suprarrenal", "emergencias", "hidrocortisona"],
+      "tags": [
+        "crisis suprarrenal",
+        "Addison",
+        "insuficiencia suprarrenal",
+        "emergencias",
+        "hidrocortisona"
+      ],
       "createdAt": "2025-01-19T12:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "answer": "URGENCIA. 1)HIDROCORTISONA 100mg IV bolo, luego 50-100mg IV/6-8h (NO esperar confirmación lab), 2)SSN 0.9% 1-2L rápido (hipotensión, hipovolemia), 3)Dextrosa si hipoglucemia, 4)Corrección electrolitos (hiponatremia, hipercalemia). 5)Tratar causa precipitante (infección, cirugía, suspensión corticoides). Tras estabilizar: reducir hidrocortisona gradualmente a dosis sustitutiva (20-30mg/día)."
     },
     {
       "id": "mi_039",
       "type": "multiple",
       "question": "¿Cuál es la causa MÁS frecuente de hipotiroidismo primario?",
+      "system": "Endocrino",
+      "difficulty": "facil",
+      "tags": [
+        "hipotiroidismo",
+        "Hashimoto",
+        "tiroiditis",
+        "etiología"
+      ],
+      "createdAt": "2025-01-19T12:00:00.000Z",
       "options": [
         "Tiroidectomía",
         "Yodo radiactivo",
         "Tiroiditis de Hashimoto",
         "Déficit de yodo"
       ],
-      "correctOption": 2,
-      "explanation": "TIROIDITIS DE HASHIMOTO (tiroiditis autoinmune crónica) es causa #1 en países con suficiente yodo. Anti-TPO (+) 90-95%, anti-tiroglobulina (+) 60%. Más frecuente en mujeres. Déficit de yodo es causa #1 mundial pero rara en países desarrollados. Iatrogénico (I-131, cirugía, amiodarona, litio) también frecuente.",
-      "system": "Endocrino",
-      "difficulty": "facil",
-      "tags": ["hipotiroidismo", "Hashimoto", "tiroiditis", "etiología"],
-      "createdAt": "2025-01-19T12:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "correctIndex": 2,
+      "explanation": "TIROIDITIS DE HASHIMOTO (tiroiditis autoinmune crónica) es causa #1 en países con suficiente yodo. Anti-TPO (+) 90-95%, anti-tiroglobulina (+) 60%. Más frecuente en mujeres. Déficit de yodo es causa #1 mundial pero rara en países desarrollados. Iatrogénico (I-131, cirugía, amiodarona, litio) también frecuente."
     },
     {
       "id": "mi_040",
       "type": "simple",
       "question": "¿Cuál es el manejo de la polimialgia reumática?",
-      "answer": "PREDNISONA 15-20 mg/día VO. RESPUESTA DRAMÁTICA en 24-72h es casi diagnóstica. Reducción lenta: 10% cada 2-4 semanas hasta 10mg, luego 1mg/mes hasta suspender. Duración: 1-2 años. Monitoreo VSG/PCR. Vigilar arteritis temporal asociada (15-20%): cefalea, claudicación mandibular, alteración visual → biopsia + prednisona 40-60mg. Calcio+vitamina D, DEXA.",
       "system": "Inmunológico",
       "difficulty": "medio",
-      "tags": ["polimialgia reumática", "corticoides", "prednisona", "tratamiento"],
+      "tags": [
+        "polimialgia reumática",
+        "corticoides",
+        "prednisona",
+        "tratamiento"
+      ],
       "createdAt": "2025-01-19T12:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "answer": "PREDNISONA 15-20 mg/día VO. RESPUESTA DRAMÁTICA en 24-72h es casi diagnóstica. Reducción lenta: 10% cada 2-4 semanas hasta 10mg, luego 1mg/mes hasta suspender. Duración: 1-2 años. Monitoreo VSG/PCR. Vigilar arteritis temporal asociada (15-20%): cefalea, claudicación mandibular, alteración visual → biopsia + prednisona 40-60mg. Calcio+vitamina D, DEXA."
     },
     {
       "id": "mi_041",
       "type": "multiple",
       "question": "¿Cuál es el FAME de primera línea en artritis reumatoide?",
+      "system": "Inmunológico",
+      "difficulty": "medio",
+      "tags": [
+        "artritis reumatoide",
+        "metotrexato",
+        "FAME",
+        "tratamiento"
+      ],
+      "createdAt": "2025-01-19T12:00:00.000Z",
       "options": [
         "Hidroxicloroquina",
         "Sulfasalazina",
         "Metotrexato",
         "Leflunomida"
       ],
-      "correctOption": 2,
-      "explanation": "METOTREXATO (MTX) 15-25mg/sem VO o SC es PRIMERA LÍNEA. Más eficaz. SIEMPRE + Ácido fólico 5mg/sem (día diferente) o 1mg/día. Monitoreo: BH, función hepática/renal cada 1-3 meses. Contraindicaciones: embarazo, hepatopatía, alcoholismo, IRC severa. Inicio precoz (<3 meses diagnóstico) mejora pronóstico. Meta: remisión DAS28 <2.6.",
-      "system": "Inmunológico",
-      "difficulty": "medio",
-      "tags": ["artritis reumatoide", "metotrexato", "FAME", "tratamiento"],
-      "createdAt": "2025-01-19T12:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "correctIndex": 2,
+      "explanation": "METOTREXATO (MTX) 15-25mg/sem VO o SC es PRIMERA LÍNEA. Más eficaz. SIEMPRE + Ácido fólico 5mg/sem (día diferente) o 1mg/día. Monitoreo: BH, función hepática/renal cada 1-3 meses. Contraindicaciones: embarazo, hepatopatía, alcoholismo, IRC severa. Inicio precoz (<3 meses diagnóstico) mejora pronóstico. Meta: remisión DAS28 <2.6."
     },
     {
       "id": "mi_042",
       "type": "simple",
       "question": "¿Cuándo está indicada la terapia biológica en artritis reumatoide?",
-      "answer": "Si falla FAME convencional (usualmente MTX) tras 3-6 meses a dosis adecuadas O enfermedad severa de inicio (erosiones, FR/anti-CCP muy (+), actividad alta). ANTI-TNF primera línea biológica: Adalimumab 40mg SC/2sem, Etanercept 50mg SC/sem, Infliximab 3-10mg/kg IV. SCREENING previo: TB (PPD, IGRA, Rx), VHB, VHC. Alternativas: Anti-IL6 (Tocilizumab), Anti-CD20 (Rituximab), JAK-inhibidores.",
       "system": "Inmunológico",
       "difficulty": "dificil",
-      "tags": ["artritis reumatoide", "biológicos", "anti-TNF", "indicaciones"],
+      "tags": [
+        "artritis reumatoide",
+        "biológicos",
+        "anti-TNF",
+        "indicaciones"
+      ],
       "createdAt": "2025-01-19T12:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "answer": "Si falla FAME convencional (usualmente MTX) tras 3-6 meses a dosis adecuadas O enfermedad severa de inicio (erosiones, FR/anti-CCP muy (+), actividad alta). ANTI-TNF primera línea biológica: Adalimumab 40mg SC/2sem, Etanercept 50mg SC/sem, Infliximab 3-10mg/kg IV. SCREENING previo: TB (PPD, IGRA, Rx), VHB, VHC. Alternativas: Anti-IL6 (Tocilizumab), Anti-CD20 (Rituximab), JAK-inhibidores."
     },
     {
       "id": "mi_043",
       "type": "multiple",
       "question": "¿Cuál es el hallazgo más específico de lupus eritematoso sistémico?",
+      "system": "Inmunológico",
+      "difficulty": "medio",
+      "tags": [
+        "lupus",
+        "LES",
+        "autoanticuerpos",
+        "diagnóstico"
+      ],
+      "createdAt": "2025-01-19T12:00:00.000Z",
       "options": [
         "ANA positivos",
         "Anti-dsDNA positivos",
         "Rash malar",
         "Artritis"
       ],
-      "correctOption": 1,
-      "explanation": "Anti-dsDNA es MÁS ESPECÍFICO (95-98%) para LES. Títulos se correlacionan con actividad, especialmente nefritis lúpica. ANA (+) 95-98% pero menos específico (también en otras conectivopatías, población sana 5%). Anti-Sm también muy específico pero menos sensible (30%). Rash malar específico pero solo 30-40% pacientes.",
-      "system": "Inmunológico",
-      "difficulty": "medio",
-      "tags": ["lupus", "LES", "autoanticuerpos", "diagnóstico"],
-      "createdAt": "2025-01-19T12:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "correctIndex": 1,
+      "explanation": "Anti-dsDNA es MÁS ESPECÍFICO (95-98%) para LES. Títulos se correlacionan con actividad, especialmente nefritis lúpica. ANA (+) 95-98% pero menos específico (también en otras conectivopatías, población sana 5%). Anti-Sm también muy específico pero menos sensible (30%). Rash malar específico pero solo 30-40% pacientes."
     },
     {
       "id": "mi_044",
       "type": "simple",
       "question": "¿Cuál es el tratamiento de la nefritis lúpica proliferativa (clase III-IV)?",
-      "answer": "INDUCCIÓN (6 meses): Ciclofosfamida IV mensual (500mg-1g/m²) o Micofenolato 2-3g/día + PREDNISONA 1mg/kg/día (reducir gradualmente). MANTENIMIENTO: Micofenolato 1-2g/día o Azatioprina 2mg/kg/día x ≥3 años + Prednisona dosis baja. Hidroxicloroquina 200-400mg/día todos. IECA/ARA-II. Meta: remisión completa (proteinuria <0.5g/día, función renal normal). Vigilar función renal, proteinuria.",
       "system": "Inmunológico",
       "difficulty": "dificil",
-      "tags": ["lupus", "nefritis lúpica", "tratamiento", "inmunosupresión"],
+      "tags": [
+        "lupus",
+        "nefritis lúpica",
+        "tratamiento",
+        "inmunosupresión"
+      ],
       "createdAt": "2025-01-19T12:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "answer": "INDUCCIÓN (6 meses): Ciclofosfamida IV mensual (500mg-1g/m²) o Micofenolato 2-3g/día + PREDNISONA 1mg/kg/día (reducir gradualmente). MANTENIMIENTO: Micofenolato 1-2g/día o Azatioprina 2mg/kg/día x ≥3 años + Prednisona dosis baja. Hidroxicloroquina 200-400mg/día todos. IECA/ARA-II. Meta: remisión completa (proteinuria <0.5g/día, función renal normal). Vigilar función renal, proteinuria."
     },
     {
       "id": "mi_045",
       "type": "multiple",
       "question": "En esclerodermia difusa, ¿qué autoanticuerpo es más específico?",
+      "system": "Inmunológico",
+      "difficulty": "medio",
+      "tags": [
+        "esclerodermia",
+        "autoanticuerpos",
+        "Anti-Scl-70",
+        "diagnóstico"
+      ],
+      "createdAt": "2025-01-19T12:00:00.000Z",
       "options": [
         "Anticentrómero",
         "Anti-Scl-70 (topoisomerasa I)",
         "ANA",
         "Anti-RNA polimerasa III"
       ],
-      "correctOption": 1,
-      "explanation": "Anti-Scl-70 (topoisomerasa I): DIFUSA + fibrosis pulmonar (peor pronóstico). Anticentrómero: LIMITADA (CREST) + HAP. Anti-RNA pol III: DIFUSA + crisis renal esclerodérmica. ANA (+) >95% pero inespecífico. Esclerodermia limitada (CREST): Calcinosis, Raynaud, dismotilidad Esofágica, eSclerodactilia, Telangiectasias.",
-      "system": "Inmunológico",
-      "difficulty": "medio",
-      "tags": ["esclerodermia", "autoanticuerpos", "Anti-Scl-70", "diagnóstico"],
-      "createdAt": "2025-01-19T12:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "correctIndex": 1,
+      "explanation": "Anti-Scl-70 (topoisomerasa I): DIFUSA + fibrosis pulmonar (peor pronóstico). Anticentrómero: LIMITADA (CREST) + HAP. Anti-RNA pol III: DIFUSA + crisis renal esclerodérmica. ANA (+) >95% pero inespecífico. Esclerodermia limitada (CREST): Calcinosis, Raynaud, dismotilidad Esofágica, eSclerodactilia, Telangiectasias."
     },
     {
       "id": "mi_046",
       "type": "simple",
       "question": "¿Cuál es el manejo de la crisis renal esclerodérmica?",
-      "answer": "IECA dosis ALTAS (Enalapril hasta 40mg/día o Captopril hasta 150mg/día dividido) - NUNCA suspender. Ajustar dosis agresivamente cada 1-2 días hasta control PA <140/90. Diálisis si necesario (50% recuperan función renal en meses). EVITAR CORTICOIDES (precipitan crisis). Crisis renal: HTA maligna (>150/100) + IRA + microangiopatía trombótica. Mortalidad alta sin tratamiento.",
       "system": "Inmunológico",
       "difficulty": "dificil",
-      "tags": ["esclerodermia", "crisis renal", "IECA", "emergencias", "tratamiento"],
+      "tags": [
+        "esclerodermia",
+        "crisis renal",
+        "IECA",
+        "emergencias",
+        "tratamiento"
+      ],
       "createdAt": "2025-01-19T12:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "answer": "IECA dosis ALTAS (Enalapril hasta 40mg/día o Captopril hasta 150mg/día dividido) - NUNCA suspender. Ajustar dosis agresivamente cada 1-2 días hasta control PA <140/90. Diálisis si necesario (50% recuperan función renal en meses). EVITAR CORTICOIDES (precipitan crisis). Crisis renal: HTA maligna (>150/100) + IRA + microangiopatía trombótica. Mortalidad alta sin tratamiento."
     },
     {
       "id": "mi_047",
       "type": "multiple",
       "question": "Paciente con debilidad progresiva de miembros, fasciculaciones, hiperreflexia, sin alteración sensitiva ni esfinteriana. ¿Diagnóstico más probable?",
+      "system": "Neurológico",
+      "difficulty": "medio",
+      "tags": [
+        "ELA",
+        "motoneurona",
+        "neurología",
+        "diagnóstico"
+      ],
+      "createdAt": "2025-01-19T12:00:00.000Z",
       "options": [
         "Miastenia gravis",
         "Guillain-Barré",
         "Esclerosis lateral amiotrófica (ELA)",
         "Esclerosis múltiple"
       ],
-      "correctOption": 2,
-      "explanation": "ELA: Degeneración motoneurona superior (hiperreflexia, espasticidad, Babinski) + inferior (debilidad, atrofia, fasciculaciones, hiporreflexia). SIN alteración sensitiva, esfínteres, oculomotores. Progresión a insuficiencia respiratoria. EMG: denervación. Pronóstico: 3-5 años. Riluzol modesto beneficio. Miastenia: fatigabilidad, ptosis, diplopia. Guillain-Barré: debilidad ascendente, arreflexia.",
-      "system": "Neurológico",
-      "difficulty": "medio",
-      "tags": ["ELA", "motoneurona", "neurología", "diagnóstico"],
-      "createdAt": "2025-01-19T12:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "correctIndex": 2,
+      "explanation": "ELA: Degeneración motoneurona superior (hiperreflexia, espasticidad, Babinski) + inferior (debilidad, atrofia, fasciculaciones, hiporreflexia). SIN alteración sensitiva, esfínteres, oculomotores. Progresión a insuficiencia respiratoria. EMG: denervación. Pronóstico: 3-5 años. Riluzol modesto beneficio. Miastenia: fatigabilidad, ptosis, diplopia. Guillain-Barré: debilidad ascendente, arreflexia."
     },
     {
       "id": "mi_048",
       "type": "simple",
       "question": "¿Cuál es el tratamiento de la esclerosis lateral amiotrófica (ELA)?",
-      "answer": "NO HAY CURA. Modificadores: 1)Riluzol 50mg/12h VO (prolonga sobrevida 2-3 meses), 2)Edaravone 60mg IV x14 días/mes (ralentiza progresión). SINTOMÁTICO: Espasticidad (Baclofeno), sialorrea (Amitriptilina, toxina botulínica), calambres (quinina, magnesio), depresión (ISRS). SOPORTE: PEG si disfagia/pérdida peso, BiPAP cuando CVF <50%, fisioterapia, logopedia. Cuidados paliativos. Decisión traqueostomía+VMI del paciente.",
       "system": "Neurológico",
       "difficulty": "dificil",
-      "tags": ["ELA", "Riluzol", "tratamiento", "cuidados paliativos"],
+      "tags": [
+        "ELA",
+        "Riluzol",
+        "tratamiento",
+        "cuidados paliativos"
+      ],
       "createdAt": "2025-01-19T12:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "answer": "NO HAY CURA. Modificadores: 1)Riluzol 50mg/12h VO (prolonga sobrevida 2-3 meses), 2)Edaravone 60mg IV x14 días/mes (ralentiza progresión). SINTOMÁTICO: Espasticidad (Baclofeno), sialorrea (Amitriptilina, toxina botulínica), calambres (quinina, magnesio), depresión (ISRS). SOPORTE: PEG si disfagia/pérdida peso, BiPAP cuando CVF <50%, fisioterapia, logopedia. Cuidados paliativos. Decisión traqueostomía+VMI del paciente."
     },
     {
       "id": "mi_049",
       "type": "multiple",
       "question": "¿Cuál es la principal causa de muerte en ELA?",
+      "system": "Neurológico",
+      "difficulty": "medio",
+      "tags": [
+        "ELA",
+        "insuficiencia respiratoria",
+        "pronóstico",
+        "complicaciones"
+      ],
+      "createdAt": "2025-01-19T12:00:00.000Z",
       "options": [
         "Sepsis",
         "Insuficiencia respiratoria",
         "Arritmias",
         "Malnutrición"
       ],
-      "correctOption": 1,
-      "explanation": "INSUFICIENCIA RESPIRATORIA es causa de muerte en >80% por debilidad progresiva de músculos respiratorios (diafragma, intercostales). CVF <50% indica BiPAP nocturna. Signos: disnea, ortopnea, cefalea matutina, somnolencia diurna (retención CO2). Tos ineficaz → neumonías aspirativas. Traqueostomía+VMI si el paciente decide (decisión informada, no obligatoria).",
-      "system": "Neurológico",
-      "difficulty": "medio",
-      "tags": ["ELA", "insuficiencia respiratoria", "pronóstico", "complicaciones"],
-      "createdAt": "2025-01-19T12:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "correctIndex": 1,
+      "explanation": "INSUFICIENCIA RESPIRATORIA es causa de muerte en >80% por debilidad progresiva de músculos respiratorios (diafragma, intercostales). CVF <50% indica BiPAP nocturna. Signos: disnea, ortopnea, cefalea matutina, somnolencia diurna (retención CO2). Tos ineficaz → neumonías aspirativas. Traqueostomía+VMI si el paciente decide (decisión informada, no obligatoria)."
     },
     {
       "id": "mi_050",
       "type": "simple",
       "question": "¿Cuál es el screening que debe hacerse ANTES de iniciar terapia anti-TNF?",
-      "answer": "OBLIGATORIO: 1)Tuberculosis: PPD o IGRA (QuantiFERON) + Rx tórax. Si (+) o TB latente: profilaxis Isoniazida 9 meses ANTES de iniciar anti-TNF, 2)Hepatitis B: HBsAg, Anti-HBc, Anti-HBs. Si (+): antivirales si se va a usar anti-TNF, 3)Hepatitis C: Anti-VHC. También: Hemograma, función hepática/renal, descartar infecciones activas, actualizar vacunas (NO vivas tras iniciar).",
-      "tags": ["screening", "tuberculosis", "seguridad"],
+      "system": "Personalizado",
+      "difficulty": "medio",
+      "tags": [
+        "screening",
+        "tuberculosis",
+        "seguridad"
+      ],
       "createdAt": "2025-01-19T12:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "answer": "OBLIGATORIO: 1)Tuberculosis: PPD o IGRA (QuantiFERON) + Rx tórax. Si (+) o TB latente: profilaxis Isoniazida 9 meses ANTES de iniciar anti-TNF, 2)Hepatitis B: HBsAg, Anti-HBc, Anti-HBs. Si (+): antivirales si se va a usar anti-TNF, 3)Hepatitis C: Anti-VHC. También: Hemograma, función hepática/renal, descartar infecciones activas, actualizar vacunas (NO vivas tras iniciar)."
     },
     {
       "id": "mi2_069",
       "type": "multiple",
       "question": "¿Cuál es el patrón típico de Guillain-Barré en LCR?",
+      "system": "Neurológico",
+      "difficulty": "medio",
+      "tags": [
+        "Guillain-Barré",
+        "LCR",
+        "disociación albúmino-citológica"
+      ],
+      "createdAt": "2025-01-19T13:00:00.000Z",
       "options": [
         "Pleocitosis con proteinorraquia",
         "Disociación albúmino-citológica (↑proteínas, células normales)",
         "Hipoglucorraquia",
         "Bandas oligoclonales"
       ],
-      "correctOption": 1,
-      "explanation": "DISOCIACIÓN ALBÚMINO-CITOLÓGICA: proteínas >45 mg/dL (usualmente 100-1000) con células <10. Aparece semana 2. Clínica: debilidad ascendente simétrica post-infección (Campylobacter, CMV), arreflexia, puede afectar respiración/autonómicos. EMG: desmielinización. Tratamiento: IVIG 0.4g/kg/día x5 días o Plasmaféresis. Monitoreo CVF (intubar si <15ml/kg). Recuperación semanas-meses.",
-      "system": "Neurológico",
-      "difficulty": "medio",
-      "tags": ["Guillain-Barré", "LCR", "disociación albúmino-citológica"],
-      "createdAt": "2025-01-19T13:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "correctIndex": 1,
+      "explanation": "DISOCIACIÓN ALBÚMINO-CITOLÓGICA: proteínas >45 mg/dL (usualmente 100-1000) con células <10. Aparece semana 2. Clínica: debilidad ascendente simétrica post-infección (Campylobacter, CMV), arreflexia, puede afectar respiración/autonómicos. EMG: desmielinización. Tratamiento: IVIG 0.4g/kg/día x5 días o Plasmaféresis. Monitoreo CVF (intubar si <15ml/kg). Recuperación semanas-meses."
     },
     {
       "id": "mi2_070",
       "type": "simple",
       "question": "¿Cuál es el manejo del ACV isquémico agudo en ventana terapéutica?",
-      "answer": "VENTANA <4.5h desde inicio síntomas: 1)TC craneal SIN contraste (descartar hemorragia). 2)ALTEPLASE (rt-PA) 0.9mg/kg IV (10% bolo, 90% en 1h) si cumple criterios. Contraindicaciones: ACV/trauma <3 meses, cirugía <14 días, sangrado activo, HTA >185/110 no controlada, glucosa <50 o >400. 3)Trombectomía mecánica si oclusión gran vaso <24h. 4)Antiagregación (ASA 160-325mg) tras 24h si fibrinólisis. UCI stroke. Rehabilitación precoz.",
       "system": "Neurológico",
       "difficulty": "dificil",
-      "tags": ["ACV", "fibrinólisis", "Alteplase", "trombectomía"],
+      "tags": [
+        "ACV",
+        "fibrinólisis",
+        "Alteplase",
+        "trombectomía"
+      ],
       "createdAt": "2025-01-19T13:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "answer": "VENTANA <4.5h desde inicio síntomas: 1)TC craneal SIN contraste (descartar hemorragia). 2)ALTEPLASE (rt-PA) 0.9mg/kg IV (10% bolo, 90% en 1h) si cumple criterios. Contraindicaciones: ACV/trauma <3 meses, cirugía <14 días, sangrado activo, HTA >185/110 no controlada, glucosa <50 o >400. 3)Trombectomía mecánica si oclusión gran vaso <24h. 4)Antiagregación (ASA 160-325mg) tras 24h si fibrinólisis. UCI stroke. Rehabilitación precoz."
     },
     {
       "id": "mi2_071",
       "type": "multiple",
       "question": "En prevención secundaria de ACV cardioembólico, ¿cuál es el tratamiento?",
+      "system": "Neurológico",
+      "difficulty": "medio",
+      "tags": [
+        "ACV",
+        "anticoagulación",
+        "prevención secundaria"
+      ],
+      "createdAt": "2025-01-19T13:00:00.000Z",
       "options": [
         "Aspirina sola",
         "Clopidogrel",
         "Anticoagulación oral (Warfarina o DOAC)",
         "Nada"
       ],
-      "correctOption": 2,
-      "explanation": "ANTICOAGULACIÓN ORAL indefinida. FA: DOACs preferidos (Apixabán, Rivaroxabán) vs Warfarina INR 2-3. Prótesis valvular mecánica: Warfarina (DOACs contraindicados). Iniciar: 3-14 días post-ACV según tamaño (pequeño 3-7 días, moderado 7-10 días, grande >14 días). ACV aterotrombótico/lacunar: antiagregación (ASA+Clopidogrel x21 días, luego ASA sola o Clopidogrel). Control factores riesgo: HTA, estatina, DM.",
-      "system": "Neurológico",
-      "difficulty": "medio",
-      "tags": ["ACV", "anticoagulación", "prevención secundaria"],
-      "createdAt": "2025-01-19T13:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "correctIndex": 2,
+      "explanation": "ANTICOAGULACIÓN ORAL indefinida. FA: DOACs preferidos (Apixabán, Rivaroxabán) vs Warfarina INR 2-3. Prótesis valvular mecánica: Warfarina (DOACs contraindicados). Iniciar: 3-14 días post-ACV según tamaño (pequeño 3-7 días, moderado 7-10 días, grande >14 días). ACV aterotrombótico/lacunar: antiagregación (ASA+Clopidogrel x21 días, luego ASA sola o Clopidogrel). Control factores riesgo: HTA, estatina, DM."
     },
     {
       "id": "mi2_072",
       "type": "simple",
       "question": "¿Cuáles son las causas más frecuentes de cefalea secundaria peligrosa?",
-      "answer": "RED FLAGS: 1)HSA (cefalea súbita 'trueno', peor de la vida, rigidez nuca) - TC + punción lumbar. 2)Meningitis (fiebre, rigidez nuca, alteración conciencia) - PL urgente. 3)Tumor cerebral (cefalea progresiva, síntomas focales, papiledema) - RM. 4)Arteritis temporal (>50 años, claudicación mandibular, VSG ↑↑) - corticoides urgentes. 5)Glaucoma agudo (ojo rojo, dolor, ↓visión). 6)Disección carotídea/vertebral (trauma, síndrome Horner). 7)HTA maligna, trombosis venosa cerebral.",
       "system": "Neurológico",
       "difficulty": "medio",
-      "tags": ["cefalea", "red flags", "emergencias"],
+      "tags": [
+        "cefalea",
+        "red flags",
+        "emergencias"
+      ],
       "createdAt": "2025-01-19T13:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "answer": "RED FLAGS: 1)HSA (cefalea súbita 'trueno', peor de la vida, rigidez nuca) - TC + punción lumbar. 2)Meningitis (fiebre, rigidez nuca, alteración conciencia) - PL urgente. 3)Tumor cerebral (cefalea progresiva, síntomas focales, papiledema) - RM. 4)Arteritis temporal (>50 años, claudicación mandibular, VSG ↑↑) - corticoides urgentes. 5)Glaucoma agudo (ojo rojo, dolor, ↓visión). 6)Disección carotídea/vertebral (trauma, síndrome Horner). 7)HTA maligna, trombosis venosa cerebral."
     },
     {
       "id": "mi2_073",
       "type": "multiple",
       "question": "¿Cuál es el tratamiento profiláctico de migraña?",
+      "system": "Neurológico",
+      "difficulty": "medio",
+      "tags": [
+        "migraña",
+        "profilaxis",
+        "betabloqueantes",
+        "topiramato"
+      ],
+      "createdAt": "2025-01-19T13:00:00.000Z",
       "options": [
         "Sumatriptán diario",
         "Betabloqueantes (Propranolol) o Topiramato",
         "Opioides",
         "Ibuprofeno diario"
       ],
-      "correctOption": 1,
-      "explanation": "INDICACIONES: ≥4 crisis/mes, crisis muy incapacitantes, contraindicación/fallo agudos. OPCIONES: 1)Betabloqueantes: Propranolol 80-240mg/día, Metoprolol. 2)Anticonvulsivantes: Topiramato 50-100mg/día, Valproato. 3)Antidepresivos: Amitriptilina 25-75mg/noche. 4)CGRP antagonistas: Erenumab, Fremanezumab (nuevos, muy efectivos). Agudo: Triptanes (Sumatriptán 50-100mg), AINE, antiemético. Evitar uso excesivo analgésicos (cefalea rebote).",
-      "system": "Neurológico",
-      "difficulty": "medio",
-      "tags": ["migraña", "profilaxis", "betabloqueantes", "topiramato"],
-      "createdAt": "2025-01-19T13:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "correctIndex": 1,
+      "explanation": "INDICACIONES: ≥4 crisis/mes, crisis muy incapacitantes, contraindicación/fallo agudos. OPCIONES: 1)Betabloqueantes: Propranolol 80-240mg/día, Metoprolol. 2)Anticonvulsivantes: Topiramato 50-100mg/día, Valproato. 3)Antidepresivos: Amitriptilina 25-75mg/noche. 4)CGRP antagonistas: Erenumab, Fremanezumab (nuevos, muy efectivos). Agudo: Triptanes (Sumatriptán 50-100mg), AINE, antiemético. Evitar uso excesivo analgésicos (cefalea rebote)."
     },
     {
       "id": "mi2_074",
       "type": "simple",
       "question": "¿Cuál es el tratamiento de la neumonía por Legionella?",
-      "answer": "FLUOROQUINOLONA RESPIRATORIA (Levofloxacino 750mg/día o Moxifloxacino 400mg/día) x 7-10 días es PRIMERA LÍNEA. Alternativa: Azitromicina 500mg/día x 5-7 días. NO betalactámicos (resistente). Clínica: neumonía atípica severa, hiponatremia, ↑transaminasas, diarrea, confusión. Brotes en hoteles, hospitales (agua contaminada). Diagnóstico: antígeno urinario (+), cultivo medio especial. Mortalidad alta sin tratamiento apropiado.",
       "system": "Infeccioso",
       "difficulty": "medio",
-      "tags": ["Legionella", "neumonía", "fluoroquinolonas", "antibióticos"],
+      "tags": [
+        "Legionella",
+        "neumonía",
+        "fluoroquinolonas",
+        "antibióticos"
+      ],
       "createdAt": "2025-01-19T13:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "answer": "FLUOROQUINOLONA RESPIRATORIA (Levofloxacino 750mg/día o Moxifloxacino 400mg/día) x 7-10 días es PRIMERA LÍNEA. Alternativa: Azitromicina 500mg/día x 5-7 días. NO betalactámicos (resistente). Clínica: neumonía atípica severa, hiponatremia, ↑transaminasas, diarrea, confusión. Brotes en hoteles, hospitales (agua contaminada). Diagnóstico: antígeno urinario (+), cultivo medio especial. Mortalidad alta sin tratamiento apropiado."
     },
     {
       "id": "mi2_075",
       "type": "multiple",
       "question": "¿Cuál es el tratamiento de la endocarditis por S. aureus en válvula nativa?",
+      "system": "Infeccioso",
+      "difficulty": "dificil",
+      "tags": [
+        "endocarditis",
+        "S.aureus",
+        "antibióticos",
+        "tratamiento"
+      ],
+      "createdAt": "2025-01-19T13:00:00.000Z",
       "options": [
         "Penicilina sola",
         "Nafcilina o Cefazolina 2g/4-6h x 6 semanas (o Vancomicina si MRSA)",
         "Amoxicilina",
         "Solo gentamicina"
       ],
-      "correctOption": 1,
-      "explanation": "S.aureus SENSIBLE: Nafcilina/Oxacilina 2g IV/4h o Cefazolina 2g/8h x 6 semanas. MRSA: Vancomicina 15-20mg/kg/12h o Daptomicina 8-10mg/kg/día x 6 semanas. Válvula protésica: añadir Rifampicina + Gentamicina primeros 2 semanas. Criterios Duke: 2 mayores (2 hemocultivos +, ecocardiograma con vegetación) o 1 mayor + 3 menores. Complicaciones: ICC, absceso, embolias, glomerulonefritis. Cirugía si ICC severa, absceso, fallo antibiótico, émbolos recurrentes.",
-      "system": "Infeccioso",
-      "difficulty": "dificil",
-      "tags": ["endocarditis", "S.aureus", "antibióticos", "tratamiento"],
-      "createdAt": "2025-01-19T13:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "correctIndex": 1,
+      "explanation": "S.aureus SENSIBLE: Nafcilina/Oxacilina 2g IV/4h o Cefazolina 2g/8h x 6 semanas. MRSA: Vancomicina 15-20mg/kg/12h o Daptomicina 8-10mg/kg/día x 6 semanas. Válvula protésica: añadir Rifampicina + Gentamicina primeros 2 semanas. Criterios Duke: 2 mayores (2 hemocultivos +, ecocardiograma con vegetación) o 1 mayor + 3 menores. Complicaciones: ICC, absceso, embolias, glomerulonefritis. Cirugía si ICC severa, absceso, fallo antibiótico, émbolos recurrentes."
     },
     {
       "id": "mi2_076",
       "type": "simple",
       "question": "¿Cuál es el manejo de la infección por C. difficile?",
-      "answer": "LEVE-MODERADA (leucos <15000, Cr <1.5x basal): VANCOMICINA 125mg VO/6h x 10 días (primera línea) o Fidaxomicina 200mg/12h x 10 días. SEVERA (leucos >15000, Cr >1.5x, megacolon, shock): Vancomicina 500mg VO/6h + Metronidazol 500mg IV/8h. Megacolon tóxico: añadir Vancomicina enemas. Colectomía si perforación/megacolon refractario. RECURRENCIA: Vancomicina dosis decreciente prolongada o Fidaxomicina o trasplante fecal. Suspender ATB causales, evitar antidiarreicos.",
       "system": "Infeccioso",
       "difficulty": "dificil",
-      "tags": ["C.difficile", "vancomicina", "diarrea", "tratamiento"],
+      "tags": [
+        "C.difficile",
+        "vancomicina",
+        "diarrea",
+        "tratamiento"
+      ],
       "createdAt": "2025-01-19T13:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "answer": "LEVE-MODERADA (leucos <15000, Cr <1.5x basal): VANCOMICINA 125mg VO/6h x 10 días (primera línea) o Fidaxomicina 200mg/12h x 10 días. SEVERA (leucos >15000, Cr >1.5x, megacolon, shock): Vancomicina 500mg VO/6h + Metronidazol 500mg IV/8h. Megacolon tóxico: añadir Vancomicina enemas. Colectomía si perforación/megacolon refractario. RECURRENCIA: Vancomicina dosis decreciente prolongada o Fidaxomicina o trasplante fecal. Suspender ATB causales, evitar antidiarreicos.",
+      "isFavorite": false
     },
     {
       "id": "mi2_077",
       "type": "multiple",
       "question": "En paciente con neumonía nosocomial, ¿cuándo cubrir Pseudomonas?",
+      "system": "Infeccioso",
+      "difficulty": "dificil",
+      "tags": [
+        "neumonía nosocomial",
+        "Pseudomonas",
+        "antibióticos",
+        "UCI"
+      ],
+      "createdAt": "2025-01-19T13:00:00.000Z",
       "options": [
         "Siempre",
         "Si factores de riesgo (UCI, VM >7días, ATB previos, bronquiectasias)",
         "Nunca",
         "Solo si neutropenia"
       ],
-      "correctOption": 1,
-      "explanation": "Factores riesgo Pseudomonas: UCI, VM >7 días, ATB recientes (90 días), bronquiectasias, fibrosis quística, inmunosupresión. COBERTURA: 2 antipseudomónicos diferentes clases: Piperacilina-tazobactam 4.5g/6h o Cefepime 2g/8h o Meropenem 1g/8h + Ciprofloxacino 400mg/8h IV o Amikacina 15-20mg/kg/día. De-escalar según cultivos. Duración: 7-14 días. MRSA también cubrir (Vancomicina o Linezolid) si factores riesgo.",
-      "system": "Infeccioso",
-      "difficulty": "dificil",
-      "tags": ["neumonía nosocomial", "Pseudomonas", "antibióticos", "UCI"],
-      "createdAt": "2025-01-19T13:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "correctIndex": 1,
+      "explanation": "Factores riesgo Pseudomonas: UCI, VM >7 días, ATB recientes (90 días), bronquiectasias, fibrosis quística, inmunosupresión. COBERTURA: 2 antipseudomónicos diferentes clases: Piperacilina-tazobactam 4.5g/6h o Cefepime 2g/8h o Meropenem 1g/8h + Ciprofloxacino 400mg/8h IV o Amikacina 15-20mg/kg/día. De-escalar según cultivos. Duración: 7-14 días. MRSA también cubrir (Vancomicina o Linezolid) si factores riesgo."
     },
     {
       "id": "mi2_078",
       "type": "simple",
       "question": "¿Cuál es el manejo de pielonefritis aguda?",
-      "answer": "AMBULATORIO (no toxemia, tolera VO): Fluoroquinolona (Ciprofloxacino 500mg/12h o Levofloxacino 750mg/día) x 7 días. Alternativa: Ceftriaxona 1g IM dosis única + Cefixima VO. HOSPITALIZACIÓN (sepsis, embarazo, vómitos, comorbilidades): Ceftriaxona 1g/24h o Piperacilina-tazobactam 3.375g/6h IV hasta afebril 24-48h, luego VO completar 14 días total. Hemocultivos, urocultivo. Complicación: absceso renal/perirrenal (drenaje). Seguimiento: urocultivo post-tratamiento.",
       "system": "Infeccioso",
       "difficulty": "medio",
-      "tags": ["pielonefritis", "ITU", "antibióticos", "tratamiento"],
+      "tags": [
+        "pielonefritis",
+        "ITU",
+        "antibióticos",
+        "tratamiento"
+      ],
       "createdAt": "2025-01-19T13:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "answer": "AMBULATORIO (no toxemia, tolera VO): Fluoroquinolona (Ciprofloxacino 500mg/12h o Levofloxacino 750mg/día) x 7 días. Alternativa: Ceftriaxona 1g IM dosis única + Cefixima VO. HOSPITALIZACIÓN (sepsis, embarazo, vómitos, comorbilidades): Ceftriaxona 1g/24h o Piperacilina-tazobactam 3.375g/6h IV hasta afebril 24-48h, luego VO completar 14 días total. Hemocultivos, urocultivo. Complicación: absceso renal/perirrenal (drenaje). Seguimiento: urocultivo post-tratamiento."
     },
     {
       "id": "mi2_079",
       "type": "multiple",
       "question": "¿Cuál es la complicación MÁS grave de mononucleosis infecciosa (VEB)?",
+      "system": "Infeccioso",
+      "difficulty": "medio",
+      "tags": [
+        "mononucleosis",
+        "VEB",
+        "rotura esplénica",
+        "complicaciones"
+      ],
+      "createdAt": "2025-01-19T13:00:00.000Z",
       "options": [
         "Faringitis",
         "Rotura esplénica",
         "Fatiga",
         "Linfadenopatía"
       ],
-      "correctOption": 1,
-      "explanation": "ROTURA ESPLÉNICA (rara <1% pero potencialmente fatal): dolor abdominal súbito, hipotensión. Evitar deportes de contacto x 4-6 semanas (esplenomegalia hasta 3-4 semanas). Clínica MI: tríada faringitis exudativa + linfadenopatía + fiebre, esplenomegalia 50%, rash si amoxicilina. Lab: linfocitosis atípica >10%, serologías VEB (IgM VCA +, IgG EBNA -). Tratamiento: sintomático. NO amoxicilina (rash 90%). Complicaciones: anemia hemolítica, trombocitopenia, hepatitis, meningoencefalitis, obstrucción vía aérea.",
-      "system": "Infeccioso",
-      "difficulty": "medio",
-      "tags": ["mononucleosis", "VEB", "rotura esplénica", "complicaciones"],
-      "createdAt": "2025-01-19T13:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "correctIndex": 1,
+      "explanation": "ROTURA ESPLÉNICA (rara <1% pero potencialmente fatal): dolor abdominal súbito, hipotensión. Evitar deportes de contacto x 4-6 semanas (esplenomegalia hasta 3-4 semanas). Clínica MI: tríada faringitis exudativa + linfadenopatía + fiebre, esplenomegalia 50%, rash si amoxicilina. Lab: linfocitosis atípica >10%, serologías VEB (IgM VCA +, IgG EBNA -). Tratamiento: sintomático. NO amoxicilina (rash 90%). Complicaciones: anemia hemolítica, trombocitopenia, hepatitis, meningoencefalitis, obstrucción vía aérea."
     },
     {
       "id": "mi2_080",
       "type": "simple",
       "question": "¿Cuál es el tratamiento de la celulitis/erisipela?",
-      "answer": "ERISIPELA (superficial, bordes elevados): Penicilina G 2-4 millones U IV/4-6h o Penicilina V 500mg VO/6h x 5-7 días (cubre Streptococcus pyogenes). CELULITIS (más profunda): Cefalexina 500mg/6h VO o Cefazolina 1-2g IV/8h x 5-10 días (cubre Streptococcus + S.aureus). SEVERA/tóxica: Vancomicina + Piperacilina-tazobactam. Purulenta: cubrir MRSA comunidad (Clindamicina 300-450mg/8h, Trimetoprim-sulfametoxazol DS/12h, Doxiciclina). Elevar extremidad, analgesia.",
       "system": "Infeccioso",
       "difficulty": "medio",
-      "tags": ["celulitis", "erisipela", "piel", "antibióticos"],
+      "tags": [
+        "celulitis",
+        "erisipela",
+        "piel",
+        "antibióticos"
+      ],
       "createdAt": "2025-01-19T13:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "answer": "ERISIPELA (superficial, bordes elevados): Penicilina G 2-4 millones U IV/4-6h o Penicilina V 500mg VO/6h x 5-7 días (cubre Streptococcus pyogenes). CELULITIS (más profunda): Cefalexina 500mg/6h VO o Cefazolina 1-2g IV/8h x 5-10 días (cubre Streptococcus + S.aureus). SEVERA/tóxica: Vancomicina + Piperacilina-tazobactam. Purulenta: cubrir MRSA comunidad (Clindamicina 300-450mg/8h, Trimetoprim-sulfametoxazol DS/12h, Doxiciclina). Elevar extremidad, analgesia.",
+      "isFavorite": true
     },
     {
       "id": "mi2_081",
       "type": "multiple",
       "question": "En sepsis severa/shock séptico, ¿cuál es la meta de reanimación en primera hora (Surviving Sepsis)?",
+      "system": "Infeccioso",
+      "difficulty": "dificil",
+      "tags": [
+        "sepsis",
+        "shock séptico",
+        "reanimación",
+        "bundle"
+      ],
+      "createdAt": "2025-01-19T13:00:00.000Z",
       "options": [
         "PA normal solamente",
         "Cristaloides 30ml/kg + antibióticos en 1h + lactato + hemocultivos",
         "Solo antibióticos",
         "Esperar cultivos para antibióticos"
       ],
-      "correctOption": 1,
-      "explanation": "PRIMERA HORA (bundle 1h): 1)Medir LACTATO, 2)Obtener HEMOCULTIVOS antes antibióticos, 3)ANTIBIÓTICOS de amplio espectro en 1h, 4)CRISTALOIDES 30ml/kg si hipotensión o lactato ≥4. Metas resucitación: PAM ≥65, diuresis ≥0.5ml/kg/h, aclarar lactato. Si refractario a líquidos: VASOPRESORES (Norepinefrina). Antibióticos empíricos: Piperacilina-tazobactam o Carbapenem (Meropenem) ± Vancomicina según foco. Control foco (drenaje absceso). De-escalar según cultivos.",
-      "system": "Infeccioso",
-      "difficulty": "dificil",
-      "tags": ["sepsis", "shock séptico", "reanimación", "bundle"],
-      "createdAt": "2025-01-19T13:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "correctIndex": 1,
+      "explanation": "PRIMERA HORA (bundle 1h): 1)Medir LACTATO, 2)Obtener HEMOCULTIVOS antes antibióticos, 3)ANTIBIÓTICOS de amplio espectro en 1h, 4)CRISTALOIDES 30ml/kg si hipotensión o lactato ≥4. Metas resucitación: PAM ≥65, diuresis ≥0.5ml/kg/h, aclarar lactato. Si refractario a líquidos: VASOPRESORES (Norepinefrina). Antibióticos empíricos: Piperacilina-tazobactam o Carbapenem (Meropenem) ± Vancomicina según foco. Control foco (drenaje absceso). De-escalar según cultivos."
     },
     {
       "id": "mi2_082",
       "type": "simple",
       "question": "¿Cuáles son las indicaciones de profilaxis antibiótica en cirugía?",
-      "answer": "LIMPIA-CONTAMINADA (GI, ginecológica, trauma penetrante): SIEMPRE. LIMPIA con prótesis/implante: SIEMPRE. Cirugía LIMPIA sin prótesis: generalmente NO (salvo alto riesgo). CONTAMINADA/SUCIA: tratamiento, no profilaxis. TIMING: 1 hora pre-incisión (2h si Vancomicina/Fluoroquinolona). Dosis única usualmente suficiente. REPETIR intraoperatorio si cirugía >4h o sangrado >1.5L. ANTIBIÓTICO: según cirugía: Cefazolina 2g (mayoría), añadir Metronidazol si colorrectal. Vancomicina si MRSA o alergia β-lactámicos.",
       "system": "Infeccioso",
       "difficulty": "medio",
-      "tags": ["profilaxis antibiótica", "cirugía", "prevención"],
+      "tags": [
+        "profilaxis antibiótica",
+        "cirugía",
+        "prevención"
+      ],
       "createdAt": "2025-01-19T13:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "answer": "LIMPIA-CONTAMINADA (GI, ginecológica, trauma penetrante): SIEMPRE. LIMPIA con prótesis/implante: SIEMPRE. Cirugía LIMPIA sin prótesis: generalmente NO (salvo alto riesgo). CONTAMINADA/SUCIA: tratamiento, no profilaxis. TIMING: 1 hora pre-incisión (2h si Vancomicina/Fluoroquinolona). Dosis única usualmente suficiente. REPETIR intraoperatorio si cirugía >4h o sangrado >1.5L. ANTIBIÓTICO: según cirugía: Cefazolina 2g (mayoría), añadir Metronidazol si colorrectal. Vancomicina si MRSA o alergia β-lactámicos.",
+      "isFavorite": true
     },
     {
       "id": "mi2_083",
       "type": "multiple",
       "question": "¿Cuál es la vacuna contraindicada en inmunodeprimidos severos?",
+      "system": "Infeccioso",
+      "difficulty": "medio",
+      "tags": [
+        "vacunas",
+        "inmunodepresión",
+        "contraindicaciones"
+      ],
+      "createdAt": "2025-01-19T13:00:00.000Z",
       "options": [
         "Influenza inactivada",
         "Neumococo",
         "Vacunas VIVAS (MMR, varicela, fiebre amarilla)",
         "Hepatitis B"
       ],
-      "correctOption": 2,
-      "explanation": "VACUNAS VIVAS (virus/bacteria atenuada viva) CONTRAINDICADAS: MMR (sarampión, rubéola, parotiditis), Varicela, Zóster viva (Zostavax), Fiebre amarilla, BCG, Rotavirus, Tifoidea oral, Influenza intranasal. Inmunodeficiencia severa: VIH CD4 <200, quimioterapia, anti-TNF, altas dosis corticoides (>20mg/día >2 semanas), trasplante. VACUNAS INACTIVADAS/SUBUNIDADES: SEGURAS (pueden ser menos inmunógenas). Influenza inactivada, neumococo, VHB, tétanos, meningococo: recomendadas.",
-      "system": "Infeccioso",
-      "difficulty": "medio",
-      "tags": ["vacunas", "inmunodepresión", "contraindicaciones"],
-      "createdAt": "2025-01-19T13:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "correctIndex": 2,
+      "explanation": "VACUNAS VIVAS (virus/bacteria atenuada viva) CONTRAINDICADAS: MMR (sarampión, rubéola, parotiditis), Varicela, Zóster viva (Zostavax), Fiebre amarilla, BCG, Rotavirus, Tifoidea oral, Influenza intranasal. Inmunodeficiencia severa: VIH CD4 <200, quimioterapia, anti-TNF, altas dosis corticoides (>20mg/día >2 semanas), trasplante. VACUNAS INACTIVADAS/SUBUNIDADES: SEGURAS (pueden ser menos inmunógenas). Influenza inactivada, neumococo, VHB, tétanos, meningococo: recomendadas."
     },
     {
       "id": "mi2_084",
       "type": "simple",
       "question": "¿Cuál es el manejo post-exposición a VIH?",
-      "answer": "INICIAR <72h (ideal <2h) si exposición ALTO RIESGO (sexual, pinchazo aguja, mucosas). ESQUEMA: 3 fármacos x 28 días: Tenofovir/Emtricitabina (Truvada) 1 tab/día + Raltegravir 400mg/12h o Dolutegravir 50mg/día. Pruebas VIH basal, 6 semanas, 3 meses, 6 meses. Fuente (+): mismo esquema. Fuente desconocida: evaluar riesgo. NO PEP si >72h. Consejería, prevenir ITS, considerar PrEP si exposiciones recurrentes. Efectos adversos: náusea, fatiga, cefalea.",
       "system": "Infeccioso",
       "difficulty": "dificil",
-      "tags": ["VIH", "PEP", "profilaxis", "post-exposición"],
+      "tags": [
+        "VIH",
+        "PEP",
+        "profilaxis",
+        "post-exposición"
+      ],
       "createdAt": "2025-01-19T13:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "answer": "INICIAR <72h (ideal <2h) si exposición ALTO RIESGO (sexual, pinchazo aguja, mucosas). ESQUEMA: 3 fármacos x 28 días: Tenofovir/Emtricitabina (Truvada) 1 tab/día + Raltegravir 400mg/12h o Dolutegravir 50mg/día. Pruebas VIH basal, 6 semanas, 3 meses, 6 meses. Fuente (+): mismo esquema. Fuente desconocida: evaluar riesgo. NO PEP si >72h. Consejería, prevenir ITS, considerar PrEP si exposiciones recurrentes. Efectos adversos: náusea, fatiga, cefalea."
     },
     {
       "id": "mi2_085",
       "type": "multiple",
       "question": "En paciente VIH CD4 <200, ¿qué profilaxis está indicada?",
+      "system": "Infeccioso",
+      "difficulty": "dificil",
+      "tags": [
+        "VIH",
+        "profilaxis",
+        "Pneumocystis",
+        "CD4"
+      ],
+      "createdAt": "2025-01-19T13:00:00.000Z",
       "options": [
         "Ninguna",
         "Trimetoprim-sulfametoxazol (Pneumocystis)",
         "Solo antirretrovirales",
         "Aciclovir"
       ],
-      "correctOption": 1,
-      "explanation": "CD4 <200: TRIMETOPRIM-SULFAMETOXAZOL DS 1 tab/día o 3x/semana (Pneumocystis jirovecii + Toxoplasma). Alternativa: Dapsona, Atovaquona, Pentamidina inhalada. CD4 <100: añadir Azitromicina 1200mg/semana (MAC). CD4 <50: considerar Itraconazol (Histoplasma en áreas endémicas). Suspender profilaxis si CD4 >200 x >3 meses en TAR. Vacunas inactivadas: influenza, neumococo (conjugada + polisacárida), VHB. NO vacunas vivas si CD4 <200.",
-      "system": "Infeccioso",
-      "difficulty": "dificil",
-      "tags": ["VIH", "profilaxis", "Pneumocystis", "CD4"],
-      "createdAt": "2025-01-19T13:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "correctIndex": 1,
+      "explanation": "CD4 <200: TRIMETOPRIM-SULFAMETOXAZOL DS 1 tab/día o 3x/semana (Pneumocystis jirovecii + Toxoplasma). Alternativa: Dapsona, Atovaquona, Pentamidina inhalada. CD4 <100: añadir Azitromicina 1200mg/semana (MAC). CD4 <50: considerar Itraconazol (Histoplasma en áreas endémicas). Suspender profilaxis si CD4 >200 x >3 meses en TAR. Vacunas inactivadas: influenza, neumococo (conjugada + polisacárida), VHB. NO vacunas vivas si CD4 <200."
     },
     {
       "id": "mi2_086",
       "type": "simple",
       "question": "¿Cuándo iniciar tratamiento antirretroviral (TAR) en VIH?",
-      "answer": "TODOS los pacientes VIH independiente de CD4 (recomendación ACTUAL). Iniciar LO ANTES POSIBLE, idealmente mismo día diagnóstico tras educación. Beneficios: ↓progresión, ↓mortalidad, ↓transmisión (indetectable=intransmisible), ↓inflamación. Esquema inicial: 2 INTI + 1 ITINN o 1 IP o 1 INI. Ejemplos: Tenofovir/Emtricitabina (TDF/FTC) + Dolutegravir o Bictegravir/TAF/FTC (1 tab/día). Meta: carga viral indetectable <50 copias/mL en 3-6 meses. Adherencia >95% crítica.",
       "system": "Infeccioso",
       "difficulty": "medio",
-      "tags": ["VIH", "TAR", "antirretrovirales", "tratamiento"],
+      "tags": [
+        "VIH",
+        "TAR",
+        "antirretrovirales",
+        "tratamiento"
+      ],
       "createdAt": "2025-01-19T13:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "answer": "TODOS los pacientes VIH independiente de CD4 (recomendación ACTUAL). Iniciar LO ANTES POSIBLE, idealmente mismo día diagnóstico tras educación. Beneficios: ↓progresión, ↓mortalidad, ↓transmisión (indetectable=intransmisible), ↓inflamación. Esquema inicial: 2 INTI + 1 ITINN o 1 IP o 1 INI. Ejemplos: Tenofovir/Emtricitabina (TDF/FTC) + Dolutegravir o Bictegravir/TAF/FTC (1 tab/día). Meta: carga viral indetectable <50 copias/mL en 3-6 meses. Adherencia >95% crítica."
     },
     {
       "id": "mi2_087",
       "type": "multiple",
       "question": "¿Cuál es el tratamiento de la hepatitis C crónica?",
+      "system": "Infeccioso",
+      "difficulty": "medio",
+      "tags": [
+        "hepatitis C",
+        "DAAs",
+        "Sofosbuvir",
+        "tratamiento"
+      ],
+      "createdAt": "2025-01-19T13:00:00.000Z",
       "options": [
         "Interferón",
         "Antivirales acción directa (DAAs) 8-12 semanas",
         "Ribavirina sola",
         "No hay tratamiento"
       ],
-      "correctOption": 1,
-      "explanation": "DAAs (antivirales acción directa) CURAN >95%: Sofosbuvir/Velpatasvir 1 tab/día x 12 semanas (pangenotípico) o Glecaprevir/Pibrentasvir x 8-12 semanas. Bien tolerados, VO. Ya NO Interferón/Ribavirina (efectos adversos). Evaluar genotipo, fibrosis (Fibroscan/biopsia). Tratamiento indicado TODOS (prevenir cirrosis, CHC, transmisión). Curación = RNA-VHC indetectable 12 semanas post-tratamiento (RVS). Screening: anti-VHC, confirmar con RNA. Complicaciones: cirrosis 20% en 20 años, CHC, crioglobulinemia.",
-      "system": "Infeccioso",
-      "difficulty": "medio",
-      "tags": ["hepatitis C", "DAAs", "Sofosbuvir", "tratamiento"],
-      "createdAt": "2025-01-19T13:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "correctIndex": 1,
+      "explanation": "DAAs (antivirales acción directa) CURAN >95%: Sofosbuvir/Velpatasvir 1 tab/día x 12 semanas (pangenotípico) o Glecaprevir/Pibrentasvir x 8-12 semanas. Bien tolerados, VO. Ya NO Interferón/Ribavirina (efectos adversos). Evaluar genotipo, fibrosis (Fibroscan/biopsia). Tratamiento indicado TODOS (prevenir cirrosis, CHC, transmisión). Curación = RNA-VHC indetectable 12 semanas post-tratamiento (RVS). Screening: anti-VHC, confirmar con RNA. Complicaciones: cirrosis 20% en 20 años, CHC, crioglobulinemia."
     },
     {
       "id": "mi2_088",
       "type": "simple",
       "question": "¿Cuál es el manejo de hepatitis B crónica con indicación de tratamiento?",
-      "answer": "INDICACIONES: cirrosis, DNA-VHB >2000 UI/mL + ALT elevada + fibrosis significativa, DNA >20,000 + ALT >2x LSN. TRATAMIENTO: Tenofovir 300mg/día o Entecavir 0.5-1mg/día (alta barrera resistencia) DE POR VIDA (cura rara). Meta: DNA indetectable, seroconversión HBeAg (si (+)), normalizar ALT, ↓fibrosis. Screening anual CHC (ecografía + alfafetoproteína). Vacunar contactos. Profilaxis embarazo 3er trimestre si DNA >200,000. Entecavir preferido lactancia. NO suspender (reactivación fulminante).",
       "system": "Infeccioso",
       "difficulty": "dificil",
-      "tags": ["hepatitis B", "Tenofovir", "Entecavir", "tratamiento"],
+      "tags": [
+        "hepatitis B",
+        "Tenofovir",
+        "Entecavir",
+        "tratamiento"
+      ],
       "createdAt": "2025-01-19T13:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "answer": "INDICACIONES: cirrosis, DNA-VHB >2000 UI/mL + ALT elevada + fibrosis significativa, DNA >20,000 + ALT >2x LSN. TRATAMIENTO: Tenofovir 300mg/día o Entecavir 0.5-1mg/día (alta barrera resistencia) DE POR VIDA (cura rara). Meta: DNA indetectable, seroconversión HBeAg (si (+)), normalizar ALT, ↓fibrosis. Screening anual CHC (ecografía + alfafetoproteína). Vacunar contactos. Profilaxis embarazo 3er trimestre si DNA >200,000. Entecavir preferido lactancia. NO suspender (reactivación fulminante)."
     },
     {
       "id": "mi2_089",
       "type": "multiple",
       "question": "¿Cuál es la principal indicación de esplenectomía?",
+      "system": "Hematológico",
+      "difficulty": "medio",
+      "tags": [
+        "esplenectomía",
+        "indicaciones",
+        "PTI",
+        "profilaxis"
+      ],
+      "createdAt": "2025-01-19T13:00:00.000Z",
       "options": [
         "Esplenomegalia asintomática",
         "PTI refractaria a tratamiento médico",
         "Cualquier anemia",
         "Leucocitosis"
       ],
-      "correctOption": 1,
-      "explanation": "INDICACIONES esplenectomía: 1)PTI refractaria (fallo corticoides, IVIG, Rituximab, agonistas TPO) con sangrado o <30,000, 2)Anemia hemolítica autoinmune refractaria, 3)Esferocitosis hereditaria sintomática, 4)Hiperesplenismo severo, 5)Trauma esplénico con hemorragia, 6)Ciertos linfomas/leucemias. PROFILAXIS post-esplenectomía (OBLIGADA): Vacunas (neumococo, Hib, meningococo) 2 semanas pre-cirugía. Penicilina profiláctica considerar. Riesgo infecciones encapsuladas (neumococo, Hib, meningococo). Trombocitosis reactiva post-esplenectomía (vigilar trombosis).",
-      "system": "Hematológico",
-      "difficulty": "medio",
-      "tags": ["esplenectomía", "indicaciones", "PTI", "profilaxis"],
-      "createdAt": "2025-01-19T13:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "correctIndex": 1,
+      "explanation": "INDICACIONES esplenectomía: 1)PTI refractaria (fallo corticoides, IVIG, Rituximab, agonistas TPO) con sangrado o <30,000, 2)Anemia hemolítica autoinmune refractaria, 3)Esferocitosis hereditaria sintomática, 4)Hiperesplenismo severo, 5)Trauma esplénico con hemorragia, 6)Ciertos linfomas/leucemias. PROFILAXIS post-esplenectomía (OBLIGADA): Vacunas (neumococo, Hib, meningococo) 2 semanas pre-cirugía. Penicilina profiláctica considerar. Riesgo infecciones encapsuladas (neumococo, Hib, meningococo). Trombocitosis reactiva post-esplenectomía (vigilar trombosis)."
     },
     {
       "id": "mi2_090",
       "type": "simple",
       "question": "¿Cuándo transfundir glóbulos rojos según nivel de hemoglobina?",
-      "answer": "RESTRICTIVA (mayoría pacientes): Hb <7 g/dL. LIBERAL (situaciones especiales): Hb <8 g/dL si: 1)Cardiopatía isquémica activa/IMA, 2)Síntomas anemia (taquicardia, hipotensión, alteración mental, isquemia), 3)Sangrado activo agudo, 4)Anemia hemolítica aguda sintomática. Transfusión: 1U eleva Hb ~1 g/dL. Meta post-transfusión: Hb 7-9 (restrictiva) u 8-10 (liberal). Cada unidad separada (no transfundir >1U sin reevaluar). Riesgos: reacciones, sobrecarga hierro, TRALI, TACO, aloinmunización.",
       "system": "Hematológico",
       "difficulty": "medio",
-      "tags": ["transfusión", "glóbulos rojos", "hemoglobina", "indicaciones"],
+      "tags": [
+        "transfusión",
+        "glóbulos rojos",
+        "hemoglobina",
+        "indicaciones"
+      ],
       "createdAt": "2025-01-19T13:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "answer": "RESTRICTIVA (mayoría pacientes): Hb <7 g/dL. LIBERAL (situaciones especiales): Hb <8 g/dL si: 1)Cardiopatía isquémica activa/IMA, 2)Síntomas anemia (taquicardia, hipotensión, alteración mental, isquemia), 3)Sangrado activo agudo, 4)Anemia hemolítica aguda sintomática. Transfusión: 1U eleva Hb ~1 g/dL. Meta post-transfusión: Hb 7-9 (restrictiva) u 8-10 (liberal). Cada unidad separada (no transfundir >1U sin reevaluar). Riesgos: reacciones, sobrecarga hierro, TRALI, TACO, aloinmunización."
     },
     {
       "id": "mi2_091",
       "type": "multiple",
       "question": "¿Cuándo transfundir plaquetas profilácticamente?",
+      "system": "Hematológico",
+      "difficulty": "medio",
+      "tags": [
+        "transfusión",
+        "plaquetas",
+        "indicaciones",
+        "trombocitopenia"
+      ],
+      "createdAt": "2025-01-19T13:00:00.000Z",
       "options": [
         "Siempre que plaquetas <100,000",
         "<10,000 sin sangrado o <50,000 pre-procedimiento invasivo",
         "<150,000",
         "Nunca"
       ],
-      "correctOption": 1,
-      "explanation": "PROFILAXIS: <10,000 sin sangrado (↓riesgo hemorragia espontánea). SANGRADO ACTIVO: <50,000. PRE-PROCEDIMIENTO: <50,000 cirugía mayor, <100,000 neurocirugía/oftalmológica. PTI: NO transfundir rutinariamente (consumo rápido), solo emergencia (hemorragia SNC). 1 unidad pool plaquetas (5-6 donantes) o 1 aféresis eleva ~30,000-50,000. Refractariedad: aloinmunización (HLA-compatibles), consumo, esplenomegalia, DIC, fármacos.",
-      "system": "Hematológico",
-      "difficulty": "medio",
-      "tags": ["transfusión", "plaquetas", "indicaciones", "trombocitopenia"],
-      "createdAt": "2025-01-19T13:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "correctIndex": 1,
+      "explanation": "PROFILAXIS: <10,000 sin sangrado (↓riesgo hemorragia espontánea). SANGRADO ACTIVO: <50,000. PRE-PROCEDIMIENTO: <50,000 cirugía mayor, <100,000 neurocirugía/oftalmológica. PTI: NO transfundir rutinariamente (consumo rápido), solo emergencia (hemorragia SNC). 1 unidad pool plaquetas (5-6 donantes) o 1 aféresis eleva ~30,000-50,000. Refractariedad: aloinmunización (HLA-compatibles), consumo, esplenomegalia, DIC, fármacos."
     },
     {
       "id": "mi2_092",
       "type": "simple",
       "question": "¿Cuándo transfundir plasma fresco congelado (PFC)?",
-      "answer": "INDICACIONES: 1)Sangrado activo + coagulopatía (INR >1.5-1.8 o déficit factores), 2)Pre-procedimiento invasivo + INR >1.5, 3)Déficit factores coagulación sin concentrado específico, 4)PTT, 5)Reversión warfarina urgente (si no PCC), 6)Transfusión masiva (protocolo 1:1:1 GRE:PFC:plaquetas). NO indicado: hipovolemia, hipoalbuminemia, nutrición. Dosis: 10-20ml/kg (usualmente 2-4 unidades adulto). Complicaciones: TRALI, TACO, reacciones alérgicas, transmisión infecciones (raro).",
       "system": "Hematológico",
       "difficulty": "medio",
-      "tags": ["PFC", "plasma", "transfusión", "coagulopatía"],
+      "tags": [
+        "PFC",
+        "plasma",
+        "transfusión",
+        "coagulopatía"
+      ],
       "createdAt": "2025-01-19T13:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "answer": "INDICACIONES: 1)Sangrado activo + coagulopatía (INR >1.5-1.8 o déficit factores), 2)Pre-procedimiento invasivo + INR >1.5, 3)Déficit factores coagulación sin concentrado específico, 4)PTT, 5)Reversión warfarina urgente (si no PCC), 6)Transfusión masiva (protocolo 1:1:1 GRE:PFC:plaquetas). NO indicado: hipovolemia, hipoalbuminemia, nutrición. Dosis: 10-20ml/kg (usualmente 2-4 unidades adulto). Complicaciones: TRALI, TACO, reacciones alérgicas, transmisión infecciones (raro)."
     },
     {
       "id": "mi2_093",
       "type": "multiple",
       "question": "¿Cuál es la complicación transfusional MÁS frecuente?",
+      "system": "Hematológico",
+      "difficulty": "medio",
+      "tags": [
+        "transfusión",
+        "complicaciones",
+        "reacción febril"
+      ],
+      "createdAt": "2025-01-19T13:00:00.000Z",
       "options": [
         "Reacción hemolítica aguda",
         "Reacción febril no hemolítica",
         "TRALI",
         "Transmisión VIH"
       ],
-      "correctOption": 1,
-      "explanation": "REACCIÓN FEBRIL NO HEMOLÍTICA (1-2%): fiebre, escalofríos SIN hemólisis. Causa: citoquinas, anticuerpos anti-leucocitos. Manejo: parar transfusión, descartar hemólisis, antipiréticos. Prevenir: leucorreducción. Otras complicaciones: Alérgica (urticaria, anafilaxia), Hemolítica aguda (ABO incompatible, grave), TRALI (edema pulmonar no cardiogénico), TACO (sobrecarga volumen), Sepsis bacteriana, Hemólisis tardía, Sobrecarga hierro. Transmisión viral muy rara actualmente (screening).",
-      "system": "Hematológico",
-      "difficulty": "medio",
-      "tags": ["transfusión", "complicaciones", "reacción febril"],
-      "createdAt": "2025-01-19T13:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "correctIndex": 1,
+      "explanation": "REACCIÓN FEBRIL NO HEMOLÍTICA (1-2%): fiebre, escalofríos SIN hemólisis. Causa: citoquinas, anticuerpos anti-leucocitos. Manejo: parar transfusión, descartar hemólisis, antipiréticos. Prevenir: leucorreducción. Otras complicaciones: Alérgica (urticaria, anafilaxia), Hemolítica aguda (ABO incompatible, grave), TRALI (edema pulmonar no cardiogénico), TACO (sobrecarga volumen), Sepsis bacteriana, Hemólisis tardía, Sobrecarga hierro. Transmisión viral muy rara actualmente (screening)."
     },
     {
       "id": "mi2_094",
       "type": "simple",
       "question": "¿Cuál es el manejo del síndrome de lisis tumoral?",
-      "answer": "PREVENCIÓN (cáncer alto riesgo: leucemia aguda, linfoma Burkitt, alta carga tumoral): 1)HIDRATACIÓN agresiva 2-3 L/m²/día (SSN sin potasio), 2)ALOPURINOL 300mg/8-12h (inhibe producción ác.úrico) 24-48h PRE-quimioterapia o RASBURICASA 0.2mg/kg IV (degrada ác.úrico). TRATAMIENTO (si ya ocurrió): hiperhidratación, alopurinol/rasburicasa, corrección electrolitos (hipercalemia, hiperfosfatemia, hipocalcemia), hemodiálisis si IRA/refractario. Lab: ác.úrico ↑, K ↑, P ↑, Ca ↓, LDH ↑, Cr ↑. Puede ocurrir 12-72h post-quimioterapia.",
       "system": "Hematológico",
       "difficulty": "dificil",
-      "tags": ["lisis tumoral", "oncología", "alopurinol", "rasburicasa"],
+      "tags": [
+        "lisis tumoral",
+        "oncología",
+        "alopurinol",
+        "rasburicasa"
+      ],
       "createdAt": "2025-01-19T13:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "answer": "PREVENCIÓN (cáncer alto riesgo: leucemia aguda, linfoma Burkitt, alta carga tumoral): 1)HIDRATACIÓN agresiva 2-3 L/m²/día (SSN sin potasio), 2)ALOPURINOL 300mg/8-12h (inhibe producción ác.úrico) 24-48h PRE-quimioterapia o RASBURICASA 0.2mg/kg IV (degrada ác.úrico). TRATAMIENTO (si ya ocurrió): hiperhidratación, alopurinol/rasburicasa, corrección electrolitos (hipercalemia, hiperfosfatemia, hipocalcemia), hemodiálisis si IRA/refractario. Lab: ác.úrico ↑, K ↑, P ↑, Ca ↓, LDH ↑, Cr ↑. Puede ocurrir 12-72h post-quimioterapia."
     },
     {
       "id": "mi2_095",
       "type": "multiple",
       "question": "¿Cuál es el tratamiento del hipogonadismo masculino?",
+      "system": "Endocrino",
+      "difficulty": "medio",
+      "tags": [
+        "hipogonadismo",
+        "testosterona",
+        "reemplazo",
+        "tratamiento"
+      ],
+      "createdAt": "2025-01-19T13:00:00.000Z",
       "options": [
         "Estrógenos",
         "Testosterona reemplazo",
         "Prednisona",
         "Levotiroxina"
       ],
-      "correctOption": 1,
-      "explanation": "TESTOSTERONA REEMPLAZO si hipogonadismo confirmado (testosterona total <300 ng/dL en 2 ocasiones + síntomas). OPCIONES: Gel transdérmico (Androgel) 50mg/día, Inyectable IM (Enantato) 200mg/2 semanas o Undecanoato 1000mg/12 semanas, Parches. Monitoreo: testosterona (mantener rango normal), Hto (policitemia), PSA/tacto rectal (cáncer próstata), densitometría. Contraindicaciones: cáncer próstata/mama, Hto >54%, apnea severa, IC descompensada. Mejora: libido, masa muscular, densidad ósea, energía.",
-      "system": "Endocrino",
-      "difficulty": "medio",
-      "tags": ["hipogonadismo", "testosterona", "reemplazo", "tratamiento"],
-      "createdAt": "2025-01-19T13:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "correctIndex": 1,
+      "explanation": "TESTOSTERONA REEMPLAZO si hipogonadismo confirmado (testosterona total <300 ng/dL en 2 ocasiones + síntomas). OPCIONES: Gel transdérmico (Androgel) 50mg/día, Inyectable IM (Enantato) 200mg/2 semanas o Undecanoato 1000mg/12 semanas, Parches. Monitoreo: testosterona (mantener rango normal), Hto (policitemia), PSA/tacto rectal (cáncer próstata), densitometría. Contraindicaciones: cáncer próstata/mama, Hto >54%, apnea severa, IC descompensada. Mejora: libido, masa muscular, densidad ósea, energía."
     },
     {
       "id": "mi2_096",
       "type": "simple",
       "question": "¿Cuál es el manejo del incidentaloma suprarrenal?",
-      "answer": "EVALUACIÓN: 1)FUNCIONALIDAD (siempre): Metanefrinas plasmáticas/urinarias (feocromocitoma), Cortisol post-1mg dexametasona (Cushing subclínico), Aldosterona/Renina si HTA (Conn). 2)MALIGNIDAD: TC características (tamaño >4cm, heterogéneo, >10 UH, lavado lento). MANEJO: <4cm + benigno + no funcional: seguimiento. >4cm o funcional o maligno: CIRUGÍA. Feocromocitoma: resección (preparar con α-bloqueantes pre-op). Cushingsubclínico: considerar cirugía si complicaciones (HTA, DM, osteoporosis). Seguimiento: TC 6-12 meses.",
       "system": "Endocrino",
       "difficulty": "dificil",
-      "tags": ["incidentaloma", "suprarrenal", "feocromocitoma", "evaluación"],
+      "tags": [
+        "incidentaloma",
+        "suprarrenal",
+        "feocromocitoma",
+        "evaluación"
+      ],
       "createdAt": "2025-01-19T13:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "answer": "EVALUACIÓN: 1)FUNCIONALIDAD (siempre): Metanefrinas plasmáticas/urinarias (feocromocitoma), Cortisol post-1mg dexametasona (Cushing subclínico), Aldosterona/Renina si HTA (Conn). 2)MALIGNIDAD: TC características (tamaño >4cm, heterogéneo, >10 UH, lavado lento). MANEJO: <4cm + benigno + no funcional: seguimiento. >4cm o funcional o maligno: CIRUGÍA. Feocromocitoma: resección (preparar con α-bloqueantes pre-op). Cushingsubclínico: considerar cirugía si complicaciones (HTA, DM, osteoporosis). Seguimiento: TC 6-12 meses."
     },
     {
       "id": "mi2_097",
       "type": "multiple",
       "question": "¿Cuál es el hallazgo patognomónico de acromegalia?",
+      "system": "Endocrino",
+      "difficulty": "dificil",
+      "tags": [
+        "acromegalia",
+        "GH",
+        "IGF-1",
+        "diagnóstico"
+      ],
+      "createdAt": "2025-01-19T13:00:00.000Z",
       "options": [
         "Hipoglucemia",
         "IGF-1 elevado + GH no suprime con glucosa",
         "Cortisol alto",
         "TSH baja"
       ],
-      "correctOption": 1,
-      "explanation": "IGF-1 (somatomedina C) ELEVADO + GH NO SUPRIME <1 ng/mL tras sobrecarga 75g glucosa VO (test PTOG). Clínica: crecimiento acral (manos, pies, mandíbula), visceromegalia, diabetes, HTA, apnea, cefalea, alteración visual. Causa: adenoma hipófisis (GH). RM silla turca: macroadenoma usualmente. Tratamiento: 1)CIRUGÍA transesfenoidal (primera línea), 2)Análogos somatostatina (Octreotide, Lanreotide) si no cura quirúrgica, 3)Antagonista GH (Pegvisomant), 4)Radioterapia si refractaria. Complicaciones: cardiopatía, diabetes, cáncer colon (screening).",
-      "system": "Endocrino",
-      "difficulty": "dificil",
-      "tags": ["acromegalia", "GH", "IGF-1", "diagnóstico"],
-      "createdAt": "2025-01-19T13:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "correctIndex": 1,
+      "explanation": "IGF-1 (somatomedina C) ELEVADO + GH NO SUPRIME <1 ng/mL tras sobrecarga 75g glucosa VO (test PTOG). Clínica: crecimiento acral (manos, pies, mandíbula), visceromegalia, diabetes, HTA, apnea, cefalea, alteración visual. Causa: adenoma hipófisis (GH). RM silla turca: macroadenoma usualmente. Tratamiento: 1)CIRUGÍA transesfenoidal (primera línea), 2)Análogos somatostatina (Octreotide, Lanreotide) si no cura quirúrgica, 3)Antagonista GH (Pegvisomant), 4)Radioterapia si refractaria. Complicaciones: cardiopatía, diabetes, cáncer colon (screening)."
     },
     {
       "id": "mi2_098",
       "type": "simple",
       "question": "¿Cuál es el manejo del prolactinoma?",
-      "answer": "Adenoma hipofisario secretor prolactina. Clínica: amenorrea, galactorrea, ↓libido, infertilidad, ginecomastia (hombres). Lab: prolactina >200 ng/mL sugiere prolactinoma (descartar causas secundarias: embarazo, fármacos, hipotiroidismo, IRC). TRATAMIENTO: AGONISTAS DOPAMINA: Cabergolina 0.25-1mg 2x/sem (mejor tolerada, primera línea) o Bromocriptina 2.5-15mg/día. Normaliza prolactina, reduce tumor, restaura fertilidad. Cirugía si intolerancia o resistencia. Microprolactinoma (<1cm): respuesta excelente. Macroprolactinoma: también responde (80%).",
       "system": "Endocrino",
       "difficulty": "medio",
-      "tags": ["prolactinoma", "cabergolina", "hiperprolactinemia", "tratamiento"],
+      "tags": [
+        "prolactinoma",
+        "cabergolina",
+        "hiperprolactinemia",
+        "tratamiento"
+      ],
       "createdAt": "2025-01-19T13:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "answer": "Adenoma hipofisario secretor prolactina. Clínica: amenorrea, galactorrea, ↓libido, infertilidad, ginecomastia (hombres). Lab: prolactina >200 ng/mL sugiere prolactinoma (descartar causas secundarias: embarazo, fármacos, hipotiroidismo, IRC). TRATAMIENTO: AGONISTAS DOPAMINA: Cabergolina 0.25-1mg 2x/sem (mejor tolerada, primera línea) o Bromocriptina 2.5-15mg/día. Normaliza prolactina, reduce tumor, restaura fertilidad. Cirugía si intolerancia o resistencia. Microprolactinoma (<1cm): respuesta excelente. Macroprolactinoma: también responde (80%)."
     },
     {
       "id": "mi2_099",
       "type": "multiple",
       "question": "¿Cuál es el tratamiento del síndrome de Cushing por adenoma hipofisario (enfermedad de Cushing)?",
+      "system": "Endocrino",
+      "difficulty": "dificil",
+      "tags": [
+        "Cushing",
+        "adenoma hipofisario",
+        "cirugía",
+        "ACTH"
+      ],
+      "createdAt": "2025-01-19T13:00:00.000Z",
       "options": [
         "Prednisona",
         "Cirugía transesfenoidal + reemplazo temporal corticoides",
         "Solo ketoconazol",
         "Observación"
       ],
-      "correctOption": 1,
-      "explanation": "CIRUGÍA TRANSESFENOIDAL (resección adenoma hipófisis secretor ACTH) es tratamiento definitivo. Post-op: insuficiencia suprarrenal (suprimir eje HHA), requiere HIDROCORTISONA reemplazo temporal hasta recuperación. Éxito: cortisol bajo post-op (buen signo). Si falla cirugía: Radioterapia hipófisis, Suprarrenalectomía bilateral, Inhibidores esteroidogénesis (Ketoconazol, Metirapona, Mitotano). Test diagnóstico: cortisol libre urinario ↑, cortisol NO suprime con dexametasona baja, ACTH ↑ (vs suprimido en adenoma suprarrenal).",
-      "system": "Endocrino",
-      "difficulty": "dificil",
-      "tags": ["Cushing", "adenoma hipofisario", "cirugía", "ACTH"],
-      "createdAt": "2025-01-19T13:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "correctIndex": 1,
+      "explanation": "CIRUGÍA TRANSESFENOIDAL (resección adenoma hipófisis secretor ACTH) es tratamiento definitivo. Post-op: insuficiencia suprarrenal (suprimir eje HHA), requiere HIDROCORTISONA reemplazo temporal hasta recuperación. Éxito: cortisol bajo post-op (buen signo). Si falla cirugía: Radioterapia hipófisis, Suprarrenalectomía bilateral, Inhibidores esteroidogénesis (Ketoconazol, Metirapona, Mitotano). Test diagnóstico: cortisol libre urinario ↑, cortisol NO suprime con dexametasona baja, ACTH ↑ (vs suprimido en adenoma suprarrenal)."
     },
     {
       "id": "mi2_100",
       "type": "simple",
       "question": "¿Cuál es el manejo de la diabetes insípida central vs nefrogénica?",
-      "answer": "DI CENTRAL (déficit ADH): poliuria, polidipsia, Na >145, osmolaridad orina <300 (orina diluida), test privación agua (no concentra). Causas: cirugía hipófisis, trauma, tumor, idiopática. TRATAMIENTO: DESMOPRESINA (análogo ADH) 10-40 mcg intranasal/día o 0.1-0.2mg VO/8-12h. DI NEFROGÉNICA (resistencia renal ADH): Na ↑, osmolaridad orina baja PERO ADH normal/alta. Causas: Litio, hipercalcemia, hipocalemia, genética. Tratamiento: suspender causa, Tiazidas + amilorida (paradójico), dieta baja sal. Corregir Na lentamente (evitar mielinólisis).",
       "system": "Endocrino",
       "difficulty": "dificil",
-      "tags": ["diabetes insípida", "desmopresina", "ADH", "tratamiento"],
+      "tags": [
+        "diabetes insípida",
+        "desmopresina",
+        "ADH",
+        "tratamiento"
+      ],
       "createdAt": "2025-01-19T13:00:00.000Z",
-      "reviewCount": 0,
-      "lastReviewed": null
+      "answer": "DI CENTRAL (déficit ADH): poliuria, polidipsia, Na >145, osmolaridad orina <300 (orina diluida), test privación agua (no concentra). Causas: cirugía hipófisis, trauma, tumor, idiopática. TRATAMIENTO: DESMOPRESINA (análogo ADH) 10-40 mcg intranasal/día o 0.1-0.2mg VO/8-12h. DI NEFROGÉNICA (resistencia renal ADH): Na ↑, osmolaridad orina baja PERO ADH normal/alta. Causas: Litio, hipercalcemia, hipocalemia, genética. Tratamiento: suspender causa, Tiazidas + amilorida (paradójico), dieta baja sal. Corregir Na lentamente (evitar mielinólisis)."
     }
   ]
 }
