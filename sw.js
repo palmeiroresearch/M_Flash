@@ -4,7 +4,7 @@
 // Compatible con GitHub Pages
 // ============================================
 
-const CACHE_NAME = 'flashcards-medicas-v2.2';
+const CACHE_NAME = 'flashcards-medicas-v2.3';
 
 // Detectar la ruta base (para GitHub Pages con subdirectorio)
 const BASE_PATH = self.location.pathname.substring(0, self.location.pathname.lastIndexOf('/') + 1);
