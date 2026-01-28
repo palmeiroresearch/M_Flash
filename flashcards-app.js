@@ -386,6 +386,22 @@ function renderMultipleChoiceCard(card) {
     const system = SYSTEMS.find(s => s.id === card.system);
     const favoriteIcon = card.isFavorite ? '⭐' : '☆';
     
+    // Mezclar opciones solo una vez al cargar la tarjeta
+    if (!card._shuffledOptions) {
+        const optionsWithIndex = card.options.map((option, index) => ({
+            text: option,
+            originalIndex: index
+        }));
+        
+        // Mezclar array
+        for (let i = optionsWithIndex.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [optionsWithIndex[i], optionsWithIndex[j]] = [optionsWithIndex[j], optionsWithIndex[i]];
+        }
+        
+        card._shuffledOptions = optionsWithIndex;
+    }
+    
     let html = `
         <div class="multiple-choice-container">
             <button class="favorite-btn ${card.isFavorite ? 'active' : ''}" 
@@ -398,10 +414,10 @@ function renderMultipleChoiceCard(card) {
             <div class="choices" id="choicesContainer">
     `;
     
-    card.options.forEach((option, index) => {
+    card._shuffledOptions.forEach((option, displayIndex) => {
         html += `
-            <div class="choice-option" onclick="selectChoice(${index})">
-                ${String.fromCharCode(65 + index)}. ${option}
+            <div class="choice-option" onclick="selectChoice(${displayIndex})">
+                ${String.fromCharCode(65 + displayIndex)}. ${option.text}
             </div>
         `;
     });
@@ -425,8 +441,8 @@ function flipCard() {
     document.getElementById('currentFlashcard').classList.toggle('flipped');
 }
 
-// FIX CRÍTICO: selectChoice ahora actualiza systemStats
-function selectChoice(selectedIndex) {
+// FIX CRÍTICO: selectChoice ahora actualiza systemStats y usa opciones mezcladas
+function selectChoice(selectedDisplayIndex) {
     const card = currentStudyCards[currentCardIndex];
     const options = document.querySelectorAll('.choice-option');
     const feedback = document.getElementById('choiceFeedback');
@@ -434,10 +450,17 @@ function selectChoice(selectedIndex) {
     
     options.forEach(opt => opt.classList.add('disabled'));
     
-    const isCorrect = selectedIndex === card.correctIndex;
+    // Obtener el índice original de la opción seleccionada
+    const selectedOriginalIndex = card._shuffledOptions[selectedDisplayIndex].originalIndex;
+    const isCorrect = selectedOriginalIndex === card.correctIndex;
+    
+    // Encontrar el índice de display de la respuesta correcta
+    const correctDisplayIndex = card._shuffledOptions.findIndex(
+        opt => opt.originalIndex === card.correctIndex
+    );
     
     if (isCorrect) {
-        options[selectedIndex].classList.add('correct');
+        options[selectedDisplayIndex].classList.add('correct');
         sessionStats.correct++;
         
         // FIX: Actualizar systemStats
@@ -460,8 +483,8 @@ function selectChoice(selectedIndex) {
             ${card.explanation || 'Respuesta correcta'}
         `;
     } else {
-        options[selectedIndex].classList.add('incorrect');
-        options[card.correctIndex].classList.add('correct');
+        options[selectedDisplayIndex].classList.add('incorrect');
+        options[correctDisplayIndex].classList.add('correct');
         sessionStats.incorrect++;
         
         // FIX: Actualizar systemStats
@@ -481,7 +504,7 @@ function selectChoice(selectedIndex) {
         feedback.className = 'choice-feedback incorrect show';
         feedback.innerHTML = `
             <strong>❌ Incorrecto</strong><br>
-            La respuesta correcta es: <strong>${String.fromCharCode(65 + card.correctIndex)}</strong><br>
+            La respuesta correcta es: <strong>${String.fromCharCode(65 + correctDisplayIndex)}</strong><br>
             ${card.explanation || ''}
         `;
     }
@@ -533,6 +556,11 @@ function markIncorrect() {
 }
 
 function nextCard() {
+    // Limpiar shuffle de tarjeta actual
+    if (currentStudyCards[currentCardIndex] && currentStudyCards[currentCardIndex]._shuffledOptions) {
+        delete currentStudyCards[currentCardIndex]._shuffledOptions;
+    }
+    
     currentCardIndex++;
     
     if (currentCardIndex >= currentStudyCards.length) {
@@ -552,11 +580,10 @@ function endStudySession() {
     const total = sessionStats.correct + sessionStats.incorrect;
     const accuracy = total > 0 ? Math.round((sessionStats.correct / total) * 100) : 0;
     
-    // SISTEMA XP: Calcular puntos ganados
-    const baseXP = sessionStats.correct * 10; // 10 XP por correcta
-    const bonusXP = sessionStats.incorrect * 2; // 2 XP por intentar
-    const accuracyBonus = accuracy >= 80 ? 50 : accuracy >= 60 ? 25 : 0;
-    const totalXP = baseXP + bonusXP + accuracyBonus;
+    // SISTEMA XP: Calcular puntos ganados (REBALANCEADO)
+    const baseXP = sessionStats.correct * 2; // 2 XP por correcta
+    const bonusXP = sessionStats.incorrect * 1; // 1 XP por intentar
+    const totalXP = baseXP + bonusXP;
     
     addXP(totalXP, `Sesión: ${sessionStats.correct} correctas`);
     updateStudyStreak();
@@ -936,16 +963,16 @@ function renderTagsContainer() {
 // ============================================
 
 const LEVELS = [
-    { level: 1, name: 'Novato', minXP: 0, maxXP: 100, emoji: '🌱' },
-    { level: 2, name: 'Estudiante', minXP: 100, maxXP: 300, emoji: '📚' },
-    { level: 3, name: 'Practicante', minXP: 300, maxXP: 600, emoji: '👨‍⚕️' },
-    { level: 4, name: 'Residente', minXP: 600, maxXP: 1000, emoji: '🩺' },
-    { level: 5, name: 'Especialista', minXP: 1000, maxXP: 1500, emoji: '⚕️' },
-    { level: 6, name: 'Experto', minXP: 1500, maxXP: 2200, emoji: '🎓' },
-    { level: 7, name: 'Maestro', minXP: 2200, maxXP: 3000, emoji: '👑' },
-    { level: 8, name: 'Leyenda', minXP: 3000, maxXP: 5000, emoji: '🏆' },
-    { level: 9, name: 'Gurú Médico', minXP: 5000, maxXP: 10000, emoji: '🌟' },
-    { level: 10, name: 'Dios de la Medicina', minXP: 10000, maxXP: Infinity, emoji: '⚡' }
+    { level: 1, name: 'Novato', minXP: 0, maxXP: 50, emoji: '🌱' },
+    { level: 2, name: 'Estudiante', minXP: 50, maxXP: 150, emoji: '📚' },
+    { level: 3, name: 'Practicante', minXP: 150, maxXP: 350, emoji: '👨‍⚕️' },
+    { level: 4, name: 'Residente', minXP: 350, maxXP: 700, emoji: '🩺' },
+    { level: 5, name: 'Especialista', minXP: 700, maxXP: 1200, emoji: '⚕️' },
+    { level: 6, name: 'Experto', minXP: 1200, maxXP: 2000, emoji: '🎓' },
+    { level: 7, name: 'Maestro', minXP: 2000, maxXP: 3200, emoji: '👑' },
+    { level: 8, name: 'Leyenda', minXP: 3200, maxXP: 5000, emoji: '🏆' },
+    { level: 9, name: 'Gurú Médico', minXP: 5000, maxXP: 8000, emoji: '🌟' },
+    { level: 10, name: 'Dios de la Medicina', minXP: 8000, maxXP: Infinity, emoji: '⚡' }
 ];
 
 function addXP(points, reason = '') {
@@ -1060,7 +1087,7 @@ function updateStudyStreak() {
         // Continúa la racha
         userProfile.studyStreak++;
         if (userProfile.studyStreak % 7 === 0) {
-            addXP(50, `🔥 ¡${userProfile.studyStreak} días de racha!`);
+            addXP(25, `🔥 ¡${userProfile.studyStreak} días de racha!`);
         }
     } else if (lastStudy !== today) {
         // Se rompió la racha
@@ -1228,6 +1255,9 @@ function renderStats() {
     
     // Actualizar display de XP y niveles
     updateXPDisplay();
+    
+    // Renderizar roadmap de niveles
+    renderLevelRoadmap();
     
     if (studySessions.length === 0) {
         content.innerHTML = `
@@ -2030,6 +2060,81 @@ if (!document.getElementById('notification-animations')) {
         }
     `;
     document.head.appendChild(style);
+}
+
+// ============================================
+// ROADMAP DE NIVELES
+// ============================================
+
+function renderLevelRoadmap() {
+    const container = document.getElementById('levelRoadmap');
+    if (!container) return;
+    
+    const currentLevel = userProfile.level;
+    const currentXP = userProfile.xp;
+    
+    let html = '<div class="level-roadmap-container">';
+    
+    LEVELS.forEach((level, index) => {
+        const isCompleted = currentLevel > level.level;
+        const isCurrent = currentLevel === level.level;
+        const isLocked = currentLevel < level.level;
+        
+        // Calcular progreso si es el nivel actual
+        let progress = 0;
+        if (isCurrent) {
+            const xpInLevel = currentXP - level.minXP;
+            const xpNeeded = level.maxXP - level.minXP;
+            progress = Math.min((xpInLevel / xpNeeded) * 100, 100);
+        } else if (isCompleted) {
+            progress = 100;
+        }
+        
+        // Clases de estado
+        let statusClass = 'locked';
+        if (isCompleted) statusClass = 'completed';
+        if (isCurrent) statusClass = 'current';
+        
+        html += `
+            <div class="level-roadmap-item ${statusClass}">
+                <div class="level-roadmap-connector ${index === 0 ? 'first' : ''}"></div>
+                <div class="level-roadmap-icon">
+                    <div class="level-roadmap-emoji">${level.emoji}</div>
+                    ${isCompleted ? '<div class="level-roadmap-check">✓</div>' : ''}
+                    ${isCurrent ? '<div class="level-roadmap-pulse"></div>' : ''}
+                </div>
+                <div class="level-roadmap-content">
+                    <div class="level-roadmap-header">
+                        <div>
+                            <div class="level-roadmap-number">Nivel ${level.level}</div>
+                            <div class="level-roadmap-name">${level.name}</div>
+                        </div>
+                        <div class="level-roadmap-xp">
+                            ${level.maxXP === Infinity ? `${level.minXP}+ XP` : `${level.minXP} - ${level.maxXP} XP`}
+                        </div>
+                    </div>
+                    ${isCurrent ? `
+                        <div class="level-roadmap-progress">
+                            <div class="level-roadmap-progress-bar">
+                                <div class="level-roadmap-progress-fill" style="width: ${progress}%"></div>
+                            </div>
+                            <div class="level-roadmap-progress-text">
+                                ${currentXP} / ${level.maxXP === Infinity ? level.minXP + '+' : level.maxXP} XP (${Math.round(progress)}%)
+                            </div>
+                        </div>
+                    ` : ''}
+                    ${isLocked ? `
+                        <div class="level-roadmap-locked">
+                            <span>🔒 Necesitas ${level.minXP - currentXP} XP más</span>
+                        </div>
+                    ` : ''}
+                </div>
+            </div>
+        `;
+    });
+    
+    html += '</div>';
+    container.innerHTML = html;
 }
 
 // ============================================
