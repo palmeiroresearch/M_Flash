@@ -1,6 +1,6 @@
 // ============================================
 // FLASHCARDS MÉDICAS - Sistema de Estudio
-// VERSIÓN 2.2 - FIX ESTADÍSTICAS POR SISTEMA
+// VERSIÓN 2.3 - FIX: IDs ÚNICOS Y GESTIÓN MANUAL
 // ============================================
 
 // Variables globales
@@ -126,6 +126,15 @@ function loadData() {
     const stored = localStorage.getItem('medicalFlashcards');
     if (stored) {
         flashcards = JSON.parse(stored);
+        // FIX: Asegurar que todas las cartas tengan ID (para compatibilidad con datos viejos)
+        let needsSave = false;
+        flashcards.forEach(card => {
+            if (!card.id) {
+                card.id = Date.now() + Math.random().toString(36).substr(2, 9);
+                needsSave = true;
+            }
+        });
+        if (needsSave) saveData();
     }
     
     const storedSessions = localStorage.getItem('studySessions');
@@ -352,29 +361,32 @@ function renderSimpleFlashcard(card) {
     const favoriteIcon = card.isFavorite ? '⭐' : '☆';
     
     return `
-        <div class="flashcard" id="currentFlashcard">
+        <div class="simple-flashcard-wrapper">
             <button class="favorite-btn ${card.isFavorite ? 'active' : ''}" 
-                    onclick="toggleFavoriteInSession()" 
+                    onclick="toggleFavoriteInSession(event)" 
                     title="${card.isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}">
                 ${favoriteIcon}
             </button>
-            <div class="flashcard-inner">
-                <div class="flashcard-front">
-                    <span class="flashcard-system-badge">${system ? system.emoji : ''} ${card.system}</span>
-                    <div class="flashcard-question">${card.question}</div>
-                    <button class="btn btn-primary" onclick="flipCard()">
-                        Ver Respuesta
-                    </button>
-                </div>
-                <div class="flashcard-back">
-                    <div class="flashcard-answer">${card.answer}</div>
-                    <div style="margin-top: 30px; display: flex; gap: 15px; justify-content: center;">
-                        <button class="btn btn-danger" onclick="markIncorrect()">
-                            ❌ Incorrecta
+            <span class="flashcard-system-badge">${system ? system.emoji : ''} ${card.system}</span>
+            
+            <div class="flashcard" id="currentFlashcard">
+                <div class="flashcard-inner">
+                    <div class="flashcard-front">
+                        <div class="flashcard-question">${card.question}</div>
+                        <button class="btn btn-primary" onclick="flipCard()">
+                            Ver Respuesta
                         </button>
-                        <button class="btn btn-success" onclick="markCorrect()">
-                            ✅ Correcta
-                        </button>
+                    </div>
+                    <div class="flashcard-back">
+                        <div class="flashcard-answer">${card.answer}</div>
+                        <div class="flashcard-actions">
+                            <button class="btn btn-danger" onclick="markIncorrect()">
+                                ❌ Incorrecta
+                            </button>
+                            <button class="btn btn-success" onclick="markCorrect()">
+                                ✅ Correcta
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -405,7 +417,7 @@ function renderMultipleChoiceCard(card) {
     let html = `
         <div class="multiple-choice-container">
             <button class="favorite-btn ${card.isFavorite ? 'active' : ''}" 
-                    onclick="toggleFavoriteInSession()" 
+                    onclick="toggleFavoriteInSession(event)" 
                     title="${card.isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}">
                 ${favoriteIcon}
             </button>
@@ -618,7 +630,7 @@ function resetStudy() {
 }
 
 // ============================================
-// BIBLIOTECA DE FLASHCARDS
+// BIBLIOTECA DE FLASHCARDS - FIX: USA ID EN LUGAR DE INDEX
 // ============================================
 
 function renderLibrary() {
@@ -654,6 +666,7 @@ function renderLibrary() {
             }
         }
         
+        // FIX: Se usan los IDs reales en onclick
         html += `
             <div class="flashcard-card">
                 <div class="card-header">
@@ -669,10 +682,10 @@ function renderLibrary() {
                     ${card.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
                 </div>
                 <div class="card-actions">
-                    <button class="btn btn-primary btn-small" onclick="editCard(${index})">
+                    <button class="btn btn-primary btn-small" onclick="editCard('${card.id}')">
                         ✏️ Editar
                     </button>
-                    <button class="btn btn-danger btn-small" onclick="deleteCard(${index})">
+                    <button class="btn btn-danger btn-small" onclick="deleteCard('${card.id}')">
                         🗑️ Eliminar
                     </button>
                 </div>
@@ -726,8 +739,15 @@ function populateSystemFilters() {
     select.innerHTML = html;
 }
 
+function populateShareSystemFilter() {
+    // Si existe esta función en el original la mantengo, aunque no la vi en tu código
+    // es probable que falte la implementación en el código que me pasaste o no se use.
+    // La dejo vacía para evitar error de referencia en init.
+}
+
+
 // ============================================
-// MODAL: CREAR/EDITAR FLASHCARD
+// MODAL: CREAR/EDITAR FLASHCARD - FIX: GESTIÓN POR ID
 // ============================================
 
 function openNewCardModal() {
@@ -742,11 +762,15 @@ function openNewCardModal() {
     document.getElementById('cardModal').classList.add('show');
 }
 
-function editCard(index) {
+function editCard(cardId) {
+    // FIX: Buscar por ID real, no por índice
+    const index = flashcards.findIndex(c => c.id == cardId);
+    if (index === -1) return;
+    
     const card = flashcards[index];
     
     document.getElementById('cardModalTitle').textContent = 'Editar Flashcard';
-    document.getElementById('editCardId').value = index;
+    document.getElementById('editCardId').value = cardId;
     
     document.getElementById('cardQuestion').value = card.question;
     document.getElementById('cardSystem').value = card.system;
@@ -778,12 +802,16 @@ function editCard(index) {
     document.getElementById('cardModal').classList.add('show');
 }
 
-function deleteCard(index) {
+function deleteCard(cardId) {
     if (confirm('¿Estás seguro de eliminar esta flashcard?')) {
-        flashcards.splice(index, 1);
-        saveData();
-        renderLibrary();
-        renderSystemSelector();
+        // FIX: Buscar por ID real
+        const index = flashcards.findIndex(c => c.id == cardId);
+        if (index !== -1) {
+            flashcards.splice(index, 1);
+            saveData();
+            renderLibrary();
+            renderSystemSelector();
+        }
     }
 }
 
@@ -855,22 +883,36 @@ function saveCard(event) {
     event.preventDefault();
     
     const type = document.querySelector('input[name="cardType"]:checked').value;
+    // editId contiene el ID de la tarjeta si es edición
     const editId = document.getElementById('editCardId').value;
     
+    // FIX: Buscar tarjeta original por ID para preservar metadatos
+    let originalCard = null;
+    let originalIndex = -1;
+    
+    if (editId !== '') {
+        originalIndex = flashcards.findIndex(c => c.id == editId);
+        if (originalIndex !== -1) {
+            originalCard = flashcards[originalIndex];
+        }
+    }
+    
     const cardData = {
-        id: editId !== '' ? flashcards[editId].id : Date.now(),
+        // FIX: Usar ID existente o generar uno nuevo robusto
+        id: (editId !== '' && originalCard) ? originalCard.id : (Date.now() + Math.random().toString(36).substr(2, 5)),
         type: type,
         question: document.getElementById('cardQuestion').value,
         system: document.getElementById('cardSystem').value,
         difficulty: document.getElementById('cardDifficulty').value,
         tags: currentTags,
-        createdAt: editId !== '' ? flashcards[editId].createdAt : new Date().toISOString(),
-        reviewCount: editId !== '' ? (flashcards[editId].reviewCount || 0) : 0,
-        lastReviewed: editId !== '' ? flashcards[editId].lastReviewed : null,
-        nextReview: editId !== '' ? (flashcards[editId].nextReview || new Date().toISOString()) : new Date().toISOString(),
-        easeFactor: editId !== '' ? (flashcards[editId].easeFactor || 2.5) : 2.5,
-        interval: editId !== '' ? (flashcards[editId].interval || 0) : 0,
-        isFavorite: editId !== '' ? (flashcards[editId].isFavorite || false) : false
+        // Preservar datos antiguos o inicializar
+        createdAt: originalCard ? originalCard.createdAt : new Date().toISOString(),
+        reviewCount: originalCard ? (originalCard.reviewCount || 0) : 0,
+        lastReviewed: originalCard ? originalCard.lastReviewed : null,
+        nextReview: originalCard ? (originalCard.nextReview || new Date().toISOString()) : new Date().toISOString(),
+        easeFactor: originalCard ? (originalCard.easeFactor || 2.5) : 2.5,
+        interval: originalCard ? (originalCard.interval || 0) : 0,
+        isFavorite: originalCard ? (originalCard.isFavorite || false) : false
     };
     
     if (type === 'simple') {
@@ -901,14 +943,17 @@ function saveCard(event) {
         cardData.explanation = document.getElementById('cardExplanation').value;
     }
     
-    if (editId !== '') {
-        flashcards[editId] = cardData;
+    // FIX: Guardar en el índice correcto encontrado por ID
+    if (originalIndex !== -1) {
+        flashcards[originalIndex] = cardData;
     } else {
         flashcards.push(cardData);
     }
     
     saveData();
     closeModal('cardModal');
+    // renderLibrary ahora funcionará bien incluso si hay filtros activos
+    renderLibrary();
     renderSystemSelector();
 }
 
@@ -1413,7 +1458,8 @@ function getDifficultyEmoji(difficulty) {
 }
 
 function updateTotalCards() {
-    document.getElementById('totalCards').textContent = flashcards.length;
+    const count = flashcards.length;
+    document.getElementById('totalCards').textContent = `${count} card${count !== 1 ? 's' : ''}`;
 }
 
 function closeModal(modalId) {
@@ -1784,7 +1830,13 @@ function importData() {
 // TOGGLE FAVORITE EN SESIÓN
 // ============================================
 
-function toggleFavoriteInSession() {
+function toggleFavoriteInSession(event) {
+    // Prevenir que se propague el evento
+    if (event) {
+        event.stopPropagation();
+        event.preventDefault();
+    }
+    
     const card = currentStudyCards[currentCardIndex];
     if (!card) return;
     
@@ -1793,7 +1845,14 @@ function toggleFavoriteInSession() {
         originalCard.isFavorite = !originalCard.isFavorite;
         card.isFavorite = originalCard.isFavorite;
         saveData();
-        showCurrentCard();
+        
+        // Solo actualizar el botón de favorito, NO re-renderizar toda la tarjeta
+        const favoriteBtn = document.querySelector('.favorite-btn');
+        if (favoriteBtn) {
+            favoriteBtn.classList.toggle('active', card.isFavorite);
+            favoriteBtn.innerHTML = card.isFavorite ? '⭐' : '☆';
+            favoriteBtn.title = card.isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos';
+        }
     }
 }
 
@@ -2186,7 +2245,7 @@ function renderStudyHeatmap() {
         const count = heatmapData[dateStr] || 0;
         
         const intensity = count === 0 ? 0 : Math.ceil((count / maxQuestions) * 4);
-        const colors = ['#ebedf0', '#9be9a8', '#40c463', '#30a14e', '#216e39'];
+        const colors = ['var(--bg-tertiary)', '#9ae4c1', '#78daab', '#5bc492', '#1e3872'];
         const color = colors[intensity];
         
         const dayOfWeek = date.getDay();
@@ -2219,4 +2278,13 @@ function updateXPDisplay() {
     document.getElementById('xpProgressBar').style.width = `${levelInfo.progressPercent}%`;
     document.getElementById('streakCount').textContent = userProfile.studyStreak;
     document.getElementById('totalXP').textContent = userProfile.xp;
+}
+
+// ============================================
+// FUNCIONES DE SOPORTE PARA SISTEMAS
+// ============================================
+
+function renderSystemLevels() {
+    // Si tienes lógica para esto, añádela aquí.
+    // He incluido esta función vacía para evitar errores si renderStats la llama al final.
 }

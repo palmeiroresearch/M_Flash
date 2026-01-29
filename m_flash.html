@@ -3,29 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flashcards Médicas - Sistema de Estudio</title>
+    <title>MemDeck - Sistema de Estudio Médico</title>
     <link rel="manifest" href="manifest-flashcards.json">
-    <meta name="theme-color" content="#667eea">
+    <meta name="theme-color" content="#1e3872">
     <link rel="apple-touch-icon" href="icon-flashcards-192.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="description" content="MemDeck - Flashcards médicas con spaced repetition para estudiantes de medicina">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="flashcards-styles.css">
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>
-                📚 Flashcards Médicas
-                <span id="totalCards" style="background: rgba(255,255,255,0.2); padding: 4px 12px; border-radius: 20px; font-size: 14px;">0</span>
-            </h1>
+            <div class="header-brand">
+                <div class="header-logo">
+                    <img src="memdeck-logo.svg" alt="MemDeck Logo">
+                </div>
+                <h1>
+                    MemDeck
+                    <span class="header-badge" id="totalCards">0 cards</span>
+                </h1>
+            </div>
             <div class="header-actions">
-                <div id="userLevelBadge" style="background: rgba(255,255,255,0.3); padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; margin-right: 10px;">
+                <div id="userLevelBadge">
                     🌱 Nivel 1: Novato
                 </div>
                 <button class="btn btn-success" onclick="openNewCardModal()">
-                    ➕ Nueva Flashcard
+                    ➕ Nueva
                 </button>
                 <button class="btn btn-secondary" onclick="switchTab('management')">
-                    ⚙️ Gestión
+                    ⚙️
                 </button>
                 <label class="toggle-switch" title="Modo Oscuro">
                     <input type="checkbox" id="darkModeToggle" onchange="toggleDarkMode()">
@@ -59,22 +68,22 @@
 
                     <div class="system-selector" id="systemSelector"></div>
 
-                    <div style="margin-top: 30px; padding: 20px; background: var(--bg-secondary); border-radius: 15px;">
-                        <h3 style="margin-bottom: 15px; font-size: 16px;">Opciones de Estudio</h3>
+                    <div class="study-options-box">
+                        <h3>Opciones de Estudio</h3>
                         
-                        <div style="display: flex; flex-direction: column; gap: 12px;">
-                            <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
-                                <input type="checkbox" id="onlyFavorites" style="width: 18px; height: 18px;">
+                        <div style="display: flex; flex-direction: column; gap: 8px;">
+                            <label>
+                                <input type="checkbox" id="onlyFavorites">
                                 <span>⭐ Solo flashcards favoritas</span>
                             </label>
                             
-                            <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
-                                <input type="checkbox" id="onlyDueToday" style="width: 18px; height: 18px;">
-                                <span>📅 Solo revisar hoy (Spaced Repetition)</span>
+                            <label>
+                                <input type="checkbox" id="onlyDueToday">
+                                <span>📅 Revisar hoy (Spaced Repetition)</span>
                             </label>
                             
-                            <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
-                                <input type="checkbox" id="examMode" onchange="toggleExamConfig()" style="width: 18px; height: 18px;">
+                            <label>
+                                <input type="checkbox" id="examMode" onchange="toggleExamConfig()">
                                 <span>⏱️ Modo Examen (cronometrado)</span>
                             </label>
                         </div>
@@ -189,56 +198,54 @@
 
             <!-- Tab: Estadísticas -->
             <div id="statsTab" style="display: none;">
-                <h2 style="margin-bottom: 20px;">Estadísticas Globales</h2>
+                <h2 style="margin-bottom: 24px;">📊 Estadísticas Globales</h2>
                 
                 <!-- PANEL DE NIVEL Y XP -->
-                <div class="card" style="margin-bottom: 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none;">
-                    <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 20px; align-items: center;">
-                        <div style="text-align: center;">
-                            <div style="font-size: 80px;" id="levelEmoji">🌱</div>
-                            <div style="font-size: 32px; font-weight: bold;" id="levelNumber">Nivel 1</div>
-                            <div style="font-size: 18px; opacity: 0.9;" id="levelTitle">Novato</div>
+                <div class="xp-panel">
+                    <div class="xp-panel-content">
+                        <div class="xp-level-display">
+                            <div class="xp-level-emoji" id="levelEmoji">🌱</div>
+                            <div class="xp-level-number" id="levelNumber">Nivel 1</div>
+                            <div class="xp-level-title" id="levelTitle">Novato</div>
                         </div>
-                        <div>
-                            <div style="margin-bottom: 15px;">
-                                <div style="display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 14px;">
-                                    <span id="currentXP">0 XP</span>
-                                    <span id="nextLevelXP">100 XP</span>
-                                </div>
-                                <div style="background: rgba(255,255,255,0.3); height: 20px; border-radius: 10px; overflow: hidden;">
-                                    <div id="xpProgressBar" style="background: #fbbf24; height: 100%; width: 0%; transition: width 0.5s ease;"></div>
-                                </div>
+                        <div class="xp-progress-section">
+                            <div class="xp-progress-header">
+                                <span id="currentXP">0 XP</span>
+                                <span id="nextLevelXP">100 XP</span>
                             </div>
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px;">
-                                <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px;">
-                                    <div style="font-size: 24px; font-weight: bold;" id="streakCount">0</div>
-                                    <div style="font-size: 13px; opacity: 0.9;">🔥 Días de racha</div>
+                            <div class="xp-progress-bar">
+                                <div class="xp-progress-fill" id="xpProgressBar" style="width: 0%;"></div>
+                            </div>
+                            <div class="xp-stats-row">
+                                <div class="xp-stat-item">
+                                    <div class="xp-stat-value" id="streakCount">0</div>
+                                    <div class="xp-stat-label">🔥 Días de racha</div>
                                 </div>
-                                <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px;">
-                                    <div style="font-size: 24px; font-weight: bold;" id="totalXP">0</div>
-                                    <div style="font-size: 13px; opacity: 0.9;">⭐ XP Total</div>
+                                <div class="xp-stat-item">
+                                    <div class="xp-stat-value" id="totalXP">0</div>
+                                    <div class="xp-stat-label">⭐ XP Total</div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 
-                <!-- ROADMAP DE NIVELES -->
-                <div class="card" style="margin-bottom: 20px;">
-                    <h3 style="margin-bottom: 20px;">🗺️ Mapa de Niveles</h3>
+                <!-- MAPA DE NIVELES -->
+                <div class="card">
+                    <h3>🗺️ Mapa de Niveles</h3>
                     <div id="levelRoadmap"></div>
                 </div>
                 
                 <!-- HEATMAP DE ESTUDIO -->
-                <div class="card" style="margin-bottom: 20px;">
-                    <h3 style="margin-bottom: 20px;">📅 Heatmap de Estudio (Últimos 90 días)</h3>
+                <div class="card">
+                    <h3>📅 Actividad de Estudio</h3>
                     <div id="studyHeatmap" style="overflow-x: auto;"></div>
                     <div style="display: flex; gap: 15px; justify-content: center; margin-top: 15px; font-size: 12px; color: var(--text-secondary); flex-wrap: wrap;">
-                        <span>Menos <span style="display: inline-block; width: 12px; height: 12px; background: #ebedf0; border-radius: 2px; margin: 0 3px;"></span></span>
-                        <span><span style="display: inline-block; width: 12px; height: 12px; background: #9be9a8; border-radius: 2px; margin: 0 3px;"></span></span>
-                        <span><span style="display: inline-block; width: 12px; height: 12px; background: #40c463; border-radius: 2px; margin: 0 3px;"></span></span>
-                        <span><span style="display: inline-block; width: 12px; height: 12px; background: #30a14e; border-radius: 2px; margin: 0 3px;"></span></span>
-                        <span><span style="display: inline-block; width: 12px; height: 12px; background: #216e39; border-radius: 2px; margin: 0 3px;"></span> Más</span>
+                        <span>Menos <span style="display: inline-block; width: 12px; height: 12px; background: var(--bg-tertiary); border-radius: 2px; margin: 0 3px;"></span></span>
+                        <span><span style="display: inline-block; width: 12px; height: 12px; background: #9ae4c1; border-radius: 2px; margin: 0 3px;"></span></span>
+                        <span><span style="display: inline-block; width: 12px; height: 12px; background: #78daab; border-radius: 2px; margin: 0 3px;"></span></span>
+                        <span><span style="display: inline-block; width: 12px; height: 12px; background: #5bc492; border-radius: 2px; margin: 0 3px;"></span></span>
+                        <span><span style="display: inline-block; width: 12px; height: 12px; background: #1e3872; border-radius: 2px; margin: 0 3px;"></span> Más</span>
                     </div>
                 </div>
                 
